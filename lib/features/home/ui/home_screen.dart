@@ -1,9 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shabacy_market/core/helper/extensions.dart';
 import 'package:shabacy_market/core/helper/spacing.dart';
 import 'package:shabacy_market/core/theme/colors.dart';
+import 'package:shabacy_market/core/widgets/app_custom_appbar.dart';
 
+import '../../../core/router/routes.dart';
 import '../../../core/theme/style.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -17,7 +20,9 @@ class HomeScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            coustomAppbar(),
+            AppCustomAppbar(
+              homeStyle: TextStyles.font11BlackSemiBold.copyWith(fontSize: 0),
+            ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.w),
               child: Column(
@@ -51,7 +56,7 @@ class HomeScreen extends StatelessWidget {
     ));
   }
 
-  Widget coustomAppbar() {
+  Widget coustomAppbar(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 10.w),
       height: 70.h,
@@ -61,6 +66,11 @@ class HomeScreen extends StatelessWidget {
         Row(
           children: [
             Text('home'.tr(), style: TextStyles.font14GrayMedium),
+            horizontalSpace(10),
+            GestureDetector(
+                onTap: () => context.pushNamed(Routes.profileScreen),
+                child:
+                    Text('profile'.tr(), style: TextStyles.font14GrayMedium)),
             horizontalSpace(10),
             Text('logout'.tr(),
                 style: TextStyles.font14GrayMedium

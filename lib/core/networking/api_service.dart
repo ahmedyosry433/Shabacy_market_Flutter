@@ -7,12 +7,17 @@ import 'package:shabacy_market/core/networking/api_constants.dart';
 import 'package:shabacy_market/features/login/data/models/login_request.dart';
 import 'package:shabacy_market/features/login/data/models/login_response.dart';
 
+import '../../features/profile/data/models/profile_model.dart';
+import '../helper/shared_preferences_helper.dart';
+
 class ApiService {
   final Dio _dio;
   ApiService(this._dio);
 
   Future<LoginResponse> login(LoginRequest loginRequest) async {
-    var headers = {'Content-Type': 'application/json'};
+    var headers = {
+      'Content-Type': 'application/json',
+    };
     // var data = json.encode({"email": "admin@admin", "password": "123456"});
     Response response =
         await _dio.request(ApiConstants.apiBaseUrl + ApiConstants.loginUrl,
@@ -23,5 +28,21 @@ class ApiService {
             ));
 
     return LoginResponse.fromJson(response.data);
+  }
+
+  Future<UserProfile> getUserProfile({required String token}) async {
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+
+    Response response =
+        await _dio.request(ApiConstants.apiBaseUrl + ApiConstants.profileUrl,
+            options: Options(
+              method: 'GET',
+              headers: headers,
+            ));
+
+    return UserProfile.fromJson(response.data);
   }
 }

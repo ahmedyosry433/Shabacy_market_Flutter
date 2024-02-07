@@ -17,23 +17,26 @@ class AppTextFormField extends StatefulWidget {
   final Icon? prefixIcon;
   final Function(String?) validator;
   final TextInputType keyboardType;
+  final bool? readOnly;
+  final bool? enable;
 
-  const AppTextFormField({
-    super.key,
-    this.contentPadding,
-    this.focusedBorder,
-    this.enabledBorder,
-    this.inputTextStyle,
-    this.hintStyle,
-    required this.hintText,
-    this.isObscureText,
-    this.suffixIcon,
-    this.backgroundColor,
-    required this.validator,
-    this.controller,
-    this.prefixIcon,
-    required this.keyboardType,
-  });
+  const AppTextFormField(
+      {super.key,
+      this.contentPadding,
+      this.focusedBorder,
+      this.enabledBorder,
+      this.inputTextStyle,
+      this.hintStyle,
+      required this.hintText,
+      this.isObscureText,
+      this.suffixIcon,
+      this.backgroundColor,
+      required this.validator,
+      this.controller,
+      this.prefixIcon,
+      required this.keyboardType,
+      this.readOnly,
+      this.enable});
 
   @override
   State<AppTextFormField> createState() => _AppTextFormFieldState();
@@ -57,6 +60,9 @@ class _AppTextFormFieldState extends State<AppTextFormField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      
+      enabled: widget.enable,
+      readOnly: widget.readOnly ?? false,
       keyboardType: widget.keyboardType,
       controller: widget.controller,
       decoration: InputDecoration(

@@ -4,8 +4,10 @@ import 'package:shabacy_market/core/dj/dependency_injection.dart';
 import 'package:shabacy_market/core/router/routes.dart';
 import 'package:shabacy_market/features/home/ui/home_screen.dart';
 import 'package:shabacy_market/features/login/logic/cubit/login_cubit.dart';
+import 'package:shabacy_market/features/profile/logic/cubit/profile_cubit.dart';
 
 import '../../features/login/ui/login_screen.dart';
+import '../../features/profile/ui/profile_screen.dart';
 
 class AppRouter {
   Route? onGenerateRoute(RouteSettings settings) {
@@ -15,6 +17,13 @@ class AppRouter {
           builder: (_) => BlocProvider(
             create: (context) => getIt<LoginCubit>(),
             child: const LoginScreen(),
+          ),
+        );
+      case Routes.profileScreen:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => getIt<ProfileCubit>(),
+            child: const ProfileScreen(),
           ),
         );
       case Routes.homeScreen:

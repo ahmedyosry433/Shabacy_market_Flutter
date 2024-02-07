@@ -39,7 +39,6 @@ class LoginScreen extends StatelessWidget {
                     AppTextFormFieldWithTopHint(
                       topHintText: 'email'.tr(),
                       appTextFormField: AppTextFormField(
-                        
                         controller: context.read<LoginCubit>().emailController,
                         keyboardType: TextInputType.emailAddress,
                         hintText: 'enterEmail'.tr(),
