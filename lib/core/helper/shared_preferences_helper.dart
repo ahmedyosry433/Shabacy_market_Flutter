@@ -1,7 +1,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferencesHelper {
-  dynamic getValueForKey(String key) async {
+  static dynamic getValueForKey(String key) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     return prefs.get(key);
@@ -21,10 +21,9 @@ class SharedPreferencesHelper {
     } else {
       throw "unknown value type :(";
     }
-
   }
 
- static removeAllKeys() async {
+  static removeAllKeys() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.clear();
   }

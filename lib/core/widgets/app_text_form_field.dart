@@ -96,10 +96,10 @@ class _AppTextFormFieldState extends State<AppTextFormField> {
         suffixIcon: widget.suffixIcon,
         filled: true,
         fillColor:
-            widget.backgroundColor ?? ColorsManager.gray.withOpacity(0.03),
+            widget.backgroundColor ?? ColorsManager.gray.withOpacity(0.01),
       ),
       obscureText: widget.isObscureText ?? false,
-      style: TextStyles.font14GrayMedium,
+      style: TextStyles.font14BlackMedium,
       validator: (value) => widget.validator(value),
     );
   }
