@@ -56,30 +56,7 @@ class HomeScreen extends StatelessWidget {
     ));
   }
 
-  Widget coustomAppbar(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 10.w),
-      height: 70.h,
-      color: ColorsManager.white,
-      child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        Text('bussnisName'.tr(), style: TextStyles.font16BlackSemiBold),
-        Row(
-          children: [
-            Text('home'.tr(), style: TextStyles.font14GrayMedium),
-            horizontalSpace(10),
-            GestureDetector(
-                onTap: () => context.pushNamed(Routes.profileScreen),
-                child:
-                    Text('profile'.tr(), style: TextStyles.font14GrayMedium)),
-            horizontalSpace(10),
-            Text('logout'.tr(),
-                style: TextStyles.font14GrayMedium
-                    .copyWith(color: ColorsManager.primryColor.shade300)),
-          ],
-        ),
-      ]),
-    );
-  }
+ 
 
   Widget buildCart(
       {required String title,
