@@ -5,6 +5,7 @@ import 'package:shabacy_market/core/router/routes.dart';
 import 'package:shabacy_market/features/home/ui/home_screen.dart';
 import 'package:shabacy_market/features/login/logic/cubit/login_cubit.dart';
 import 'package:shabacy_market/features/profile/logic/cubit/profile_cubit.dart';
+import 'package:shabacy_market/features/suppliers/logic/cubit/suppliers_cubit.dart';
 
 import '../../features/login/ui/login_screen.dart';
 import '../../features/profile/ui/profile_screen.dart';
@@ -33,7 +34,10 @@ class AppRouter {
         );
       case Routes.suppliersScreen:
         return MaterialPageRoute(
-          builder: (_) => SuppliersScreen(),
+          builder: (_) => BlocProvider(
+            create: (context) => getIt<SuppliersCubit>(),
+            child: const SuppliersScreen(),
+          ),
         );
 
       default:

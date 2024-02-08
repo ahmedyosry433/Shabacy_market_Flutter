@@ -22,6 +22,7 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  bool isLoading = false;
   @override
   void initState() {
     super.initState();
@@ -67,77 +68,61 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   Widget buildProfileForm() {
-    final currentUser = BlocProvider.of<ProfileCubit>(context).currentUser!;
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 40.h),
-      child: Form(
-        child: Column(
-          children: [
-            AppTextFormFieldWithTopHint(
-              topHintText: 'name'.tr(),
-              appTextFormField: AppTextFormField(
-                contentPadding:
-                    EdgeInsets.symmetric(vertical: 7.h, horizontal: 10.w),
-                hintText: currentUser.name,
-                validator: (validator) {},
-                keyboardType: TextInputType.name,
-              ),
-            ),
-            verticalSpace(20),
-            AppTextFormFieldWithTopHint(
-              topHintText: 'email'.tr(),
-              appTextFormField: AppTextFormField(
-                readOnly: true,
-                contentPadding:
-                    EdgeInsets.symmetric(vertical: 7.h, horizontal: 10.w),
-                hintText: currentUser.email,
-                validator: (validator) {},
-                keyboardType: TextInputType.name,
-              ),
-            ),
-            verticalSpace(20),
-            AppTextFormFieldWithTopHint(
-              topHintText: 'role'.tr(),
-              appTextFormField: AppTextFormField(
-                enable: false,
-                contentPadding:
-                    EdgeInsets.symmetric(vertical: 7.h, horizontal: 10.w),
-                hintText: currentUser.role.tr(),
-                validator: (validator) {},
-                keyboardType: TextInputType.name,
-              ),
-            ),
-            verticalSpace(20),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget buildProfileBloc() {
-    return BlocListener<ProfileCubit, ProfileState>(
-      listenWhen: (previous, current) {
-        return previous != current;
-      },
-      listener: (context, state) {
+    final currentUser = context.watch<ProfileCubit>().currentUser;
+    return BlocBuilder<ProfileCubit, ProfileState>(
+      builder: (context, state) {
         if (state is ProfileLoading) {
-          const AppShowProgressIndecator();
+          return const AppShowProgressIndecator();
         } else if (state is ProfileLoaded) {
-          context.pop();
-          context.pushReplacementNamed(Routes.homeScreen);
-        } else if (state is ProfileError) {
-          context.pop();
-          String errorMsg = (state).errorMsg.toString();
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(errorMsg),
-              backgroundColor: ColorsManager.black,
-              duration: const Duration(seconds: 3),
+          return Padding(
+            padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 40.h),
+            child: Form(
+              child: Column(
+                children: [
+                  AppTextFormFieldWithTopHint(
+                    topHintText: 'name'.tr(),
+                    appTextFormField: AppTextFormField(
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 7.h, horizontal: 10.w),
+                      hintText: currentUser.name,
+                      validator: (validator) {},
+                      keyboardType: TextInputType.name,
+                    ),
+                  ),
+                  verticalSpace(20),
+                  AppTextFormFieldWithTopHint(
+                    topHintText: 'email'.tr(),
+                    appTextFormField: AppTextFormField(
+                      readOnly: true,
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 7.h, horizontal: 10.w),
+                      hintText: currentUser.email,
+                      validator: (validator) {},
+                      keyboardType: TextInputType.name,
+                    ),
+                  ),
+                  verticalSpace(20),
+                  AppTextFormFieldWithTopHint(
+                    topHintText: 'role'.tr(),
+                    appTextFormField: AppTextFormField(
+                      enable: false,
+                      contentPadding:
+                          EdgeInsets.symmetric(vertical: 7.h, horizontal: 10.w),
+                      hintText: currentUser.role.tr(),
+                      validator: (validator) {},
+                      keyboardType: TextInputType.name,
+                    ),
+                  ),
+                  verticalSpace(20),
+                ],
+              ),
             ),
           );
+        } else if (state is ProfileError) {
+          return Text(state.errorMsg);
         }
+        return const SizedBox.shrink();
       },
-      child: const SizedBox.shrink(),
     );
   }
 }

@@ -8,6 +8,7 @@ import 'package:shabacy_market/features/login/data/models/login_request.dart';
 import 'package:shabacy_market/features/login/data/models/login_response.dart';
 
 import '../../features/profile/data/models/profile_model.dart';
+import '../../features/suppliers/data/models/suppliers_model.dart';
 import '../helper/shared_preferences_helper.dart';
 
 class ApiService {
@@ -44,5 +45,29 @@ class ApiService {
             ));
 
     return UserProfile.fromJson(response.data);
+  }
+
+  Future<List<SuppliersModel>> getAllSuppliers({required String token}) async {
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+
+    Response response =
+        await _dio.request(ApiConstants.apiBaseUrl + ApiConstants.allUsers,
+            options: Options(
+              method: 'GET',
+              headers: headers,
+            ));
+
+    var data = response.data;
+
+    List<SuppliersModel> suppliersList = [];
+
+    for (var a in data) {
+      SuppliersModel allProductObject = SuppliersModel.fromJson(a);
+      suppliersList.add(allProductObject);
+    }
+    return suppliersList;
   }
 }
