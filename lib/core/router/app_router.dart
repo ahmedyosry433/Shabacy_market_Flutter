@@ -8,6 +8,7 @@ import 'package:shabacy_market/features/profile/logic/cubit/profile_cubit.dart';
 
 import '../../features/login/ui/login_screen.dart';
 import '../../features/profile/ui/profile_screen.dart';
+import '../../features/suppliers/ui/suppliers_screen.dart';
 
 class AppRouter {
   Route? onGenerateRoute(RouteSettings settings) {
@@ -28,10 +29,11 @@ class AppRouter {
         );
       case Routes.homeScreen:
         return MaterialPageRoute(
-          builder: (_) => BlocProvider(
-            create: (context) => getIt<LoginCubit>(),
-            child: const HomeScreen(),
-          ),
+          builder: (_) => const HomeScreen(),
+        );
+      case Routes.suppliersScreen:
+        return MaterialPageRoute(
+          builder: (_) => SuppliersScreen(),
         );
 
       default:

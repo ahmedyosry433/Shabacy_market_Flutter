@@ -55,7 +55,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         child: SizedBox(
                           height: 70.h,
                           width: 70.w,
-                          child: CircleAvatar(),
+                          child: const CircleAvatar(),
                         )),
                     buildProfileForm(),
                   ]),
