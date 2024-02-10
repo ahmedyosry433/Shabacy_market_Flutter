@@ -2,5 +2,6 @@ class ApiConstants {
   static const String apiBaseUrl = 'http://18.194.53.25/';
   static const String loginUrl = 'auth/login';
   static const String profileUrl = 'auth/me';
-  static const String allUsers = 'users';
+  static const String allUsersUrl = 'auth';
+  static const String allSuppliersUrl = 'users';
 }

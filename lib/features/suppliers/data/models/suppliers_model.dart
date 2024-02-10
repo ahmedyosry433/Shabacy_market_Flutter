@@ -1,3 +1,5 @@
+import 'package:shabacy_market/features/profile/data/models/profile_model.dart';
+
 class SuppliersModel {
   final String id;
   final String name;
@@ -5,6 +7,9 @@ class SuppliersModel {
   final int credit;
   final int deposits;
   final int debit;
+
+  // UserModel admin;
+
   // final int delegate;
 
   SuppliersModel(
@@ -14,6 +19,7 @@ class SuppliersModel {
     this.credit,
     this.deposits,
     this.debit,
+    // this.admin,
     // this.delegate
   );
 
@@ -25,6 +31,7 @@ class SuppliersModel {
       json['credit'],
       json['deposits'],
       json['debit'],
+      // json['admin'],
       // json['admin]['name']
     );
   }
@@ -37,6 +44,7 @@ class SuppliersModel {
       'credit': credit,
       'deposits': deposits,
       'debit': debit,
+      // 'admin': admin.toJson(),
       // 'delegate': delegate
     };
   }

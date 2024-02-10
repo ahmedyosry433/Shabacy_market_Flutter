@@ -58,6 +58,12 @@ class TextStyles {
     fontWeight: FontWeightHelper.medium,
     fontFamily: 'Cairo',
   );
+  static TextStyle font14RedMedium = TextStyle(
+    color: ColorsManager.red,
+    fontSize: 14.sp,
+    fontWeight: FontWeightHelper.medium,
+    fontFamily: 'Cairo',
+  );
   static TextStyle font14WhiteMedium = TextStyle(
     color: ColorsManager.white,
     fontSize: 14.sp,

@@ -31,7 +31,7 @@ class ApiService {
     return LoginResponse.fromJson(response.data);
   }
 
-  Future<UserProfile> getUserProfile({required String token}) async {
+  Future<UserModel> getUserProfile({required String token}) async {
     var headers = {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $token',
@@ -44,7 +44,7 @@ class ApiService {
               headers: headers,
             ));
 
-    return UserProfile.fromJson(response.data);
+    return UserModel.fromJson(response.data);
   }
 
   Future<List<SuppliersModel>> getAllSuppliers({required String token}) async {
@@ -53,8 +53,32 @@ class ApiService {
       'Authorization': 'Bearer $token',
     };
 
+    Response response = await _dio.request(
+        ApiConstants.apiBaseUrl + ApiConstants.allSuppliersUrl,
+        options: Options(
+          method: 'GET',
+          headers: headers,
+        ));
+
+    var data = response.data;
+
+    List<SuppliersModel> suppliersList = [];
+
+    for (var a in data) {
+      SuppliersModel allSuppliersObject = SuppliersModel.fromJson(a);
+      suppliersList.add(allSuppliersObject);
+    }
+    return suppliersList;
+  }
+
+  Future<List<UserModel>> getAllUsers({required String token}) async {
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+
     Response response =
-        await _dio.request(ApiConstants.apiBaseUrl + ApiConstants.allUsers,
+        await _dio.request(ApiConstants.apiBaseUrl + ApiConstants.allUsersUrl,
             options: Options(
               method: 'GET',
               headers: headers,
@@ -62,12 +86,12 @@ class ApiService {
 
     var data = response.data;
 
-    List<SuppliersModel> suppliersList = [];
+    List<UserModel> allUsersList = [];
 
     for (var a in data) {
-      SuppliersModel allProductObject = SuppliersModel.fromJson(a);
-      suppliersList.add(allProductObject);
+      UserModel allUsersOject = UserModel.fromJson(a);
+      allUsersList.add(allUsersOject);
     }
-    return suppliersList;
+    return allUsersList;
   }
 }

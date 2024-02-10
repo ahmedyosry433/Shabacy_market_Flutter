@@ -5,14 +5,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shabacy_market/core/helper/extensions.dart';
 import 'package:shabacy_market/core/theme/colors.dart';
 import 'package:shabacy_market/core/widgets/app_custom_appbar.dart';
+import 'package:shabacy_market/core/widgets/app_custom_dropdwo_with_hint.dart';
 import 'package:shabacy_market/core/widgets/app_text_button.dart';
 import 'package:shabacy_market/core/widgets/app_text_form_field.dart';
 import 'package:shabacy_market/core/widgets/app_text_form_field_with_hint.dart';
-import 'package:shabacy_market/features/suppliers/data/models/suppliers_model.dart';
 import 'package:shabacy_market/features/suppliers/logic/cubit/suppliers_cubit.dart';
+import 'package:shabacy_market/features/suppliers/ui/widget/set_table.dart';
 
 import '../../../core/helper/spacing.dart';
 import '../../../core/theme/style.dart';
+import '../../../core/widgets/app_custom_dropdown.dart';
 
 class SuppliersScreen extends StatefulWidget {
   const SuppliersScreen({super.key});
@@ -26,12 +28,14 @@ class _SuppliersScreenState extends State<SuppliersScreen> {
   void initState() {
     super.initState();
     BlocProvider.of<SuppliersCubit>(context).getAllSuppliersCubit();
+    BlocProvider.of<SuppliersCubit>(context).getAllUsersCubit();
   }
 
   @override
   Widget build(BuildContext context) {
-    final DataTableSource data =
-        MyData(context.watch<SuppliersCubit>().suppliers);
+    final DataTableSource data = MyData(
+        context.watch<SuppliersCubit>().suppliers,
+        context.watch<SuppliersCubit>().users);
     return SafeArea(
         child: Scaffold(
       backgroundColor: ColorsManager.backGroundColor,
@@ -43,58 +47,62 @@ class _SuppliersScreenState extends State<SuppliersScreen> {
                   TextStyles.font11BlackSemiBold.copyWith(fontSize: 0),
             ),
             buildAddNewAndText(),
-            BlocBuilder<SuppliersCubit, SuppliersState>(
-              builder: (context, state) {
-                if (state is SuppliersLoading) {
-                  return Padding(
-                    padding: EdgeInsets.only(top: 250.h),
-                    child: const Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  );
-                }
-                if (state is SuppliersLoaded) {
-                  return Column(
-                    children: [
-                      PaginatedDataTable(
-                        arrowHeadColor: ColorsManager.primryColor,
-                        columns: [
-                          DataColumn(
-                              label: Text('id'.tr(),
-                                  style: TextStyles.font14BlackSemiBold)),
-                          DataColumn(
-                              label: Text('name'.tr(),
-                                  style: TextStyles.font14BlackSemiBold)),
-                          DataColumn(
-                              label: Text('phone'.tr(),
-                                  style: TextStyles.font14BlackSemiBold)),
-                          DataColumn(
-                              label: Text('balance'.tr(),
-                                  style: TextStyles.font14BlackSemiBold)),
-                          DataColumn(
-                              label: Text('delegate'.tr(),
-                                  style: TextStyles.font14BlackSemiBold)),
-                          DataColumn(
-                              label: Text('control'.tr(),
-                                  style: TextStyles.font14BlackSemiBold)),
-                        ],
-                        source: data,
-                        columnSpacing: 45.w,
-                        horizontalMargin: 20.w,
-                        rowsPerPage: 8,
-                      ),
-                    ],
-                  );
-                } else if (state is SuppliersError) {
-                  return Text(state.message);
-                }
-                return const SizedBox();
-              },
-            ),
+            buildBloc(data: data),
           ],
         ),
       ),
     ));
+  }
+
+  Widget buildBloc({required DataTableSource data}) {
+    return BlocBuilder<SuppliersCubit, SuppliersState>(
+      builder: (context, state) {
+        if (state is SuppliersLoading) {
+          return Padding(
+            padding: EdgeInsets.only(top: 250.h),
+            child: const Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
+        if (state is SuppliersLoaded) {
+          return Column(
+            children: [
+              PaginatedDataTable(
+                arrowHeadColor: ColorsManager.primryColor,
+                columns: [
+                  DataColumn(
+                      label: Text('id'.tr(),
+                          style: TextStyles.font14BlackSemiBold)),
+                  DataColumn(
+                      label: Text('name'.tr(),
+                          style: TextStyles.font14BlackSemiBold)),
+                  DataColumn(
+                      label: Text('phone'.tr(),
+                          style: TextStyles.font14BlackSemiBold)),
+                  DataColumn(
+                      label: Text('balance'.tr(),
+                          style: TextStyles.font14BlackSemiBold)),
+                  DataColumn(
+                      label: Text('delegate'.tr(),
+                          style: TextStyles.font14BlackSemiBold)),
+                  DataColumn(
+                      label: Text('control'.tr(),
+                          style: TextStyles.font14BlackSemiBold)),
+                ],
+                source: data,
+                columnSpacing: 45.w,
+                horizontalMargin: 20.w,
+                rowsPerPage: 6,
+              ),
+            ],
+          );
+        } else if (state is SuppliersError) {
+          return Text(state.message);
+        }
+        return const SizedBox();
+      },
+    );
   }
 
   Widget buildAddNewAndText() {
@@ -154,6 +162,21 @@ class _SuppliersScreenState extends State<SuppliersScreen> {
               ),
             ),
             verticalSpace(10.h),
+            AppCustomDropdownWithTopHint(
+              topHintText: 'delegate'.tr(),
+              appCustomDropdown: AppCustomDropDownFormButton(
+                contentPadding:
+                    EdgeInsets.symmetric(vertical: 9.h, horizontal: 10.w),
+                onChanged: (value) {},
+                items:
+                    BlocProvider.of<SuppliersCubit>(context).users.map((value) {
+                  return DropdownMenuItem<String>(
+                    value: value.id.toString(),
+                    child: Text(value.name),
+                  );
+                }).toList(),
+              ),
+            ),
             Row(
               children: [
                 AppTextButton(
@@ -183,56 +206,6 @@ class _SuppliersScreenState extends State<SuppliersScreen> {
           ],
         ),
       ),
-    );
-  }
-}
-
-class MyData extends DataTableSource {
-  final List<SuppliersModel> _data;
-
-  MyData(this._data);
-  @override
-  DataRow? getRow(int index) {
-    return DataRow(cells: [
-      DataCell(
-        Text((index + 1).toString(), style: TextStyles.font14GrayMedium),
-      ),
-      DataCell(
-        Text(_data[index].name.toString(), style: TextStyles.font14GrayMedium),
-      ),
-      DataCell(
-        Text(_data[index].mobile.toString(),
-            style: TextStyles.font14GrayMedium),
-      ),
-      DataCell(
-        Text(_data[index].deposits.toString(),
-            style: TextStyles.font14GrayMedium),
-      ),
-      DataCell(
-        Text(_data[index].name.toString(), style: TextStyles.font14GrayMedium),
-      ),
-      DataCell(
-        buildDeleteAndEditButton(index),
-      ),
-    ]);
-  }
-
-  @override
-  bool get isRowCountApproximate => false;
-
-  @override
-  int get rowCount => _data.length;
-
-  @override
-  int get selectedRowCount => 0;
-
-  Widget buildDeleteAndEditButton(index) {
-    return Row(
-      children: [
-        const Icon(Icons.edit, color: ColorsManager.primryColor),
-        horizontalSpace(10),
-        const Icon(Icons.delete, color: ColorsManager.red),
-      ],
     );
   }
 }

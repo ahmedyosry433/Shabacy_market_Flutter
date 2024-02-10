@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shabacy_market/core/helper/extensions.dart';
 
+import '../helper/shared_preferences_helper.dart';
 import '../helper/spacing.dart';
 import '../router/routes.dart';
 import '../theme/colors.dart';
@@ -34,9 +35,16 @@ class AppCustomAppbar extends StatelessWidget {
                 child: Text('profile'.tr(),
                     style: profileStyle ?? TextStyles.font14GrayMedium)),
             horizontalSpace(10),
-            Text('logout'.tr(),
-                style: TextStyles.font14GrayMedium
-                    .copyWith(color: ColorsManager.primryColor.shade300)),
+            GestureDetector(
+              onTap: () async {
+                context.pushReplacementNamed(Routes.loginScreen);
+
+                SharedPreferencesHelper.removeValueForKey('token');
+              },
+              child: Text('logout'.tr(),
+                  style: TextStyles.font14GrayMedium
+                      .copyWith(color: ColorsManager.primryColor.shade300)),
+            ),
           ],
         ),
       ]),

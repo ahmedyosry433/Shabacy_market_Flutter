@@ -1,5 +1,6 @@
 import 'package:shabacy_market/core/networking/api_service.dart';
 
+import '../../../profile/data/models/profile_model.dart';
 import '../models/suppliers_model.dart';
 
 class SuppliersRepo {
@@ -11,6 +12,12 @@ class SuppliersRepo {
   Future<List<SuppliersModel>> getAllSuppliersRepo(
       {required String token}) async {
     final response = await apiService.getAllSuppliers(token: token);
+
+    return response;
+  }
+  Future<List<UserModel>> getAllUsersRepo(
+      {required String token}) async {
+    final response = await apiService.getAllUsers(token: token);
 
     return response;
   }

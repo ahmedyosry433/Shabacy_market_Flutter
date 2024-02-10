@@ -18,6 +18,7 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isRememberMe = context.watch<LoginCubit>().isRememberMe;
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
@@ -69,7 +70,14 @@ class LoginScreen extends StatelessWidget {
                     ),
                     Row(
                       children: [
-                        Checkbox(value: false, onChanged: (onChanged) {}),
+                        Checkbox(
+                          value:
+                              BlocProvider.of<LoginCubit>(context).isRememberMe,
+                          onChanged: (onChanged) {
+                            BlocProvider.of<LoginCubit>(context)
+                                .setRememberMe();
+                          },
+                        ),
                         Text('remember_me'.tr(),
                             style: TextStyles.font14BlackSemiBold),
                       ],

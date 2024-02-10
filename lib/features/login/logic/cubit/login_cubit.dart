@@ -20,7 +20,7 @@ class LoginCubit extends Cubit<LoginState> {
   TextEditingController passwordController = TextEditingController();
 
   final formKey = GlobalKey<FormState>();
-
+  bool isRememberMe = false;
   void emailLoginState() async {
     emit(LoginLoading());
     try {
@@ -30,10 +30,25 @@ class LoginCubit extends Cubit<LoginState> {
           password: passwordController.text,
         ),
       );
-      await SharedPreferencesHelper.setValueForKey('token', res.token);
+
+      await cheackIsRememberMe(res.token);
       emit(LoginSuccess());
     } catch (error) {
       emit(LoginError(errorMsg: error.toString()));
+    }
+  }
+
+  setRememberMe() {
+    isRememberMe = !isRememberMe;
+    print('isRememberMe: $isRememberMe');
+    
+  }
+
+  cheackIsRememberMe(String token) async {
+    if (isRememberMe) {
+      await SharedPreferencesHelper.setValueForKey('token', token);
+      print(
+          'Saved token Successfully _______________________________________________$token');
     }
   }
 }

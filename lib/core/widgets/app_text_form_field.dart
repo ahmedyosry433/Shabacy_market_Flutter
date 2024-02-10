@@ -60,7 +60,7 @@ class _AppTextFormFieldState extends State<AppTextFormField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       enabled: widget.enable,
       readOnly: widget.readOnly ?? false,
       keyboardType: widget.keyboardType,

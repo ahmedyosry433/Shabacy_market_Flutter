@@ -12,7 +12,7 @@ part 'profile_state.dart';
 class ProfileCubit extends Cubit<ProfileState> {
   final ProfileRepo _ProfileRepo;
   ProfileCubit(this._ProfileRepo) : super(ProfileInitial());
-  late UserProfile currentUser;
+  late UserModel currentUser;
   void getUserProfile() async {
     emit(ProfileLoading());
     try {

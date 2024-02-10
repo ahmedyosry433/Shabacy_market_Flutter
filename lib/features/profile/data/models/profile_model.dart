@@ -1,16 +1,14 @@
-class UserProfile {
+class UserModel {
   final String name;
-
   final String email;
-
   final String role;
   final String updatedAt;
   final String id;
 
-  UserProfile(this.name, this.email, this.role, this.updatedAt, this.id);
+  UserModel(this.name, this.email, this.role, this.updatedAt, this.id);
 
-  factory UserProfile.fromJson(Map<String, dynamic> json) {
-    return UserProfile(
+  factory UserModel.fromJson(Map<String, dynamic> json) {
+    return UserModel(
       json['name'] ?? '',
       json['email'] ?? '',
       json['role'] ?? '',
@@ -24,6 +22,7 @@ class UserProfile {
       'name': name,
       'email': email,
       'role': role,
+      'updated_at': updatedAt,
       'id': id,
     };
   }
