@@ -30,8 +30,9 @@ class LoginCubit extends Cubit<LoginState> {
           password: passwordController.text,
         ),
       );
-
+      await SharedPreferencesHelper.setValueForKey('token', res.token);
       await cheackIsRememberMe(res.token);
+
       emit(LoginSuccess());
     } catch (error) {
       emit(LoginError(errorMsg: error.toString()));
@@ -41,7 +42,6 @@ class LoginCubit extends Cubit<LoginState> {
   setRememberMe() {
     isRememberMe = !isRememberMe;
     print('isRememberMe: $isRememberMe');
-    
   }
 
   cheackIsRememberMe(String token) async {

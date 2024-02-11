@@ -94,4 +94,38 @@ class ApiService {
     }
     return allUsersList;
   }
+
+   Future<SuppliersModel> addNewSupplier(
+      {required AddSuppliersModel addSuppliersModel,
+      required String token}) async {
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+
+    Response response = await _dio.request(
+        ApiConstants.apiBaseUrl + ApiConstants.allSuppliersUrl,
+        data: addSuppliersModel,
+        options: Options(
+          method: 'POST',
+          headers: headers,
+        ));
+
+    return SuppliersModel.fromJson(response.data);
+  }
+
+  Future<void> deleteSupplier(
+      {required String token, required String suppliersId}) async {
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+
+    await _dio.request(
+        '${ApiConstants.apiBaseUrl}${ApiConstants.allSuppliersUrl}/$suppliersId',
+        options: Options(
+          method: 'DELETE',
+          headers: headers,
+        ));
+  }
 }

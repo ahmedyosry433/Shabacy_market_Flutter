@@ -1,7 +1,7 @@
-// ignore_for_file: unused_field, depend_on_referenced_packages
+// ignore_for_file: unused_field, depend_on_referenced_packages, prefer_typing_uninitialized_variables
 
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter/material.dart';
 
 import '../../../../core/helper/shared_preferences_helper.dart';
 import '../../../profile/data/models/profile_model.dart';
@@ -17,6 +17,9 @@ class SuppliersCubit extends Cubit<SuppliersState> {
 
   List<SuppliersModel> suppliers = [];
   List<UserModel> users = [];
+  GlobalKey<FormState> addNewSupplierFormKey = GlobalKey<FormState>();
+  TextEditingController nameController = TextEditingController();
+  TextEditingController phoneController = TextEditingController();
 
   void getAllSuppliersCubit() async {
     emit(SuppliersLoading());
@@ -51,6 +54,43 @@ class SuppliersCubit extends Cubit<SuppliersState> {
       emit(SuppliersLoaded());
     } catch (error) {
       emit(SuppliersError(error.toString()));
+    }
+  }
+
+  var dropdownValue;
+
+  void addNewSupplierCubit() async {
+    emit(SuppliersLoading());
+
+    try {
+      _suppliersRepo.addNewSupplierRepo(
+        addSuppliersModel: AddSuppliersModel(
+          nameController.text,
+          phoneController.text,
+          dropdownValue,
+        ),
+        token: await SharedPreferencesHelper.getValueForKey('token'),
+      );
+
+      emit(SuppliersLoaded());
+      nameController.clear();
+      phoneController.clear();
+      dropdownValue = '';
+    } catch (e) {
+      emit(SuppliersError(e.toString()));
+    }
+  }
+
+  void deleteSupplierCubit({required String suppliersId}) async {
+    emit(SuppliersLoading());
+    try {
+      _suppliersRepo.deleteSupplierRepo(
+        token: await SharedPreferencesHelper.getValueForKey('token'),
+        suppliersId: suppliersId,
+      );
+      emit(SuppliersLoaded());
+    } catch (e) {
+      emit(SuppliersError(e.toString()));
     }
   }
 }

@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shabacy_market/core/theme/colors.dart';
@@ -18,6 +19,7 @@ class AppCustomDropDownFormButton extends StatelessWidget {
   final String? hintText;
   final Widget? suffixIcon;
   final Color? backgroundColor;
+  final Function(String?) validator;
   AppCustomDropDownFormButton({
     Key? key,
     required this.items,
@@ -30,11 +32,17 @@ class AppCustomDropDownFormButton extends StatelessWidget {
     this.hintText,
     this.suffixIcon,
     this.backgroundColor,
+    required this.validator,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return DropdownButtonFormField(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      validator: (value) => validator(value as String?),
+      hint: Text(
+        'selectDelegate'.tr(),
+      ),
       style: TextStyles.font14BlackMedium,
       elevation: 1,
       // autovalidateMode: AutovalidateMode.onUserInteraction,

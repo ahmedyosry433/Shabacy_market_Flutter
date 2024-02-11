@@ -2,16 +2,14 @@
 
 import 'package:flutter/material.dart';
 
-import '../../../../core/helper/spacing.dart';
-import '../../../../core/theme/colors.dart';
 import '../../../../core/theme/style.dart';
-import '../../../profile/data/models/profile_model.dart';
 import '../../data/models/suppliers_model.dart';
+import '../suppliers_screen.dart';
 
 class MyData extends DataTableSource {
   final List<SuppliersModel> _data;
-  final List<UserModel> _users;
-  MyData(this._data, this._users);
+  
+  MyData(this._data);
   @override
   DataRow? getRow(int index) {
     // final UserModel query =
@@ -34,11 +32,11 @@ class MyData extends DataTableSource {
                 : TextStyles.font14RedMedium),
       ),
       DataCell(
-        Text(_data[index].name.toString(),
+        Text(_data[index].delegate.toString(),
             style: TextStyles.font14GrayMedium),
       ),
       DataCell(
-        buildDeleteAndEditButton(index),
+        EditiAndDeleteButton(supplierModel: _data[index]),
       ),
     ]);
   }
@@ -51,14 +49,4 @@ class MyData extends DataTableSource {
 
   @override
   int get selectedRowCount => 0;
-
-  Widget buildDeleteAndEditButton(index) {
-    return Row(
-      children: [
-        const Icon(Icons.edit, color: ColorsManager.primryColor),
-        horizontalSpace(10),
-        const Icon(Icons.delete, color: ColorsManager.red),
-      ],
-    );
-  }
 }

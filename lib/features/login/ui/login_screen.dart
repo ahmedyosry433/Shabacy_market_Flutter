@@ -18,7 +18,6 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isRememberMe = context.watch<LoginCubit>().isRememberMe;
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(

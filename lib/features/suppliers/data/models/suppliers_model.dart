@@ -1,5 +1,3 @@
-import 'package:shabacy_market/features/profile/data/models/profile_model.dart';
-
 class SuppliersModel {
   final String id;
   final String name;
@@ -8,9 +6,7 @@ class SuppliersModel {
   final int deposits;
   final int debit;
 
-  // UserModel admin;
-
-  // final int delegate;
+  final String delegate;
 
   SuppliersModel(
     this.id,
@@ -19,8 +15,7 @@ class SuppliersModel {
     this.credit,
     this.deposits,
     this.debit,
-    // this.admin,
-    // this.delegate
+    this.delegate,
   );
 
   factory SuppliersModel.fromJson(Map<String, dynamic> json) {
@@ -31,8 +26,7 @@ class SuppliersModel {
       json['credit'],
       json['deposits'],
       json['debit'],
-      // json['admin'],
-      // json['admin]['name']
+      json['admin']['name'],
     );
   }
 
@@ -44,8 +38,31 @@ class SuppliersModel {
       'credit': credit,
       'deposits': deposits,
       'debit': debit,
-      // 'admin': admin.toJson(),
-      // 'delegate': delegate
+      'delegate': delegate
+    };
+  }
+}
+
+class AddSuppliersModel {
+  final String name;
+  final String mobile;
+  final String admin;
+
+  AddSuppliersModel(this.name, this.mobile, this.admin);
+
+  factory AddSuppliersModel.fromJson(Map<String, dynamic> json) {
+    return AddSuppliersModel(
+      json['name'],
+      json['mobile'],
+      json['admin'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'mobile': mobile,
+      'admin': admin,
     };
   }
 }

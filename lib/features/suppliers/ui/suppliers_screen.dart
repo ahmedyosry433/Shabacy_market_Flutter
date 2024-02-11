@@ -15,6 +15,7 @@ import 'package:shabacy_market/features/suppliers/ui/widget/set_table.dart';
 import '../../../core/helper/spacing.dart';
 import '../../../core/theme/style.dart';
 import '../../../core/widgets/app_custom_dropdown.dart';
+import '../data/models/suppliers_model.dart';
 
 class SuppliersScreen extends StatefulWidget {
   const SuppliersScreen({super.key});
@@ -34,8 +35,8 @@ class _SuppliersScreenState extends State<SuppliersScreen> {
   @override
   Widget build(BuildContext context) {
     final DataTableSource data = MyData(
-        context.watch<SuppliersCubit>().suppliers,
-        context.watch<SuppliersCubit>().users);
+      context.watch<SuppliersCubit>().suppliers,
+    );
     return SafeArea(
         child: Scaffold(
       backgroundColor: ColorsManager.backGroundColor,
@@ -46,15 +47,15 @@ class _SuppliersScreenState extends State<SuppliersScreen> {
               profileStyle:
                   TextStyles.font11BlackSemiBold.copyWith(fontSize: 0),
             ),
-            buildAddNewAndText(),
-            buildBloc(data: data),
+            buildAddNewAndTextButton(),
+            buildTableBloc(data: data),
           ],
         ),
       ),
     ));
   }
 
-  Widget buildBloc({required DataTableSource data}) {
+  Widget buildTableBloc({required DataTableSource data}) {
     return BlocBuilder<SuppliersCubit, SuppliersState>(
       builder: (context, state) {
         if (state is SuppliersLoading) {
@@ -105,7 +106,28 @@ class _SuppliersScreenState extends State<SuppliersScreen> {
     );
   }
 
-  Widget buildAddNewAndText() {
+  Widget buildAddNewSupplierBloc() {
+    return BlocBuilder<SuppliersCubit, SuppliersState>(
+      builder: (context, state) {
+        if (state is SuppliersLoading) {
+          return Padding(
+            padding: EdgeInsets.only(top: 250.h),
+            child: const Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
+        if (state is SuppliersLoaded) {
+          return buildAddNewSupplier();
+        } else if (state is SuppliersError) {
+          return Text(state.message);
+        }
+        return const SizedBox();
+      },
+    );
+  }
+
+  Widget buildAddNewAndTextButton() {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 20.h),
       child: Row(
@@ -122,7 +144,7 @@ class _SuppliersScreenState extends State<SuppliersScreen> {
                 showModalBottomSheet(
                     context: context,
                     builder: (_) => SizedBox(
-                          height: 500.h,
+                          height: 800.h,
                           child: buildAddNewSupplier(),
                         ));
               })
@@ -135,77 +157,191 @@ class _SuppliersScreenState extends State<SuppliersScreen> {
     return SingleChildScrollView(
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('addNewSupplier'.tr(), style: TextStyles.font20BlackRegular),
-            verticalSpace(10.h),
-            AppTextFormFieldWithTopHint(
-              topHintText: 'name'.tr(),
-              appTextFormField: AppTextFormField(
-                contentPadding:
-                    EdgeInsets.symmetric(vertical: 9.h, horizontal: 10.w),
-                hintText: 'enterName'.tr(),
-                validator: (validator) {},
-                keyboardType: TextInputType.name,
+        child: Form(
+          key: BlocProvider.of<SuppliersCubit>(context).addNewSupplierFormKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('addNewSupplier'.tr(), style: TextStyles.font20BlackRegular),
+              verticalSpace(10.h),
+              AppTextFormFieldWithTopHint(
+                topHintText: 'name'.tr(),
+                appTextFormField: AppTextFormField(
+                  controller: context.read<SuppliersCubit>().nameController,
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 9.h, horizontal: 10.w),
+                  hintText: 'enterName'.tr(),
+                  validator: (validator) {
+                    if (validator!.isEmpty || validator.length < 3) {
+                      return 'enterValidName'.tr();
+                    }
+                  },
+                  keyboardType: TextInputType.name,
+                ),
               ),
-            ),
-            verticalSpace(10.h),
-            AppTextFormFieldWithTopHint(
-              topHintText: 'phone'.tr(),
-              appTextFormField: AppTextFormField(
-                contentPadding:
-                    EdgeInsets.symmetric(vertical: 9.h, horizontal: 10.w),
-                hintText: 'enterPhone'.tr(),
-                validator: (validator) {},
-                keyboardType: TextInputType.phone,
+              verticalSpace(10.h),
+              AppTextFormFieldWithTopHint(
+                topHintText: 'phone'.tr(),
+                appTextFormField: AppTextFormField(
+                  controller: context.read<SuppliersCubit>().phoneController,
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 9.h, horizontal: 10.w),
+                  hintText: 'enterPhone'.tr(),
+                  validator: (validator) {
+                    if (validator!.isEmpty || validator.length < 10) {
+                      return 'enterValidPhone'.tr();
+                    }
+                  },
+                  keyboardType: TextInputType.phone,
+                ),
               ),
-            ),
-            verticalSpace(10.h),
-            AppCustomDropdownWithTopHint(
-              topHintText: 'delegate'.tr(),
-              appCustomDropdown: AppCustomDropDownFormButton(
-                contentPadding:
-                    EdgeInsets.symmetric(vertical: 9.h, horizontal: 10.w),
-                onChanged: (value) {},
-                items:
-                    BlocProvider.of<SuppliersCubit>(context).users.map((value) {
-                  return DropdownMenuItem<String>(
-                    value: value.id.toString(),
-                    child: Text(value.name),
-                  );
-                }).toList(),
+              verticalSpace(10.h),
+              AppCustomDropdownWithTopHint(
+                topHintText: 'delegate'.tr(),
+                appCustomDropdown: AppCustomDropDownFormButton(
+                  validator: (validator) {
+                    if (validator == null) {
+                      return 'selectDelegate'.tr();
+                    }
+                  },
+                  contentPadding:
+                      EdgeInsets.symmetric(vertical: 9.h, horizontal: 10.w),
+                  onChanged: (value) {
+                    setState(() {
+                      context.read<SuppliersCubit>().dropdownValue = value;
+                    });
+                  },
+                  items: BlocProvider.of<SuppliersCubit>(context)
+                      .users
+                      .map((value) {
+                    return DropdownMenuItem<String>(
+                      value: value.id.toString(),
+                      child: Text(value.name),
+                    );
+                  }).toList(),
+                  value: BlocProvider.of<SuppliersCubit>(context).dropdownValue,
+                ),
               ),
-            ),
-            Row(
-              children: [
-                AppTextButton(
-                    backgroundColor: ColorsManager.red,
-                    verticalPadding: 0,
-                    horizontalPadding: 0,
-                    buttonHeight: 30.h,
-                    buttonWidth: 60.w,
-                    buttonText: 'cancel'.tr(),
-                    textStyle: TextStyles.font13WhiteSemiBold,
-                    onPressed: () {
-                      context.pop();
-                    }),
-                horizontalSpace(10),
-                AppTextButton(
-                    verticalPadding: 0,
-                    horizontalPadding: 0,
-                    buttonHeight: 30.h,
-                    buttonWidth: 60.w,
-                    buttonText: 'save'.tr(),
-                    textStyle: TextStyles.font13WhiteSemiBold,
-                    onPressed: () {
-                      context.pop();
-                    }),
-              ],
-            )
-          ],
+              Row(
+                children: [
+                  AppTextButton(
+                      backgroundColor: ColorsManager.red,
+                      verticalPadding: 0,
+                      horizontalPadding: 0,
+                      buttonHeight: 30.h,
+                      buttonWidth: 60.w,
+                      buttonText: 'cancel'.tr(),
+                      textStyle: TextStyles.font13WhiteSemiBold,
+                      onPressed: () {
+                        context.pop();
+                      }),
+                  horizontalSpace(10),
+                  AppTextButton(
+                      verticalPadding: 0,
+                      horizontalPadding: 0,
+                      buttonHeight: 30.h,
+                      buttonWidth: 60.w,
+                      buttonText: 'save'.tr(),
+                      textStyle: TextStyles.font13WhiteSemiBold,
+                      onPressed: () => saveNewSuppliers()),
+                ],
+              )
+            ],
+          ),
         ),
       ),
+    );
+  }
+
+  saveNewSuppliers() {
+    if (BlocProvider.of<SuppliersCubit>(context)
+        .addNewSupplierFormKey
+        .currentState!
+        .validate()) {
+      BlocProvider.of<SuppliersCubit>(context)
+          .addNewSupplierFormKey
+          .currentState!
+          .save();
+      BlocProvider.of<SuppliersCubit>(context).addNewSupplierCubit();
+      BlocProvider.of<SuppliersCubit>(context).getAllSuppliersCubit();
+
+      context.pop();
+    }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    BlocProvider.of<SuppliersCubit>(context).nameController.dispose();
+    BlocProvider.of<SuppliersCubit>(context).phoneController.dispose();
+  }
+}
+
+// ignore: must_be_immutable
+class EditiAndDeleteButton extends StatelessWidget {
+  EditiAndDeleteButton({required this.supplierModel, super.key});
+  SuppliersModel supplierModel;
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        GestureDetector(
+            onTap: () {},
+            child: const Icon(Icons.edit, color: ColorsManager.primryColor)),
+        horizontalSpace(10),
+        GestureDetector(
+            onTap: () {
+              showDialog(
+                  context: context,
+                  builder: (_) {
+                    return AlertDialog(
+                      title: Text(
+                        'sureDelete'.tr(),
+                        style: TextStyles.font14BlackSemiBold,
+                      ),
+                      content: Row(
+                        children: [
+                          Text(
+                            '${'areYouSureDelete'.tr()} ',
+                            style: TextStyles.font14BlackMedium,
+                          ),
+                          Text(
+                            supplierModel.name,
+                            style: TextStyles.font14RedMedium,
+                          ),
+                          Text('?'.tr(),
+                          style: TextStyles.font14BlackMedium,)
+                        ],
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            context.pop();
+                          },
+                          child: Text(
+                            'cancel'.tr(),
+                            style: TextStyles.font14BlackMedium,
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            context.read<SuppliersCubit>().deleteSupplierCubit(
+                                suppliersId: supplierModel.id);
+                            BlocProvider.of<SuppliersCubit>(context)
+                                .getAllSuppliersCubit();
+                            context.pop();
+                          },
+                          child: Text(
+                            'yes'.tr(),
+                            style: TextStyles.font14RedMedium,
+                          ),
+                        )
+                      ],
+                    );
+                  });
+            },
+            child: const Icon(Icons.delete, color: ColorsManager.red)),
+      ],
     );
   }
 }

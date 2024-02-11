@@ -2,6 +2,8 @@
     "id":"الترتيب",
     "name":"الاسم",
     "enterName":"ادخل الاسم",
+    "enterValidName":"الاسم غير صالح",
+    "enterValidPhone":" رقم الهاتف غير صالح او اقل من 11 رقم" ,
     "email": "البريد الالكتروني",
     "password": "كلمة المرور",
     "login": "تسجيل الدخول",
@@ -31,7 +33,12 @@
     "addNewSupplier" : "اضافة مورد جديد",
     "enterPhone": "ادخل رقم الهاتف",
     "save": "حفظ",
-    "cancel": "الغاء"
+    "cancel": "الغاء",
+    "selectDelegate": "اختر مندوب",
+    "areYouSureDelete": "هل انت متاكد من حذف العميل",
+    "yes": "تأكيد",
+    "sureDelete": "تأكيد الحذف",
+    "?": "؟"
 
 
 
