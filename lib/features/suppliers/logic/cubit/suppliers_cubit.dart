@@ -4,7 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/helper/shared_preferences_helper.dart';
-import '../../../profile/data/models/profile_model.dart';
+import '../../../Users/data/model/profile_model.dart';
 import '../../data/models/suppliers_model.dart';
 import '../../data/repo/suppliers_repo.dart';
 
@@ -18,8 +18,13 @@ class SuppliersCubit extends Cubit<SuppliersState> {
   List<SuppliersModel> suppliers = [];
   List<UserModel> users = [];
   GlobalKey<FormState> addNewSupplierFormKey = GlobalKey<FormState>();
+  GlobalKey<FormState> editSupplierFormKey = GlobalKey<FormState>();
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
+  TextEditingController editNameController = TextEditingController();
+  TextEditingController editPhoneController = TextEditingController();
+  var dropdownValue;
+  var dropdownEditValue;
 
   void getAllSuppliersCubit() async {
     emit(SuppliersLoading());
@@ -57,14 +62,14 @@ class SuppliersCubit extends Cubit<SuppliersState> {
     }
   }
 
-  var dropdownValue;
+  
 
   void addNewSupplierCubit() async {
     emit(SuppliersLoading());
 
     try {
       _suppliersRepo.addNewSupplierRepo(
-        addSuppliersModel: AddSuppliersModel(
+        addSuppliersModel: ModifySuppliersModel(
           nameController.text,
           phoneController.text,
           dropdownValue,
@@ -93,4 +98,24 @@ class SuppliersCubit extends Cubit<SuppliersState> {
       emit(SuppliersError(e.toString()));
     }
   }
+
+ 
+  editeSupplierCubit({required String suppliersId,required String adminId}) async {
+    emit(SuppliersLoading());
+    try {
+      await _suppliersRepo.editSupplierRepo(
+          token: await SharedPreferencesHelper.getValueForKey('token'),
+          suppliersId: suppliersId,
+          modifySuppliersModel: ModifySuppliersModel(
+              editNameController.text, editPhoneController.text, adminId));
+
+      emit(SuppliersLoaded());
+      print('edited DONE______________________________________');
+    } catch (error) {
+      print(
+          'ERORR ____________________________________________________________________$error');
+      emit(SuppliersError(error.toString()));
+    }
+  }
+  
 }

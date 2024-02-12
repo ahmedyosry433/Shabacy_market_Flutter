@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:shabacy_market/features/Users/data/repo/users_repo.dart';
+import 'package:shabacy_market/features/Users/logic/cubit/users_cubit.dart';
 import 'package:shabacy_market/features/profile/data/repo/profile_repo.dart';
 import 'package:shabacy_market/features/profile/logic/cubit/profile_cubit.dart';
 import 'package:shabacy_market/features/suppliers/logic/cubit/suppliers_cubit.dart';
@@ -22,8 +24,12 @@ Future<void> setupGetit() async {
   //Profile
   getIt.registerLazySingleton(() => ProfileRepo(apiService: getIt()));
   getIt.registerFactory<ProfileCubit>(() => ProfileCubit(getIt()));
-  //
+  // Suppliers
   getIt.registerLazySingleton(() => SuppliersRepo(apiService: getIt()));
   getIt.registerFactory<SuppliersCubit>(() => SuppliersCubit(getIt()));
+  //Users
+  getIt.registerLazySingleton(() => UsersRepo(apiService: getIt()));
+  getIt.registerFactory<UsersCubit>(() => UsersCubit(getIt()));
+
   // signup
 }

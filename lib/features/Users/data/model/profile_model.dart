@@ -4,8 +4,9 @@ class UserModel {
   final String role;
   final String updatedAt;
   final String id;
+  final String Password;
 
-  UserModel(this.name, this.email, this.role, this.updatedAt, this.id);
+  UserModel(this.name, this.email, this.role, this.updatedAt, this.id,this.Password);
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
@@ -14,6 +15,7 @@ class UserModel {
       json['role'] ?? '',
       json['updated_at'] ?? '',
       json['id'] ?? '',
+      json['password']??'',
     );
   }
 

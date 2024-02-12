@@ -22,8 +22,8 @@
     "weeklyReport": "التقرير الاسبوعي",
     "profile": "الملف الشخصي",
     "role":"الوظيفة",
-    "SUPER_ADMIN":"أدمن",
-    "ADMIN":"مدير",
+    "SUPER_ADMIN":"مدير",
+    "ADMIN":"محاسب",
     "EMPLOYEE":"كاشير",
     "balance":"الرصيد",
     "delegate":"المندوب",
@@ -38,8 +38,15 @@
     "areYouSureDelete": "هل انت متاكد من حذف العميل",
     "yes": "تأكيد",
     "sureDelete": "تأكيد الحذف",
-    "?": "؟"
+    "?": "؟",
+    "editeSupplier": "تعديل مورد",
+    "edit": "تعديل ",
 
+    "usersList": "قائمة المستخدمين" ,
+    "addUser": "إضافة مستخدم",
+    "typeOfUser": "الدور"
+   
+   
 
 
 

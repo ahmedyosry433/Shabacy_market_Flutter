@@ -26,28 +26,23 @@ class HomeScreen extends StatelessWidget {
               child: Column(
                 children: [
                   GestureDetector(
-                    onTap: () => Navigator.pushNamed(
-                      context,Routes.suppliersScreen
-                    ),
+                    onTap: () =>
+                        Navigator.pushNamed(context, Routes.suppliersScreen),
                     child: buildCart(
-                       
                         title: 'suppliers',
                         iconPath: 'assets/image/suppliers.png'),
                   ),
                   buildCart(
-                    
                       title: 'DailyPurchases',
                       iconPath: 'assets/image/purchasing.png'),
+                  GestureDetector(
+                    onTap: () =>
+                        Navigator.pushNamed(context, Routes.usersScreen),
+                    child: buildCart(
+                        title: 'users', iconPath: 'assets/image/users.png'),
+                  ),
+                  buildCart(title: 'items', iconPath: 'assets/image/items.png'),
                   buildCart(
-                    
-                      title: 'users',
-                      iconPath: 'assets/image/users.png'),
-                  buildCart(
-                     
-                      title: 'items',
-                      iconPath: 'assets/image/items.png'),
-                  buildCart(
-                     
                       title: 'weeklyReport',
                       iconPath: 'assets/image/reports.png'),
                 ],
@@ -59,10 +54,10 @@ class HomeScreen extends StatelessWidget {
     ));
   }
 
-  Widget buildCart(
-      {required String title,
-      required String iconPath,
-      }) {
+  Widget buildCart({
+    required String title,
+    required String iconPath,
+  }) {
     return Card(
       elevation: 0.5,
       margin: EdgeInsets.symmetric(vertical: 10.h),

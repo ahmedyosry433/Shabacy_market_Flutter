@@ -1,5 +1,5 @@
 import '../../../../core/networking/api_service.dart';
-import '../models/profile_model.dart';
+import '../../../Users/data/model/profile_model.dart';
 
 class ProfileRepo {
   final ApiService apiService;

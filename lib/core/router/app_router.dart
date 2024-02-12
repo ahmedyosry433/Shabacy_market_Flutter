@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shabacy_market/core/dj/dependency_injection.dart';
 import 'package:shabacy_market/core/router/routes.dart';
-import 'package:shabacy_market/features/home/ui/home_screen.dart';
+import 'package:shabacy_market/features/Home/ui/home_screen.dart';
+import 'package:shabacy_market/features/Users/logic/cubit/users_cubit.dart';
+import 'package:shabacy_market/features/Users/ui/users_screen.dart';
 import 'package:shabacy_market/features/login/logic/cubit/login_cubit.dart';
 import 'package:shabacy_market/features/profile/logic/cubit/profile_cubit.dart';
 import 'package:shabacy_market/features/suppliers/logic/cubit/suppliers_cubit.dart';
@@ -37,6 +39,13 @@ class AppRouter {
           builder: (_) => BlocProvider(
             create: (context) => getIt<SuppliersCubit>(),
             child: const SuppliersScreen(),
+          ),
+        );
+      case Routes.usersScreen:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => getIt<UsersCubit>(),
+            child:  UsersScreen(),
           ),
         );
 

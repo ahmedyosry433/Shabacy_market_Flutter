@@ -43,15 +43,15 @@ class SuppliersModel {
   }
 }
 
-class AddSuppliersModel {
+class ModifySuppliersModel {
   final String name;
   final String mobile;
   final String admin;
 
-  AddSuppliersModel(this.name, this.mobile, this.admin);
+  ModifySuppliersModel(this.name, this.mobile, this.admin);
 
-  factory AddSuppliersModel.fromJson(Map<String, dynamic> json) {
-    return AddSuppliersModel(
+  factory ModifySuppliersModel.fromJson(Map<String, dynamic> json) {
+    return ModifySuppliersModel(
       json['name'],
       json['mobile'],
       json['admin'],

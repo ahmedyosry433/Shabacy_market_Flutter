@@ -4,10 +4,10 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:shabacy_market/core/networking/api_constants.dart';
+import 'package:shabacy_market/features/Users/data/model/profile_model.dart';
 import 'package:shabacy_market/features/login/data/models/login_request.dart';
 import 'package:shabacy_market/features/login/data/models/login_response.dart';
 
-import '../../features/profile/data/models/profile_model.dart';
 import '../../features/suppliers/data/models/suppliers_model.dart';
 import '../helper/shared_preferences_helper.dart';
 
@@ -95,8 +95,8 @@ class ApiService {
     return allUsersList;
   }
 
-   Future<SuppliersModel> addNewSupplier(
-      {required AddSuppliersModel addSuppliersModel,
+  Future<SuppliersModel> addNewSupplier(
+      {required ModifySuppliersModel addSuppliersModel,
       required String token}) async {
     var headers = {
       'Content-Type': 'application/json',
@@ -125,6 +125,24 @@ class ApiService {
         '${ApiConstants.apiBaseUrl}${ApiConstants.allSuppliersUrl}/$suppliersId',
         options: Options(
           method: 'DELETE',
+          headers: headers,
+        ));
+  }
+
+  Future<void> editSupplier(
+      {required String token,
+      required String suppliersId,
+      required ModifySuppliersModel modifySuppliersModel}) async {
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+
+    await _dio.request(
+        '${ApiConstants.apiBaseUrl}${ApiConstants.allSuppliersUrl}/$suppliersId',
+        data: modifySuppliersModel,
+        options: Options(
+          method: 'PATCH',
           headers: headers,
         ));
   }

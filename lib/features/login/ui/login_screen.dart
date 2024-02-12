@@ -67,20 +67,6 @@ class LoginScreen extends StatelessWidget {
                         },
                       ),
                     ),
-                    Row(
-                      children: [
-                        Checkbox(
-                          value:
-                              BlocProvider.of<LoginCubit>(context).isRememberMe,
-                          onChanged: (onChanged) {
-                            BlocProvider.of<LoginCubit>(context)
-                                .setRememberMe();
-                          },
-                        ),
-                        Text('remember_me'.tr(),
-                            style: TextStyles.font14BlackSemiBold),
-                      ],
-                    ),
                     verticalSpace(40),
                     AppTextButton(
                       buttonText: 'login'.tr(),
