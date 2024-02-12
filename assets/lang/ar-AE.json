@@ -43,8 +43,9 @@
     "edit": "تعديل ",
 
     "usersList": "قائمة المستخدمين" ,
-    "addUser": "إضافة مستخدم",
-    "typeOfUser": "الدور"
+    "addUser": "إضافة مستخدم جديد",
+    "typeOfUser": "الوظيفة",
+    "selectTypeOfUser": "اختر نوع الوظيفة"
    
    
 

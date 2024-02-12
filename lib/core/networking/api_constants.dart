@@ -4,4 +4,5 @@ class ApiConstants {
   static const String profileUrl = 'auth/me';
   static const String allUsersUrl = 'auth';
   static const String allSuppliersUrl = 'users';
+  static const String addUsersRegisterUrl = '/register';
 }

@@ -4,7 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 
 import '../../../../core/helper/shared_preferences_helper.dart';
-import '../../../Users/data/model/profile_model.dart';
+import '../../../Users/data/model/user_model.dart';
 import '../../data/repo/profile_repo.dart';
 
 part 'profile_state.dart';

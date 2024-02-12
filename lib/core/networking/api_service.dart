@@ -4,10 +4,10 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:shabacy_market/core/networking/api_constants.dart';
-import 'package:shabacy_market/features/Users/data/model/profile_model.dart';
 import 'package:shabacy_market/features/login/data/models/login_request.dart';
 import 'package:shabacy_market/features/login/data/models/login_response.dart';
 
+import '../../features/Users/data/model/user_model.dart';
 import '../../features/suppliers/data/models/suppliers_model.dart';
 import '../helper/shared_preferences_helper.dart';
 
@@ -19,7 +19,7 @@ class ApiService {
     var headers = {
       'Content-Type': 'application/json',
     };
-    // var data = json.encode({"email": "admin@admin", "password": "123456"});
+
     Response response =
         await _dio.request(ApiConstants.apiBaseUrl + ApiConstants.loginUrl,
             data: loginRequest,
@@ -71,31 +71,7 @@ class ApiService {
     return suppliersList;
   }
 
-  Future<List<UserModel>> getAllUsers({required String token}) async {
-    var headers = {
-      'Content-Type': 'application/json',
-      'Authorization': 'Bearer $token',
-    };
-
-    Response response =
-        await _dio.request(ApiConstants.apiBaseUrl + ApiConstants.allUsersUrl,
-            options: Options(
-              method: 'GET',
-              headers: headers,
-            ));
-
-    var data = response.data;
-
-    List<UserModel> allUsersList = [];
-
-    for (var a in data) {
-      UserModel allUsersOject = UserModel.fromJson(a);
-      allUsersList.add(allUsersOject);
-    }
-    return allUsersList;
-  }
-
-  Future<SuppliersModel> addNewSupplier(
+  Future<void> addNewSupplier(
       {required ModifySuppliersModel addSuppliersModel,
       required String token}) async {
     var headers = {
@@ -103,15 +79,12 @@ class ApiService {
       'Authorization': 'Bearer $token',
     };
 
-    Response response = await _dio.request(
-        ApiConstants.apiBaseUrl + ApiConstants.allSuppliersUrl,
+    await _dio.request(ApiConstants.apiBaseUrl + ApiConstants.allSuppliersUrl,
         data: addSuppliersModel,
         options: Options(
           method: 'POST',
           headers: headers,
         ));
-
-    return SuppliersModel.fromJson(response.data);
   }
 
   Future<void> deleteSupplier(
@@ -141,6 +114,81 @@ class ApiService {
     await _dio.request(
         '${ApiConstants.apiBaseUrl}${ApiConstants.allSuppliersUrl}/$suppliersId',
         data: modifySuppliersModel,
+        options: Options(
+          method: 'PATCH',
+          headers: headers,
+        ));
+  }
+
+  Future<List<UserModel>> getAllUsers({required String token}) async {
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+
+    Response response =
+        await _dio.request(ApiConstants.apiBaseUrl + ApiConstants.allUsersUrl,
+            options: Options(
+              method: 'GET',
+              headers: headers,
+            ));
+
+    var data = response.data;
+
+    List<UserModel> allUsersList = [];
+
+    for (var a in data) {
+      UserModel allUsersOject = UserModel.fromJson(a);
+      allUsersList.add(allUsersOject);
+    }
+    return allUsersList;
+  }
+
+  Future<void> addUserRegister(
+      {required String token, required AddUserModel addUsermodel}) async {
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+
+    await _dio.request(
+        ApiConstants.apiBaseUrl +
+            ApiConstants.allUsersUrl +
+            ApiConstants.addUsersRegisterUrl,
+        data: addUsermodel,
+        options: Options(
+          method: 'POST',
+          headers: headers,
+        ));
+  }
+
+  Future<void> deleteUser(
+      {required String token, required String suppliersId}) async {
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+
+    await _dio.request(
+        '${ApiConstants.apiBaseUrl}${ApiConstants.allUsersUrl}/$suppliersId',
+        options: Options(
+          method: 'DELETE',
+          headers: headers,
+        ));
+  }
+
+  Future<void> editUser(
+      {required String token,
+      required String userId,
+      required EditUserModel editUserModel}) async {
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+
+    await _dio.request(
+        '${ApiConstants.apiBaseUrl}${ApiConstants.allUsersUrl}/$userId',
+        data: editUserModel,
         options: Options(
           method: 'PATCH',
           headers: headers,

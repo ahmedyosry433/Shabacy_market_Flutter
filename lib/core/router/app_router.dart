@@ -45,7 +45,7 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
             create: (context) => getIt<UsersCubit>(),
-            child:  UsersScreen(),
+            child:  const UsersScreen(),
           ),
         );
 

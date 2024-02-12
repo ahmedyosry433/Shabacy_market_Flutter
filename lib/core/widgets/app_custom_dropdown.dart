@@ -16,7 +16,7 @@ class AppCustomDropDownFormButton extends StatelessWidget {
   final InputBorder? enabledBorder;
 
   final TextStyle? hintStyle;
-  final String? hintText;
+  final Widget? hintText;
   final Widget? suffixIcon;
   final Color? backgroundColor;
   final Function(String?) validator;
@@ -40,9 +40,10 @@ class AppCustomDropDownFormButton extends StatelessWidget {
     return DropdownButtonFormField(
       autovalidateMode: AutovalidateMode.onUserInteraction,
       validator: (value) => validator(value as String?),
-      hint: Text(
-        'selectDelegate'.tr(),
-      ),
+      hint: hintText ??
+          Text(
+            'selectDelegate'.tr(),
+          ),
       style: TextStyles.font14BlackMedium,
       elevation: 1,
       // autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -79,7 +80,6 @@ class AppCustomDropDownFormButton extends StatelessWidget {
           ),
         ),
         hintStyle: hintStyle ?? TextStyles.font14GrayMedium,
-        hintText: hintText,
         suffixIcon: suffixIcon,
         filled: true,
         fillColor: backgroundColor ?? ColorsManager.gray.withOpacity(0.01),

@@ -2,7 +2,7 @@
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:shabacy_market/features/Users/data/model/profile_model.dart';
+import 'package:shabacy_market/features/Users/data/model/user_model.dart';
 import 'package:shabacy_market/features/Users/ui/widgets/edit_and_delete_user.dart';
 
 import '../../../../core/theme/style.dart';
@@ -24,11 +24,14 @@ class MyData extends DataTableSource {
         Text(_data[index].email.toString(), style: TextStyles.font14GrayMedium),
       ),
       DataCell(
+        Text(_data[index].toString(), style: TextStyles.font14GrayMedium),
+      ),
+      DataCell(
         Text(_data[index].role.tr().toString(),
             style: TextStyles.font14GrayMedium),
       ),
       DataCell(
-        EditiAndDeleteUsersButton(),
+        EditiAndDeleteUsersButton(user: _data[index]),
       ),
     ]);
   }
