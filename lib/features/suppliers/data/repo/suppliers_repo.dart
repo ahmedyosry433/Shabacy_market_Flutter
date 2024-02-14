@@ -1,7 +1,7 @@
+import 'package:shabacy_market/features/Suppliers/data/models/suppliers_model.dart';
 
 import '../../../../core/networking/api_service.dart';
 import '../../../Users/data/model/user_model.dart';
-import '../models/suppliers_model.dart';
 
 class SuppliersRepo {
   final ApiService apiService;
@@ -25,9 +25,8 @@ class SuppliersRepo {
   Future<void> addNewSupplierRepo(
       {required ModifySuppliersModel addSuppliersModel,
       required String token}) async {
-   await apiService.addNewSupplier(
+    await apiService.addNewSupplier(
         addSuppliersModel: addSuppliersModel, token: token);
-   
   }
 
   Future<void> deleteSupplierRepo(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:shabacy_market/core/theme/colors.dart';
+
+import '../theme/colors.dart';
 
 class AppShowProgressIndecator extends StatelessWidget {
   const AppShowProgressIndecator({super.key});

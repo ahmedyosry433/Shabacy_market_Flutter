@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:motion_toast/motion_toast.dart';
-import 'package:shabacy_market/core/helper/extensions.dart';
-import 'package:shabacy_market/core/helper/spacing.dart';
-import 'package:shabacy_market/core/widgets/app_text_form_field.dart';
-import 'package:shabacy_market/core/widgets/app_text_form_field_with_hint.dart';
+import '../../../core/helper/extensions.dart';
+import '../../../core/helper/spacing.dart';
+import '../../../core/widgets/app_text_form_field.dart';
+import '../../../core/widgets/app_text_form_field_with_hint.dart';
 
 import '../../../core/router/routes.dart';
 import '../../../core/theme/colors.dart';

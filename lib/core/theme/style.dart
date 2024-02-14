@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:shabacy_market/core/theme/colors.dart';
-import 'package:shabacy_market/core/theme/font_weight_helper.dart';
+import 'colors.dart';
+import 'font_weight_helper.dart';
 
 class TextStyles {
   static TextStyle font11BlueSemiBold = TextStyle(

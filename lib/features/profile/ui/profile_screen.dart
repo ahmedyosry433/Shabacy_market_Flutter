@@ -2,14 +2,14 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:shabacy_market/core/helper/spacing.dart';
-import 'package:shabacy_market/core/widgets/app_custom_appbar.dart';
-import 'package:shabacy_market/core/widgets/app_text_form_field.dart';
-import 'package:shabacy_market/core/widgets/app_text_form_field_with_hint.dart';
 
+import '../../../core/helper/spacing.dart';
 import '../../../core/theme/colors.dart';
 import '../../../core/theme/style.dart';
+import '../../../core/widgets/app_custom_appbar.dart';
 import '../../../core/widgets/app_progress_indecator.dart';
+import '../../../core/widgets/app_text_form_field.dart';
+import '../../../core/widgets/app_text_form_field_with_hint.dart';
 import '../logic/cubit/profile_cubit.dart';
 
 class ProfileScreen extends StatefulWidget {

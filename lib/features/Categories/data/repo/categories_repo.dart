@@ -1,5 +1,5 @@
-import 'package:shabacy_market/core/networking/api_service.dart';
-import 'package:shabacy_market/features/Categories/data/model/categories_model.dart';
+import '../../../../core/networking/api_service.dart';
+import '../model/categories_model.dart';
 
 class CategoriesRepo {
   final ApiService apiService;

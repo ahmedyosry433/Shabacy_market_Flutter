@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shabacy_market/core/dj/dependency_injection.dart';
-import 'package:shabacy_market/core/router/routes.dart';
-import 'package:shabacy_market/features/Categories/logic/cubit/categories_cubit.dart';
-import 'package:shabacy_market/features/Categories/ui/categories_screen.dart';
-import 'package:shabacy_market/features/Home/ui/home_screen.dart';
-import 'package:shabacy_market/features/Users/logic/cubit/users_cubit.dart';
-import 'package:shabacy_market/features/Users/ui/users_screen.dart';
-import 'package:shabacy_market/features/login/logic/cubit/login_cubit.dart';
-import 'package:shabacy_market/features/profile/logic/cubit/profile_cubit.dart';
-import 'package:shabacy_market/features/suppliers/logic/cubit/suppliers_cubit.dart';
+import '../dj/dependency_injection.dart';
+import 'routes.dart';
+import '../../features/Categories/logic/cubit/categories_cubit.dart';
+import '../../features/Categories/ui/categories_screen.dart';
+import '../../features/Home/ui/home_screen.dart';
+import '../../features/Users/logic/cubit/users_cubit.dart';
+import '../../features/Users/ui/users_screen.dart';
+import '../../features/Login/logic/cubit/login_cubit.dart';
+import '../../features/Profile/logic/cubit/profile_cubit.dart';
+import '../../features/Suppliers/logic/cubit/suppliers_cubit.dart';
 
-import '../../features/login/ui/login_screen.dart';
+import '../../features/Login/ui/login_screen.dart';
 import '../../features/profile/ui/profile_screen.dart';
-import '../../features/suppliers/ui/suppliers_screen.dart';
+import '../../features/Suppliers/ui/suppliers_screen.dart';
 
 class AppRouter {
   Route? onGenerateRoute(RouteSettings settings) {

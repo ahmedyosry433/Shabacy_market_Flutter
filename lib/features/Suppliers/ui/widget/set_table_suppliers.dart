@@ -1,10 +1,11 @@
 // ignore_for_file: unrelated_type_equality_checks
 
 import 'package:flutter/material.dart';
+import 'package:shabacy_market/features/Suppliers/data/models/suppliers_model.dart';
 import 'package:shabacy_market/features/Suppliers/ui/widget/suppliers_edit_delete_buttons.dart';
 
 import '../../../../core/theme/style.dart';
-import '../../data/models/suppliers_model.dart';
+
 
 class MyData extends DataTableSource {
   final List<SuppliersModel> _data;

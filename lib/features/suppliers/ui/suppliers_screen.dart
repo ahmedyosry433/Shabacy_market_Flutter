@@ -2,15 +2,16 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:shabacy_market/core/helper/extensions.dart';
-import 'package:shabacy_market/core/theme/colors.dart';
-import 'package:shabacy_market/core/widgets/app_custom_appbar.dart';
-import 'package:shabacy_market/core/widgets/app_custom_dropdwo_with_hint.dart';
-import 'package:shabacy_market/core/widgets/app_text_button.dart';
-import 'package:shabacy_market/core/widgets/app_text_form_field.dart';
-import 'package:shabacy_market/core/widgets/app_text_form_field_with_hint.dart';
-import 'package:shabacy_market/features/suppliers/logic/cubit/suppliers_cubit.dart';
-import 'package:shabacy_market/features/suppliers/ui/widget/set_table.dart';
+import 'package:shabacy_market/features/Suppliers/ui/widget/set_table_suppliers.dart';
+
+import '../../../core/helper/extensions.dart';
+import '../../../core/theme/colors.dart';
+import '../../../core/widgets/app_custom_appbar.dart';
+import '../../../core/widgets/app_custom_dropdwo_with_hint.dart';
+import '../../../core/widgets/app_text_button.dart';
+import '../../../core/widgets/app_text_form_field.dart';
+import '../../../core/widgets/app_text_form_field_with_hint.dart';
+import '../../Suppliers/logic/cubit/suppliers_cubit.dart';
 
 import '../../../core/helper/spacing.dart';
 import '../../../core/theme/style.dart';

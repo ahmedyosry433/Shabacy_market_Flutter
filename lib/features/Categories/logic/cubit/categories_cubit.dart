@@ -2,7 +2,6 @@
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
-
 import 'package:shabacy_market/features/Categories/data/repo/categories_repo.dart';
 
 import '../../../../core/helper/shared_preferences_helper.dart';

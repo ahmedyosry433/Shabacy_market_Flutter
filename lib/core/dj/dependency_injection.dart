@@ -1,16 +1,17 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
-import 'package:shabacy_market/features/Categories/data/repo/categories_repo.dart';
-import 'package:shabacy_market/features/Categories/logic/cubit/categories_cubit.dart';
-import 'package:shabacy_market/features/Users/data/repo/users_repo.dart';
-import 'package:shabacy_market/features/Users/logic/cubit/users_cubit.dart';
-import 'package:shabacy_market/features/profile/data/repo/profile_repo.dart';
-import 'package:shabacy_market/features/profile/logic/cubit/profile_cubit.dart';
-import 'package:shabacy_market/features/suppliers/logic/cubit/suppliers_cubit.dart';
+import 'package:shabacy_market/features/Suppliers/data/repo/suppliers_repo.dart';
 
-import '../../features/login/data/repo/login_repo.dart';
-import '../../features/login/logic/cubit/login_cubit.dart';
-import '../../features/suppliers/data/repo/suppliers_repo.dart';
+import '../../features/Categories/data/repo/categories_repo.dart';
+import '../../features/Categories/logic/cubit/categories_cubit.dart';
+import '../../features/Suppliers/logic/cubit/suppliers_cubit.dart';
+import '../../features/Users/data/repo/users_repo.dart';
+import '../../features/Users/logic/cubit/users_cubit.dart';
+import '../../features/Login/data/repo/login_repo.dart';
+import '../../features/Login/logic/cubit/login_cubit.dart';
+import '../../features/Profile/data/repo/profile_repo.dart';
+import '../../features/Profile/logic/cubit/profile_cubit.dart';
+
 import '../networking/api_service.dart';
 import '../networking/dio_factory.dart';
 
@@ -34,7 +35,7 @@ Future<void> setupGetit() async {
   getIt.registerFactory<UsersCubit>(() => UsersCubit(getIt()));
   //Categories
   getIt.registerLazySingleton(() => CategoriesRepo(apiService: getIt()));
-  getIt.registerFactory<CategoriesCubit>(() => CategoriesCubit( getIt()));
+  getIt.registerFactory<CategoriesCubit>(() => CategoriesCubit(getIt()));
 
   // signup
 }

@@ -2,9 +2,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:shabacy_market/core/helper/extensions.dart';
-import 'package:shabacy_market/core/widgets/app_custom_appbar.dart';
-import 'package:shabacy_market/features/Categories/ui/widget/set_Categories_table.dart';
+import '../../../core/helper/extensions.dart';
+import '../../../core/widgets/app_custom_appbar.dart';
+import 'widget/set_Categories_table.dart';
 
 import '../../../core/helper/spacing.dart';
 import '../../../core/theme/colors.dart';

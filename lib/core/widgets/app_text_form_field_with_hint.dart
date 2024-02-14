@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 import '../helper/spacing.dart';
 import '../theme/style.dart';
-
 import 'app_text_form_field.dart';
 
 class AppTextFormFieldWithTopHint extends StatelessWidget {

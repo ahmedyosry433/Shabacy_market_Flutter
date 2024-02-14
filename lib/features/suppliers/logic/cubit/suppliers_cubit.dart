@@ -2,12 +2,13 @@
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:shabacy_market/features/Suppliers/data/models/suppliers_model.dart';
+import 'package:shabacy_market/features/Suppliers/data/repo/suppliers_repo.dart';
 import 'package:shabacy_market/features/Users/logic/cubit/users_cubit.dart';
 
 import '../../../../core/helper/shared_preferences_helper.dart';
 import '../../../Users/data/model/user_model.dart';
-import '../../data/models/suppliers_model.dart';
-import '../../data/repo/suppliers_repo.dart';
+
 
 part 'suppliers_state.dart';
 

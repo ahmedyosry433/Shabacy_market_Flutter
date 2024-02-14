@@ -4,12 +4,12 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:shabacy_market/core/networking/api_constants.dart';
-import 'package:shabacy_market/features/login/data/models/login_request.dart';
-import 'package:shabacy_market/features/login/data/models/login_response.dart';
+import 'package:shabacy_market/features/Login/data/models/login_request.dart';
+import 'package:shabacy_market/features/Login/data/models/login_response.dart';
 
 import '../../features/Categories/data/model/categories_model.dart';
 import '../../features/Users/data/model/user_model.dart';
-import '../../features/suppliers/data/models/suppliers_model.dart';
+import '../../features/Suppliers/data/models/suppliers_model.dart';
 import '../helper/shared_preferences_helper.dart';
 
 class ApiService {

@@ -1,8 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:shabacy_market/core/theme/colors.dart';
-import 'package:shabacy_market/core/widgets/app_custom_appbar.dart';
+import '../../../core/theme/colors.dart';
+import '../../../core/widgets/app_custom_appbar.dart';
 
 import '../../../core/router/routes.dart';
 import '../../../core/theme/style.dart';
