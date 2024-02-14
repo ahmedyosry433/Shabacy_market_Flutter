@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:motion_toast/motion_toast.dart';
 import 'package:shabacy_market/features/Suppliers/ui/widget/set_table_suppliers.dart';
 
 import '../../../core/helper/extensions.dart';
@@ -57,7 +58,10 @@ class _SuppliersScreenState extends State<SuppliersScreen> {
                   TextStyles.font11BlackSemiBold.copyWith(fontSize: 0),
             ),
             buildAddNewAndTextButton(),
+            buildAddNewSupplierListenerBloc(),
             buildTableBloc(data: data),
+            buildEditSuppliersListenerBloc(),
+            buildDeleteSuppliersListenerBloc(),
           ],
         ),
       ),
@@ -262,46 +266,46 @@ class _SuppliersScreenState extends State<SuppliersScreen> {
     );
   }
 
-// Widget buildAddNewSupplierListenerBloc() {
-//     return BlocListener<SuppliersCubit, SuppliersState >(
-//       listenWhen: (previous, current) {
-//         return previous != current;
-//       },
-//       listener: (context, state) {
-//         if (state is SuppliersLoaded ) {
-//           showProgressIndecator(context);
-//         } else if (state is  SuppliersLoaded) {
-//           context.pop();
+  Widget buildAddNewSupplierListenerBloc() {
+    return BlocListener<SuppliersCubit, SuppliersState>(
+      listenWhen: (previous, current) {
+        return previous != current;
+      },
+      listener: (context, state) {
+        if (state is AddSuppliersLoading) {
+          showProgressIndecator(context);
+        } else if (state is AddSuppliersLoaded) {
+          context.pop();
 
-//           MotionToast.success(
-//             width: 390.w,
-//             position: MotionToastPosition.top,
-//             iconSize: 30.w,
-//             height: 70.h,
-//             description: Text(
-//               "add user successfully".tr(),
-//               style: TextStyles.font14BlackSemiBold,
-//             ),
-//           ).show(context);
-//           context.pop();
-//         } else if (state is SuppliersLoaded) {
-//           context.pop();
+          MotionToast.success(
+            width: 390.w,
+            position: MotionToastPosition.top,
+            iconSize: 30.w,
+            height: 70.h,
+            description: Text(
+              "add supplier successfully".tr(),
+              style: TextStyles.font14BlackSemiBold,
+            ),
+          ).show(context);
+          context.pop();
+        } else if (state is AddSuppliersError) {
+          context.pop();
 
-//           MotionToast.error(
-//             width: 390.w,
-//             position: MotionToastPosition.top,
-//             iconSize: 30.w,
-//             height: 70.h,
-//             description: Text(
-//               "error adding user ".tr(),
-//               style: TextStyles.font14BlackSemiBold,
-//             ),
-//           ).show(context);
-//         }
-//       },
-//       child: const SizedBox.shrink(),
-//     );
-//   }
+          MotionToast.error(
+            width: 390.w,
+            position: MotionToastPosition.top,
+            iconSize: 30.w,
+            height: 70.h,
+            description: Text(
+              "error adding supplier ".tr(),
+              style: TextStyles.font14BlackSemiBold,
+            ),
+          ).show(context);
+        }
+      },
+      child: const SizedBox.shrink(),
+    );
+  }
 
   Widget showProgressIndecator(BuildContext context) {
     AlertDialog alertDialog = const AlertDialog(
@@ -332,10 +336,95 @@ class _SuppliersScreenState extends State<SuppliersScreen> {
           .save();
       BlocProvider.of<SuppliersCubit>(context).addNewSupplierCubit();
       BlocProvider.of<SuppliersCubit>(context).getAllSuppliersCubit();
-
-      context.pop();
     }
   }
-}
 
-// ignore: must_be_immutable
+  Widget buildEditSuppliersListenerBloc() {
+    return BlocListener<SuppliersCubit, SuppliersState>(
+      listenWhen: (previous, current) {
+        return previous != current;
+      },
+      listener: (context, state) {
+        if (state is EditSuppliersLoading) {
+          showProgressIndecator(context);
+        } else if (state is EditSuppliersLoaded) {
+          Navigator.of(context).pop();
+          BlocProvider.of<SuppliersCubit>(context).getAllSuppliersCubit();
+          MotionToast.success(
+            width: 390.w,
+            position: MotionToastPosition.top,
+            iconSize: 30.w,
+            height: 70.h,
+            description: Text(
+              "edit supplier successfully".tr(),
+              style: TextStyles.font14BlackSemiBold,
+            ),
+          ).show(context);
+          Navigator.of(context).pop();
+        } else if (state is EditSuppliersError) {
+          Navigator.of(context).pop();
+
+          MotionToast.error(
+            width: 390.w,
+            position: MotionToastPosition.top,
+            iconSize: 30.w,
+            height: 70.h,
+            description: Text(
+              "error updating supplier ".tr(),
+              style: TextStyles.font14BlackSemiBold,
+            ),
+          ).show(context);
+        }
+      },
+      child: const SizedBox.shrink(),
+    );
+  }
+
+  Widget buildDeleteSuppliersListenerBloc() {
+    return BlocListener<SuppliersCubit, SuppliersState>(
+      listenWhen: (previous, current) {
+        return previous != current;
+      },
+      listener: (context, state) {
+        if (state is DeleteSuppliersLoading) {
+          showProgressIndecator(context);
+        } else if (state is DeleteSuppliersLoaded) {
+          context.pop();
+          BlocProvider.of<SuppliersCubit>(context).getAllSuppliersCubit();
+          MotionToast.success(
+            position: MotionToastPosition.top,
+            iconSize: 30.w,
+            width: 500.w,
+            height: 80.h,
+            description: Row(
+              children: [
+                Text(
+                  "delete supplier successfully".tr(),
+                  style: TextStyles.font14BlackSemiBold,
+                ),
+                Text(
+                  '',
+                  style: TextStyles.font14RedMedium,
+                ),
+              ],
+            ),
+          ).show(context);
+          context.pop();
+        } else if (state is DeleteSuppliersError) {
+          context.pop();
+          MotionToast.error(
+            width: 390.w,
+            position: MotionToastPosition.top,
+            iconSize: 30.w,
+            height: 70.h,
+            description: Text(
+              "error deleting supplier ".tr(),
+              style: TextStyles.font14BlackSemiBold,
+            ),
+          ).show(context);
+        }
+      },
+      child: const SizedBox.shrink(),
+    );
+  }
+}

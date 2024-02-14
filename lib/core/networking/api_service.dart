@@ -219,7 +219,8 @@ class ApiService {
   }
 
   Future<void> addNewCategories(
-      {required String token, required AddCategoriesModel addCategoriesModel}) async {
+      {required String token,
+      required AddCategoriesModel addCategoriesModel}) async {
     var headers = {
       'Content-Type': 'application/json',
       'Authorization': 'Bearer $token',
@@ -229,6 +230,24 @@ class ApiService {
         data: addCategoriesModel,
         options: Options(
           method: 'POST',
+          headers: headers,
+        ));
+  }
+
+  Future<void> editCategories(
+      {required String token,
+      required String categoryId,
+      required AddCategoriesModel editCategoriesName}) async {
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+
+    await _dio.request(
+        '${ApiConstants.apiBaseUrl}${ApiConstants.allCategoriesUrl}/$categoryId',
+        data: editCategoriesName,
+        options: Options(
+          method: 'PATCH',
           headers: headers,
         ));
   }

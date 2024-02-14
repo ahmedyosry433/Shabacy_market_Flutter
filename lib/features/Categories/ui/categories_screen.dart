@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:motion_toast/motion_toast.dart';
 import '../../../core/helper/extensions.dart';
 import '../../../core/widgets/app_custom_appbar.dart';
 import 'widget/set_Categories_table.dart';
@@ -42,22 +43,9 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
             profileStyle: TextStyles.font11BlackSemiBold.copyWith(fontSize: 0),
           ),
           buildAddNewCategoriesAndTextButton(),
-          BlocBuilder<CategoriesCubit, CategoriesState>(
-            builder: (context, state) {
-              if (state is CategoriesLoading) {
-                return Padding(
-                    padding: EdgeInsets.only(top: 250.h),
-                    child: const Center(
-                      child: CircularProgressIndicator(),
-                    ));
-              } else if (state is CategoriesLoaded) {
-                return buildUsersTable(source: data);
-              } else if (state is CategoriesError) {
-                return Text(state.message);
-              }
-              return const SizedBox.shrink();
-            },
-          )
+          buildAddNewCategoriesLisenerBloc(),
+          buildTableBloc(data: data),
+          buildEditCategorieListenersBloc(),
         ],
       )),
     );
@@ -175,14 +163,132 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
     );
   }
 
+  Widget buildTableBloc({required DataTableSource data}) {
+    return BlocBuilder<CategoriesCubit, CategoriesState>(
+      builder: (context, state) {
+        if (state is CategoriesLoading) {
+          return Padding(
+              padding: EdgeInsets.only(top: 250.h),
+              child: const Center(
+                child: CircularProgressIndicator(),
+              ));
+        } else if (state is CategoriesLoaded) {
+          return buildUsersTable(source: data);
+        } else if (state is CategoriesError) {
+          return Text(state.message);
+        }
+        return const SizedBox.shrink();
+      },
+    );
+  }
+
+  Widget buildEditCategorieListenersBloc() {
+    return BlocListener<CategoriesCubit, CategoriesState>(
+      listenWhen: (previous, current) {
+        return previous != current;
+      },
+      listener: (context, state) {
+        if (state is EditCategoryLoading) {
+          showProgressIndecator(context);
+        } else if (state is EditCategoryLoaded) {
+          Navigator.of(context).pop();
+          MotionToast.success(
+            width: 390.w,
+            position: MotionToastPosition.top,
+            iconSize: 30.w,
+            height: 70.h,
+            description: Text(
+              "edit category successfully".tr(),
+              style: TextStyles.font14BlackSemiBold,
+            ),
+          ).show(context);
+          BlocProvider.of<CategoriesCubit>(context).getAllCategoriesCubit();
+          Navigator.of(context).pop();
+        } else if (state is EditCategoryError) {
+          Navigator.of(context).pop();
+
+          MotionToast.error(
+            width: 390.w,
+            position: MotionToastPosition.top,
+            iconSize: 30.w,
+            height: 70.h,
+            description: Text(
+              "error updating category".tr(),
+              style: TextStyles.font14BlackSemiBold,
+            ),
+          ).show(context);
+          BlocProvider.of<CategoriesCubit>(context).getAllCategoriesCubit();
+        }
+      },
+      child: const SizedBox.shrink(),
+    );
+  }
+
+  Widget buildAddNewCategoriesLisenerBloc() {
+    return BlocListener<CategoriesCubit, CategoriesState>(
+      listenWhen: (previous, current) {
+        return previous != current;
+      },
+      listener: (context, state) {
+        if (state is AddCategoryLoading) {
+          showProgressIndecator(context);
+        } else if (state is AddCategoryLoaded) {
+          context.pop();
+          BlocProvider.of<CategoriesCubit>(context).getAllCategoriesCubit();
+          MotionToast.success(
+            width: 390.w,
+            position: MotionToastPosition.top,
+            iconSize: 30.w,
+            height: 70.h,
+            description: Text(
+              "add category successfully".tr(),
+              style: TextStyles.font14BlackSemiBold,
+            ),
+          ).show(context);
+          context.pop();
+        } else if (state is AddCategoryError) {
+          context.pop();
+
+          MotionToast.error(
+            width: 390.w,
+            position: MotionToastPosition.top,
+            iconSize: 30.w,
+            height: 70.h,
+            description: Text(
+              "error adding category".tr(),
+              style: TextStyles.font14BlackSemiBold,
+            ),
+          ).show(context);
+        }
+      },
+      child: const SizedBox.shrink(),
+    );
+  }
+
+  Widget showProgressIndecator(BuildContext context) {
+    AlertDialog alertDialog = const AlertDialog(
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      content: Center(
+        child: CircularProgressIndicator(
+          color: ColorsManager.black,
+          valueColor: AlwaysStoppedAnimation<Color>(ColorsManager.black),
+        ),
+      ),
+    );
+    showDialog(
+        barrierColor: Colors.white.withOpacity(0),
+        context: context,
+        builder: (BuildContext context) => alertDialog);
+    return alertDialog;
+  }
+
   saveCategories() {
     if (BlocProvider.of<CategoriesCubit>(context)
         .addCategriesFormKey
         .currentState!
         .validate()) {
       BlocProvider.of<CategoriesCubit>(context).addNewCategoriesCubit();
-      BlocProvider.of<CategoriesCubit>(context).getAllCategoriesCubit();
-      context.pop();
     }
   }
 }

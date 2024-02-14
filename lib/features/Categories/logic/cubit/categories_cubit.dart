@@ -17,6 +17,7 @@ class CategoriesCubit extends Cubit<CategoriesState> {
 
   List<CategoriesModel> categoriesList = [];
   TextEditingController addCategriesNameController = TextEditingController();
+  TextEditingController editCategriesNameController = TextEditingController();
   GlobalKey<FormState> addCategriesFormKey = GlobalKey<FormState>();
   void getAllCategoriesCubit() async {
     emit(CategoriesLoading());
@@ -33,15 +34,33 @@ class CategoriesCubit extends Cubit<CategoriesState> {
   }
 
   void addNewCategoriesCubit() async {
+    emit(AddCategoryLoading());
     try {
       String token = await SharedPreferencesHelper.getValueForKey('token');
       await categoriesRepo.addNewCategoriesCubit(
           token: token,
           addCategoriesModel:
               AddCategoriesModel(name: addCategriesNameController.text));
-      emit(CategoriesLoaded());
+      emit(AddCategoryLoaded());
+      addCategriesNameController.clear();
     } catch (e) {
-      emit(CategoriesError(message: e.toString()));
+      emit(AddCategoryError(e.toString()));
+    }
+  }
+
+  void editCategoriesCubit({required String categoryId}) async {
+    emit(EditCategoryLoading());
+    try {
+      String token = await SharedPreferencesHelper.getValueForKey('token');
+      await categoriesRepo.editCategoriesCubit(
+          token: token,
+          editCategoriesName:
+              AddCategoriesModel(name: editCategriesNameController.text),
+          categoryId: categoryId);
+      emit(EditCategoryLoaded());
+      addCategriesNameController.clear();
+    } catch (e) {
+      emit(EditCategoryError(e.toString()));
     }
   }
 }

@@ -9,7 +9,6 @@ import 'package:shabacy_market/features/Users/logic/cubit/users_cubit.dart';
 import '../../../../core/helper/shared_preferences_helper.dart';
 import '../../../Users/data/model/user_model.dart';
 
-
 part 'suppliers_state.dart';
 
 class SuppliersCubit extends Cubit<SuppliersState> {
@@ -80,7 +79,7 @@ class SuppliersCubit extends Cubit<SuppliersState> {
       emit(AddSuppliersLoaded());
       nameController.clear();
       phoneController.clear();
-      dropdownValue = '';
+      dropdownValue = null;
     } catch (e) {
       emit(AddSuppliersError(e.toString()));
     }
@@ -99,7 +98,7 @@ class SuppliersCubit extends Cubit<SuppliersState> {
     }
   }
 
- void editeSupplierCubit(
+  void editeSupplierCubit(
       {required String suppliersId, required String adminId}) async {
     emit(EditSuppliersLoading());
     try {
@@ -110,6 +109,9 @@ class SuppliersCubit extends Cubit<SuppliersState> {
               editNameController.text, editPhoneController.text, adminId));
 
       emit(EditSuppliersLoaded());
+      editNameController.clear();
+      editPhoneController.clear();
+      dropdownEditValue = null;
     } catch (error) {
       emit(EditSuppliersError(error.toString()));
     }

@@ -6,7 +6,8 @@ class SuppliersModel {
   final int deposits;
   final int debit;
 
-  final String delegate;
+  final String adminName;
+  final String adminId;
 
   SuppliersModel(
     this.id,
@@ -15,7 +16,8 @@ class SuppliersModel {
     this.credit,
     this.deposits,
     this.debit,
-    this.delegate,
+    this.adminName,
+    this.adminId,
   );
 
   factory SuppliersModel.fromJson(Map<String, dynamic> json) {
@@ -27,6 +29,7 @@ class SuppliersModel {
       json['deposits'],
       json['debit'],
       json['admin']['name'],
+      json['admin']['id'],
     );
   }
 
@@ -38,7 +41,8 @@ class SuppliersModel {
       'credit': credit,
       'deposits': deposits,
       'debit': debit,
-      'delegate': delegate
+      'delegate': adminName,
+      'admin': adminId,
     };
   }
 }

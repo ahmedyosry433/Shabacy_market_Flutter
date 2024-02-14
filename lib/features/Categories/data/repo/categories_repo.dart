@@ -20,4 +20,14 @@ class CategoriesRepo {
     await apiService.addNewCategories(
         token: token, addCategoriesModel: addCategoriesModel);
   }
+
+  Future<void> editCategoriesCubit(
+      {required String token,
+      required AddCategoriesModel editCategoriesName,
+      required String categoryId}) async {
+    await apiService.editCategories(
+        token: token,
+        editCategoriesName: editCategoriesName,
+        categoryId: categoryId);
+  }
 }

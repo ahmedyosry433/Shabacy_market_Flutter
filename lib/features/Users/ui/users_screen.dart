@@ -46,7 +46,7 @@ class _UsersScreenState extends State<UsersScreen> {
                   TextStyles.font11BlackSemiBold.copyWith(fontSize: 0),
             ),
             buildAddNewUserAndTextButton(),
-            buildUsersBloc(),
+            buildAddNewUsersLisenerBloc(),
             BlocBuilder<UsersCubit, UsersState>(
               builder: (context, state) {
                 if (state is UsersLoading) {
@@ -266,7 +266,7 @@ class _UsersScreenState extends State<UsersScreen> {
     );
   }
 
-  Widget buildUsersBloc() {
+  Widget buildAddNewUsersLisenerBloc() {
     return BlocListener<UsersCubit, UsersState>(
       listenWhen: (previous, current) {
         return previous != current;
@@ -418,17 +418,6 @@ class _UsersScreenState extends State<UsersScreen> {
             height: 70.h,
             description: Text(
               "error deleting user ".tr(),
-              style: TextStyles.font14BlackSemiBold,
-            ),
-          ).show(context);
-
-          MotionToast.error(
-            width: 390.w,
-            position: MotionToastPosition.top,
-            iconSize: 30.w,
-            height: 70.h,
-            description: Text(
-              "error editing user ".tr(),
               style: TextStyles.font14BlackSemiBold,
             ),
           ).show(context);

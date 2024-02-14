@@ -17,7 +17,6 @@ import '../../../../core/widgets/app_text_button.dart';
 import '../../../../core/widgets/app_text_form_field.dart';
 import '../../../../core/widgets/app_text_form_field_with_hint.dart';
 
-
 class SuppliersEditAndDeleteButton extends StatefulWidget {
   SuppliersEditAndDeleteButton({required this.supplierModel, super.key});
   SuppliersModel supplierModel;
@@ -35,6 +34,15 @@ class _SuppliersEditAndDeleteButtonState
       children: [
         GestureDetector(
             onTap: () {
+              setState(() {
+                context.read<SuppliersCubit>().editNameController.text =
+                    widget.supplierModel.name;
+                context.read<SuppliersCubit>().editPhoneController.text =
+                    widget.supplierModel.mobile;
+
+                context.read<SuppliersCubit>().dropdownEditValue =
+                    widget.supplierModel.adminId.toString();
+              });
               showModalBottomSheet(
                   context: context,
                   builder: (_) => SizedBox(
@@ -82,11 +90,7 @@ class _SuppliersEditAndDeleteButtonState
                         ),
                         TextButton(
                           onPressed: () {
-                            context.read<SuppliersCubit>().deleteSupplierCubit(
-                                suppliersId: widget.supplierModel.id);
-                            BlocProvider.of<SuppliersCubit>(context)
-                                .getAllSuppliersCubit();
-                            context.pop();
+                            deleteSuppliers();
                           },
                           child: Text(
                             'yes'.tr(),
@@ -158,6 +162,7 @@ class _SuppliersEditAndDeleteButtonState
                       EdgeInsets.symmetric(vertical: 9.h, horizontal: 10.w),
                   onChanged: (value) {
                     setState(() {
+                      print("_________VALUE __________$value");
                       context.read<SuppliersCubit>().dropdownEditValue = value;
                     });
                   },
@@ -204,7 +209,7 @@ class _SuppliersEditAndDeleteButtonState
     );
   }
 
-  editSuppliers() {
+  void editSuppliers() {
     if (BlocProvider.of<SuppliersCubit>(context)
         .editSupplierFormKey
         .currentState!
@@ -216,10 +221,12 @@ class _SuppliersEditAndDeleteButtonState
       BlocProvider.of<SuppliersCubit>(context).editeSupplierCubit(
           suppliersId: widget.supplierModel.id,
           adminId: context.read<SuppliersCubit>().dropdownEditValue);
-
-      BlocProvider.of<SuppliersCubit>(context).getAllSuppliersCubit();
-
-      context.pop();
     }
+  }
+
+  void deleteSuppliers() {
+    context
+        .read<SuppliersCubit>()
+        .deleteSupplierCubit(suppliersId: widget.supplierModel.id);
   }
 }

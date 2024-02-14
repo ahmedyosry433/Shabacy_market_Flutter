@@ -2,9 +2,11 @@
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shabacy_market/core/helper/extensions.dart';
 import 'package:shabacy_market/features/Categories/data/model/categories_model.dart';
+import 'package:shabacy_market/features/Categories/logic/cubit/categories_cubit.dart';
 
 import '../../../../core/helper/spacing.dart';
 import '../../../../core/theme/colors.dart';
@@ -23,11 +25,21 @@ class EditCategoriesButton extends StatefulWidget {
 
 class _EditCategoriesButtonState extends State<EditCategoriesButton> {
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Row(
       children: [
         GestureDetector(
             onTap: () {
+              setState(() {
+                BlocProvider.of<CategoriesCubit>(context)
+                    .editCategriesNameController
+                    .text = widget.categories.name;
+              });
               showModalBottomSheet(
                   context: context,
                   builder: (_) => SizedBox(
@@ -46,6 +58,10 @@ class _EditCategoriesButtonState extends State<EditCategoriesButton> {
                                   AppTextFormFieldWithTopHint(
                                     topHintText: 'categoryName'.tr(),
                                     appTextFormField: AppTextFormField(
+                                      controller:
+                                          BlocProvider.of<CategoriesCubit>(
+                                                  context)
+                                              .editCategriesNameController,
                                       contentPadding: EdgeInsets.symmetric(
                                           vertical: 9.h, horizontal: 10.w),
                                       hintText: 'enterCategoryName'.tr(),
@@ -100,5 +116,8 @@ class _EditCategoriesButtonState extends State<EditCategoriesButton> {
     );
   }
 
-  editCategoryubmit() {}
+  editCategoryubmit() {
+    BlocProvider.of<CategoriesCubit>(context)
+        .editCategoriesCubit(categoryId: widget.categories.id);
+  }
 }

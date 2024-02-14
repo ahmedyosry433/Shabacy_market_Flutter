@@ -31,6 +31,16 @@ class _EditiAndDeleteUsersButtonState extends State<EditiAndDeleteUsersButton> {
       children: [
         GestureDetector(
             onTap: () {
+              setState(() {
+                BlocProvider.of<UsersCubit>(context).editNameController.text =
+                    widget.user.name;
+
+                BlocProvider.of<UsersCubit>(context).editEmailController.text =
+                    widget.user.email;
+                BlocProvider.of<UsersCubit>(context).editDropdownValue =
+                    widget.user.role;
+              });
+
               showModalBottomSheet(
                   context: context,
                   builder: (_) => SizedBox(
@@ -83,25 +93,6 @@ class _EditiAndDeleteUsersButtonState extends State<EditiAndDeleteUsersButton> {
                                         }
                                       },
                                       keyboardType: TextInputType.emailAddress,
-                                    ),
-                                  ),
-                                  verticalSpace(10.h),
-                                  AppTextFormFieldWithTopHint(
-                                    topHintText: 'phone'.tr(),
-                                    appTextFormField: AppTextFormField(
-                                      controller:
-                                          BlocProvider.of<UsersCubit>(context)
-                                              .editPhoneController,
-                                      contentPadding: EdgeInsets.symmetric(
-                                          vertical: 9.h, horizontal: 10.w),
-                                      hintText: 'enterPhone'.tr(),
-                                      validator: (validator) {
-                                        if (validator!.isEmpty ||
-                                            validator.length < 10) {
-                                          return 'enterValidPhone'.tr();
-                                        }
-                                      },
-                                      keyboardType: TextInputType.phone,
                                     ),
                                   ),
                                   verticalSpace(10.h),
