@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:motion_toast/motion_toast.dart';
 import 'package:shabacy_market/core/helper/extensions.dart';
 import 'package:shabacy_market/core/helper/spacing.dart';
 import 'package:shabacy_market/core/widgets/app_text_form_field.dart';
@@ -95,16 +96,31 @@ class LoginScreen extends StatelessWidget {
         } else if (state is LoginSuccess) {
           context.pop();
           context.pushReplacementNamed(Routes.homeScreen);
+          MotionToast.success(
+            position: MotionToastPosition.top,
+            iconSize: 30.w,
+            height: 70.h,
+            animationCurve: Curves.easeOutExpo,
+            width: 390.w,
+            description: Text(
+              "login successfully".tr(),
+              style: TextStyles.font14BlackSemiBold,
+            ),
+          ).show(context);
         } else if (state is LoginError) {
           context.pop();
-          String errorMsg = (state).errorMsg.toString();
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(errorMsg),
-              backgroundColor: ColorsManager.black,
-              duration: const Duration(seconds: 3),
+
+          MotionToast.error(
+            
+            position: MotionToastPosition.top,
+            iconSize: 30.w,
+            height: 70.h,
+            animationCurve: Curves.easeOutExpo,
+            description: Text(
+              "Wrong email or password".tr(),
+              style: TextStyles.font11BlackSemiBold,
             ),
-          );
+          ).show(context);
         }
       },
       child: const SizedBox.shrink(),

@@ -7,6 +7,7 @@ import 'package:shabacy_market/core/networking/api_constants.dart';
 import 'package:shabacy_market/features/login/data/models/login_request.dart';
 import 'package:shabacy_market/features/login/data/models/login_response.dart';
 
+import '../../features/Categories/data/model/categories_model.dart';
 import '../../features/Users/data/model/user_model.dart';
 import '../../features/suppliers/data/models/suppliers_model.dart';
 import '../helper/shared_preferences_helper.dart';
@@ -191,6 +192,43 @@ class ApiService {
         data: editUserModel,
         options: Options(
           method: 'PATCH',
+          headers: headers,
+        ));
+  }
+
+  Future<List<CategoriesModel>> getAllCategories(
+      {required String token}) async {
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+    Response res = await _dio.request(
+        ApiConstants.apiBaseUrl + ApiConstants.allCategoriesUrl,
+        options: Options(
+          method: 'GET',
+          headers: headers,
+        ));
+    var data = res.data;
+    List<CategoriesModel> categoriesList = [];
+
+    for (var a in data) {
+      CategoriesModel allCategoriesObject = CategoriesModel.fromJson(a);
+      categoriesList.add(allCategoriesObject);
+    }
+    return categoriesList;
+  }
+
+  Future<void> addNewCategories(
+      {required String token, required AddCategoriesModel addCategoriesModel}) async {
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+
+    await _dio.request(ApiConstants.apiBaseUrl + ApiConstants.allCategoriesUrl,
+        data: addCategoriesModel,
+        options: Options(
+          method: 'POST',
           headers: headers,
         ));
   }

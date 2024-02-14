@@ -41,7 +41,11 @@ class HomeScreen extends StatelessWidget {
                     child: buildCart(
                         title: 'users', iconPath: 'assets/image/users.png'),
                   ),
-                  buildCart(title: 'items', iconPath: 'assets/image/items.png'),
+                  GestureDetector(
+                      onTap: () =>
+                          Navigator.pushNamed(context, Routes.categoriesScreen),
+                      child: buildCart(
+                          title: 'items', iconPath: 'assets/image/items.png')),
                   buildCart(
                       title: 'weeklyReport',
                       iconPath: 'assets/image/reports.png'),

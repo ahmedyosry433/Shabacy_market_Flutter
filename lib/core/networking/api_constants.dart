@@ -5,4 +5,5 @@ class ApiConstants {
   static const String allUsersUrl = 'auth';
   static const String allSuppliersUrl = 'users';
   static const String addUsersRegisterUrl = '/register';
+  static const String allCategoriesUrl = 'categories';
 }

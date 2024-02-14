@@ -1,10 +1,11 @@
-// ignore_for_file: unused_field, depend_on_referenced_packages, prefer_typing_uninitialized_variables
+// ignore_for_file: unused_field, depend_on_referenced_packages, prefer_typing_uninitialized_variables, unused_import
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:shabacy_market/features/Users/logic/cubit/users_cubit.dart';
 
 import '../../../../core/helper/shared_preferences_helper.dart';
-import '../../../Users/data/model/profile_model.dart';
+import '../../../Users/data/model/user_model.dart';
 import '../../data/models/suppliers_model.dart';
 import '../../data/repo/suppliers_repo.dart';
 
@@ -62,10 +63,8 @@ class SuppliersCubit extends Cubit<SuppliersState> {
     }
   }
 
-  
-
   void addNewSupplierCubit() async {
-    emit(SuppliersLoading());
+    emit(AddSuppliersLoading());
 
     try {
       _suppliersRepo.addNewSupplierRepo(
@@ -77,31 +76,31 @@ class SuppliersCubit extends Cubit<SuppliersState> {
         token: await SharedPreferencesHelper.getValueForKey('token'),
       );
 
-      emit(SuppliersLoaded());
+      emit(AddSuppliersLoaded());
       nameController.clear();
       phoneController.clear();
       dropdownValue = '';
     } catch (e) {
-      emit(SuppliersError(e.toString()));
+      emit(AddSuppliersError(e.toString()));
     }
   }
 
   void deleteSupplierCubit({required String suppliersId}) async {
-    emit(SuppliersLoading());
+    emit(DeleteSuppliersLoading());
     try {
       _suppliersRepo.deleteSupplierRepo(
         token: await SharedPreferencesHelper.getValueForKey('token'),
         suppliersId: suppliersId,
       );
-      emit(SuppliersLoaded());
+      emit(DeleteSuppliersLoaded());
     } catch (e) {
-      emit(SuppliersError(e.toString()));
+      emit(DeleteSuppliersError(e.toString()));
     }
   }
 
- 
-  editeSupplierCubit({required String suppliersId,required String adminId}) async {
-    emit(SuppliersLoading());
+ void editeSupplierCubit(
+      {required String suppliersId, required String adminId}) async {
+    emit(EditSuppliersLoading());
     try {
       await _suppliersRepo.editSupplierRepo(
           token: await SharedPreferencesHelper.getValueForKey('token'),
@@ -109,13 +108,9 @@ class SuppliersCubit extends Cubit<SuppliersState> {
           modifySuppliersModel: ModifySuppliersModel(
               editNameController.text, editPhoneController.text, adminId));
 
-      emit(SuppliersLoaded());
-      print('edited DONE______________________________________');
+      emit(EditSuppliersLoaded());
     } catch (error) {
-      print(
-          'ERORR ____________________________________________________________________$error');
-      emit(SuppliersError(error.toString()));
+      emit(EditSuppliersError(error.toString()));
     }
   }
-  
 }

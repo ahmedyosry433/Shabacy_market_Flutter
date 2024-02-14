@@ -24,9 +24,6 @@ class MyData extends DataTableSource {
         Text(_data[index].email.toString(), style: TextStyles.font14GrayMedium),
       ),
       DataCell(
-        Text(_data[index].toString(), style: TextStyles.font14GrayMedium),
-      ),
-      DataCell(
         Text(_data[index].role.tr().toString(),
             style: TextStyles.font14GrayMedium),
       ),

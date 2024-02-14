@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:shabacy_market/features/Categories/data/repo/categories_repo.dart';
+import 'package:shabacy_market/features/Categories/logic/cubit/categories_cubit.dart';
 import 'package:shabacy_market/features/Users/data/repo/users_repo.dart';
 import 'package:shabacy_market/features/Users/logic/cubit/users_cubit.dart';
 import 'package:shabacy_market/features/profile/data/repo/profile_repo.dart';
@@ -30,6 +32,9 @@ Future<void> setupGetit() async {
   //Users
   getIt.registerLazySingleton(() => UsersRepo(apiService: getIt()));
   getIt.registerFactory<UsersCubit>(() => UsersCubit(getIt()));
+  //Categories
+  getIt.registerLazySingleton(() => CategoriesRepo(apiService: getIt()));
+  getIt.registerFactory<CategoriesCubit>(() => CategoriesCubit( getIt()));
 
   // signup
 }

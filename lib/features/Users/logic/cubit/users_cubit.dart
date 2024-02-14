@@ -24,7 +24,7 @@ class UsersCubit extends Cubit<UsersState> {
   TextEditingController editNameController = TextEditingController();
   TextEditingController editEmailController = TextEditingController();
   TextEditingController editPhoneController = TextEditingController();
-   GlobalKey<FormState> addNewUserFormKey = GlobalKey<FormState>();
+  GlobalKey<FormState> addNewUserFormKey = GlobalKey<FormState>();
   GlobalKey<FormState> editUserFormKey = GlobalKey<FormState>();
 
   void getAllUsersCubit() async {
@@ -45,7 +45,7 @@ class UsersCubit extends Cubit<UsersState> {
   }
 
   void addUsersRegisterCubit() async {
-    emit(UsersLoading());
+    emit(AddUsersLoading());
     try {
       final String token =
           await SharedPreferencesHelper.getValueForKey('token');
@@ -54,25 +54,31 @@ class UsersCubit extends Cubit<UsersState> {
           addUsermodel: AddUserModel(nameController.text, emailController.text,
               dropdownValue, passwordController.text, phoneController.text));
 
-      emit(UsersLoaded());
+      emit(AddUsersLoaded());
+      nameController.clear();
+      emailController.clear();
+      phoneController.clear();
+      passwordController.clear();
+      dropdownValue = null;
     } catch (error) {
-      emit(UsersError(error.toString()));
+      emit(AddUsersError(error.toString()));
     }
   }
 
   void deleteUserCubit({required String userId}) async {
-    emit(UsersLoading());
+    emit(DeleteUsersLoading());
     try {
       final String token =
           await SharedPreferencesHelper.getValueForKey('token');
       await _usersRepo.deleteUserRepo(token: token, userId: userId);
+      emit(DeleteUsersLoaded());
     } catch (error) {
-      emit(UsersError(error.toString()));
+      emit(DeleteUsersError(error.toString()));
     }
   }
 
   void editUserCubit({required String userId}) async {
-    emit(UsersLoading());
+    emit(EditUsersLoading());
     try {
       final String token =
           await SharedPreferencesHelper.getValueForKey('token');
@@ -84,11 +90,9 @@ class UsersCubit extends Cubit<UsersState> {
               editEmailController.text,
               editDropdownValue,
               editPhoneController.text));
-
-     
+      emit(EditUsersLoaded());
     } catch (error) {
-      
-      emit(UsersError(error.toString()));
+      emit(EditUsersError(error.toString()));
     }
   }
 }

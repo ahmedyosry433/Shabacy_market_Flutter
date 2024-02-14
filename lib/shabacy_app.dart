@@ -19,7 +19,7 @@ class ShabacyApp extends StatefulWidget {
 class _ShabacyAppState extends State<ShabacyApp> {
   @override
   Widget build(BuildContext context) {
-    //TODO: ha3mlha walahi
+    
     var token = SharedPreferencesHelper.getValueForKey('token');
     return ScreenUtilInit(
       designSize: const Size(360, 690),

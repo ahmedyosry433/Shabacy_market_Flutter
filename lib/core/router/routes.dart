@@ -4,4 +4,5 @@ class Routes {
   static const String profileScreen = 'profileScreen';
   static const String suppliersScreen = 'suppliersScreen';
   static const String usersScreen = 'usersScreen';
+  static const String categoriesScreen = 'categoriesScreen';
 }

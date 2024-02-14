@@ -45,7 +45,7 @@ class _EditiAndDeleteUsersButtonState extends State<EditiAndDeleteUsersButton> {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text('addUser'.tr(),
+                                  Text('edite user'.tr(),
                                       style: TextStyles.font20BlackRegular),
                                   verticalSpace(10.h),
                                   AppTextFormFieldWithTopHint(
@@ -222,11 +222,7 @@ class _EditiAndDeleteUsersButtonState extends State<EditiAndDeleteUsersButton> {
                         ),
                         TextButton(
                           onPressed: () {
-                            context
-                                .read<UsersCubit>()
-                                .deleteUserCubit(userId: widget.user.id);
-                            context.read<UsersCubit>().getAllUsersCubit();
-                            context.pop();
+                            deleteUserSubmit();
                           },
                           child: Text(
                             'yes'.tr(),
@@ -242,15 +238,36 @@ class _EditiAndDeleteUsersButtonState extends State<EditiAndDeleteUsersButton> {
     );
   }
 
-  editUserSubmit() {
+  Widget showProgressIndecator(BuildContext context) {
+    AlertDialog alertDialog = const AlertDialog(
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      content: Center(
+        child: CircularProgressIndicator(
+          color: ColorsManager.black,
+          valueColor: AlwaysStoppedAnimation<Color>(ColorsManager.black),
+        ),
+      ),
+    );
+    showDialog(
+        barrierColor: Colors.white.withOpacity(0),
+        context: context,
+        builder: (BuildContext context) => alertDialog);
+    return alertDialog;
+  }
+
+  void editUserSubmit() {
     if (BlocProvider.of<UsersCubit>(context)
         .editUserFormKey
         .currentState!
         .validate()) {
       BlocProvider.of<UsersCubit>(context).editUserFormKey.currentState!.save();
-      context.read<UsersCubit>().editUserCubit(userId: widget.user.id);
-      context.read<UsersCubit>().getAllUsersCubit();
-      context.pop();
+      BlocProvider.of<UsersCubit>(context)
+          .editUserCubit(userId: widget.user.id);
     }
+  }
+
+  void deleteUserSubmit() {
+    context.read<UsersCubit>().deleteUserCubit(userId: widget.user.id);
   }
 }

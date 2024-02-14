@@ -45,7 +45,39 @@
     "usersList": "قائمة المستخدمين" ,
     "addUser": "إضافة مستخدم جديد",
     "typeOfUser": "الوظيفة",
-    "selectTypeOfUser": "اختر نوع الوظيفة"
+    "selectTypeOfUser": "اختر نوع الوظيفة",
+    "categoryName": "اسم الصنف",
+    "categoriesList": "قائمة الاصناف",
+    "addNewCategory": "اضافة صنف جديد",
+    "enterCategoryName": "ادخل اسم الصنف",
+    "editCategory": "تعديل الصنف",
+    
+    "enterVaildCategoryName": "اسم الصنف غير صالح",
+    "Wrong email or password": "خطأ في البريد الالكتروني او كلمة المرور",
+    "login successfully": "تم تسجيل الدخول بنجاح",
+    "add user successfully": "تم اضافة المستخدم بنجاح",
+    "error adding user": "خطأ في اضافة المستخدم",
+    "error updating user": "خطأ في تعديل المستخدم",
+    "error deleting user": "خطأ في حذف المستخدم",
+        "edite user": "تعديل المستخدم",
+    "edit user successfully": "تم تعديل المستخدم بنجاح",
+    "delete user successfully": "تم حذف المستخدم بنجاح",
+    "error deleting category": "خطأ في حذف الصنف",
+    "error updating category": "خطأ في تعديل الصنف",
+    "error adding category": "خطأ في اضافة الصنف",
+
+    "add category successfully": "تم اضافة الصنف بنجاح",
+    "edit category successfully": "تم تعديل الصنف بنجاح",
+    "delete category successfully": "تم حذف الصنف بنجاح",
+
+    "error adding supplier": "خطأ في اضافة المورد",
+    "error updating supplier": "خطأ في تعديل المورد",
+    "error deleting supplier": "خطأ في حذف المورد",
+    "add supplier successfully": "تم اضافة المورد بنجاح",
+    "edit supplier successfully": "تم تعديل المورد بنجاح",
+    "delete supplier successfully": "تم حذف المورد بنجاح"
+
+    
    
    
 
