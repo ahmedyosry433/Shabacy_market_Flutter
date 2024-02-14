@@ -12,7 +12,7 @@ class LoginRepo {
 
   Future<LoginResponse> loginUser(LoginRequest loginRequest) async {
    
-    final response = await apiService.login(loginRequest);
+    var response = await apiService.login(loginRequest);
    
     return response;
   }
