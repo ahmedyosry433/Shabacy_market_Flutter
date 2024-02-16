@@ -1,6 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:shabacy_market/features/Home/data/repo/home_repo.dart';
+import 'package:shabacy_market/features/Home/logic/cubit/home_cubit.dart';
 import 'package:shabacy_market/features/Suppliers/data/repo/suppliers_repo.dart';
+import 'package:shabacy_market/features/WeeklyReport/data/repo/weekly_report_repo.dart';
+import 'package:shabacy_market/features/WeeklyReport/logic/cubit/weekly_report_cubit.dart';
 
 import '../../features/Categories/data/repo/categories_repo.dart';
 import '../../features/Categories/logic/cubit/categories_cubit.dart';
@@ -36,6 +40,12 @@ Future<void> setupGetit() async {
   //Categories
   getIt.registerLazySingleton(() => CategoriesRepo(apiService: getIt()));
   getIt.registerFactory<CategoriesCubit>(() => CategoriesCubit(getIt()));
+  //HomeScreen
+  getIt.registerLazySingleton(() => HomeRepo(apiService: getIt()));
+  getIt.registerFactory<HomeCubit>(() => HomeCubit(getIt()));
+  //Weekly Report Screen
+  getIt.registerLazySingleton(() => WeeklyReportRepo(apiService: getIt()));
+  getIt.registerFactory<WeeklyReportCubit>(() => WeeklyReportCubit(getIt()));
 
   // signup
 }

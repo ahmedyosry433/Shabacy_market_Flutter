@@ -1,14 +1,27 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shabacy_market/features/Home/logic/cubit/home_cubit.dart';
 import '../../../core/theme/colors.dart';
 import '../../../core/widgets/app_custom_appbar.dart';
 
 import '../../../core/router/routes.dart';
 import '../../../core/theme/style.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<HomeCubit>().getCurrentUser();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,37 +34,69 @@ class HomeScreen extends StatelessWidget {
             AppCustomAppbar(
               homeStyle: TextStyles.font11BlackSemiBold.copyWith(fontSize: 0),
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.w),
-              child: Column(
-                children: [
-                  GestureDetector(
-                    onTap: () =>
-                        Navigator.pushNamed(context, Routes.suppliersScreen),
-                    child: buildCart(
-                        title: 'suppliers',
-                        iconPath: 'assets/image/suppliers.png'),
-                  ),
-                  buildCart(
-                      title: 'DailyPurchases',
-                      iconPath: 'assets/image/purchasing.png'),
-                  GestureDetector(
-                    onTap: () =>
-                        Navigator.pushNamed(context, Routes.usersScreen),
-                    child: buildCart(
-                        title: 'users', iconPath: 'assets/image/users.png'),
-                  ),
-                  GestureDetector(
-                      onTap: () =>
-                          Navigator.pushNamed(context, Routes.categoriesScreen),
-                      child: buildCart(
-                          title: 'items', iconPath: 'assets/image/items.png')),
-                  buildCart(
-                      title: 'weeklyReport',
-                      iconPath: 'assets/image/reports.png'),
-                ],
-              ),
-            )
+            BlocBuilder<HomeCubit, HomeState>(
+              builder: (context, state) {
+                if (state is HomeLoading) {
+                  return Padding(
+                    padding: EdgeInsets.only(top: 250.h),
+                    child: const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  );
+                } else if (state is HomeLoaded) {
+                  return Padding(
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.w),
+                    child: Column(
+                      children: [
+                        GestureDetector(
+                          onTap: () => Navigator.pushNamed(
+                              context, Routes.suppliersScreen),
+                          child: buildCart(
+                              title: 'suppliers',
+                              iconPath: 'assets/image/suppliers.png'),
+                        ),
+                        buildCart(
+                            title: 'DailyPurchases',
+                            iconPath: 'assets/image/purchasing.png'),
+                        state.currentUser.role == 'SUPER_ADMIN' ||
+                                state.currentUser.role == 'ADMIN'
+                            ? GestureDetector(
+                                onTap: () => Navigator.pushNamed(
+                                    context, Routes.usersScreen),
+                                child: buildCart(
+                                    title: 'users',
+                                    iconPath: 'assets/image/users.png'),
+                              )
+                            : const SizedBox.shrink(),
+                        state.currentUser.role == 'SUPER_ADMIN' ||
+                                state.currentUser.role == 'ADMIN'
+                            ? GestureDetector(
+                                onTap: () => Navigator.pushNamed(
+                                    context, Routes.categoriesScreen),
+                                child: buildCart(
+                                    title: 'items',
+                                    iconPath: 'assets/image/items.png'))
+                            : const SizedBox.shrink(),
+                        state.currentUser.role == 'SUPER_ADMIN' ||
+                                state.currentUser.role == 'ADMIN'
+                            ? GestureDetector(
+                                onTap: () => Navigator.pushNamed(
+                                    context, Routes.weeklyReportScreen),
+                                child: buildCart(
+                                    title: 'weeklyReport',
+                                    iconPath: 'assets/image/reports.png'),
+                              )
+                            : const SizedBox.shrink(),
+                      ],
+                    ),
+                  );
+                } else if (state is HomeError) {
+                  return Text(state.errorMsg);
+                }
+                return const SizedBox.shrink();
+              },
+            ),
           ],
         ),
       ),

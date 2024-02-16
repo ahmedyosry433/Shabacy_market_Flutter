@@ -12,7 +12,7 @@ part 'profile_state.dart';
 class ProfileCubit extends Cubit<ProfileState> {
   final ProfileRepo _ProfileRepo;
   ProfileCubit(this._ProfileRepo) : super(ProfileInitial());
-  late UserModel currentUser;
+
   void getUserProfile() async {
     emit(ProfileLoading());
     try {
@@ -20,7 +20,7 @@ class ProfileCubit extends Cubit<ProfileState> {
           await SharedPreferencesHelper.getValueForKey('token');
 
       final response = await _ProfileRepo.getUserProfileRepo(token: token);
-      currentUser = response;
+
       emit(ProfileLoaded(userProfile: response));
     } catch (e) {
       emit(ProfileError(errorMsg: e.toString()));

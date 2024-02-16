@@ -162,7 +162,6 @@ class _SuppliersEditAndDeleteButtonState
                       EdgeInsets.symmetric(vertical: 9.h, horizontal: 10.w),
                   onChanged: (value) {
                     setState(() {
-                      print("_________VALUE __________$value");
                       context.read<SuppliersCubit>().dropdownEditValue = value;
                     });
                   },

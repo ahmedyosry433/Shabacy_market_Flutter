@@ -19,8 +19,6 @@ class ShabacyApp extends StatefulWidget {
 class _ShabacyAppState extends State<ShabacyApp> {
   @override
   Widget build(BuildContext context) {
-    
-    var token = SharedPreferencesHelper.getValueForKey('token');
     return ScreenUtilInit(
       designSize: const Size(360, 690),
       minTextAdapt: true,
@@ -32,7 +30,9 @@ class _ShabacyAppState extends State<ShabacyApp> {
         localizationsDelegates: context.localizationDelegates,
         supportedLocales: context.supportedLocales,
         debugShowCheckedModeBanner: false,
-        initialRoute: token != null ? Routes.loginScreen : Routes.homeScreen,
+        initialRoute: SharedPreferencesHelper.token == null
+            ? Routes.loginScreen
+            : Routes.homeScreen,
         onGenerateRoute: widget.appRouter.onGenerateRoute,
       ),
     );

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shabacy_market/features/WeeklyReport/logic/cubit/weekly_report_cubit.dart';
+import 'package:shabacy_market/features/WeeklyReport/ui/weekly_report_screen.dart';
+import '../../features/Home/logic/cubit/home_cubit.dart';
 import '../dj/dependency_injection.dart';
 import 'routes.dart';
 import '../../features/Categories/logic/cubit/categories_cubit.dart';
@@ -12,7 +15,7 @@ import '../../features/Profile/logic/cubit/profile_cubit.dart';
 import '../../features/Suppliers/logic/cubit/suppliers_cubit.dart';
 
 import '../../features/Login/ui/login_screen.dart';
-import '../../features/profile/ui/profile_screen.dart';
+import '../../features/Profile/ui/profile_screen.dart';
 import '../../features/Suppliers/ui/suppliers_screen.dart';
 
 class AppRouter {
@@ -36,7 +39,10 @@ class AppRouter {
 
       case Routes.homeScreen:
         return MaterialPageRoute(
-          builder: (_) => const HomeScreen(),
+          builder: (_) => BlocProvider(
+            create: (context) => getIt<HomeCubit>(),
+            child: const HomeScreen(),
+          ),
         );
 
       case Routes.suppliersScreen:
@@ -60,6 +66,13 @@ class AppRouter {
           builder: (_) => BlocProvider(
             create: (context) => getIt<CategoriesCubit>(),
             child: const CategoriesScreen(),
+          ),
+        );
+      case Routes.weeklyReportScreen:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => getIt<WeeklyReportCubit>(),
+            child: const WeeklyReportScreen(),
           ),
         );
 

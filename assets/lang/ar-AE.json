@@ -75,7 +75,35 @@
     "error deleting supplier": "خطأ في حذف المورد",
     "add supplier successfully": "تم اضافة المورد بنجاح",
     "edit supplier successfully": "تم تعديل المورد بنجاح",
-    "delete supplier successfully": "تم حذف المورد بنجاح"
+    "delete supplier successfully": "تم حذف المورد بنجاح",
+    "total price": "السعر الكلي",
+    "paid": "المدفوع",
+    "quantity": "الكمية",
+    "remaining": "المتبقي",
+    "saturday" : "السبت",
+    "sunday" :  "الاحد",
+    "monday" :  "الاثنين",
+    "tuesday" : "الثلاثاء",
+    "wednesday" : "الاربعاء",
+    "thursday" : "الخميس",
+    "friday" : "الجمعة",
+    "EG": "جنية",
+    "total purchases": "إجمالي المشتريات",
+    "remain":"الباقى",
+    "file export": "تصدير الملف",
+    "Sat": "السبت",
+    "Sun": "الاحد",
+    "Mon": "الاثنين",
+    "Tue": "الثلاثاء",
+    "Wed": "الاربعاء",
+    "Thu": "الخميس",
+    "Fri": "الجمعة"
+
+
+
+
+   
+    
 
     
    

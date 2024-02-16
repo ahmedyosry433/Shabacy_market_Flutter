@@ -1,8 +1,10 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferencesHelper {
+  static String token = '';
   static dynamic getValueForKey(String key) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    token = prefs.get('token').toString();
 
     return prefs.get(key);
   }

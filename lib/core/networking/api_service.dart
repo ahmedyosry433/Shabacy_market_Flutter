@@ -10,6 +10,7 @@ import 'package:shabacy_market/features/Login/data/models/login_response.dart';
 import '../../features/Categories/data/model/categories_model.dart';
 import '../../features/Users/data/model/user_model.dart';
 import '../../features/Suppliers/data/models/suppliers_model.dart';
+import '../../features/WeeklyReport/data/model/weekly_report_model.dart';
 import '../helper/shared_preferences_helper.dart';
 
 class ApiService {
@@ -250,5 +251,30 @@ class ApiService {
           method: 'PATCH',
           headers: headers,
         ));
+  }
+
+  Future<AllReportData> getAllWeeklyReports(
+      {required String token,
+      required StartAndEndDateModel startAndEndDateModel}) async {
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+
+    Response response = await _dio.request(
+        ApiConstants.apiBaseUrl +
+            ApiConstants.startDateReportUrl +
+            startAndEndDateModel.startDate +
+            ApiConstants.endDateReportUrl +
+            startAndEndDateModel.endDate,
+        data: startAndEndDateModel,
+        options: Options(
+          method: 'GET',
+          headers: headers,
+        ));
+
+    var data = response.data;
+
+    return AllReportData.fromJson(data);
   }
 }

@@ -5,4 +5,5 @@ class Routes {
   static const String suppliersScreen = 'suppliersScreen';
   static const String usersScreen = 'usersScreen';
   static const String categoriesScreen = 'categoriesScreen';
+  static const String weeklyReportScreen = 'weeklyReportScreen';
 }
