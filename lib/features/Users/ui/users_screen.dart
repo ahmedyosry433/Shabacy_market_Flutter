@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:motion_toast/motion_toast.dart';
+import 'package:shabacy_market/core/widgets/app_coustom_loading_indecator.dart';
 import '../../../core/helper/extensions.dart';
 import '../../../core/widgets/app_custom_appbar.dart';
 import '../logic/cubit/users_cubit.dart';
@@ -38,36 +39,37 @@ class _UsersScreenState extends State<UsersScreen> {
     );
     return Scaffold(
       backgroundColor: ColorsManager.backGroundColor,
-      body: SafeArea(
+      body: SingleChildScrollView(
         child: Column(
           children: [
             AppCustomAppbar(
               profileStyle:
                   TextStyles.font11BlackSemiBold.copyWith(fontSize: 0),
             ),
-            buildAddNewUserAndTextButton(),
-            buildAddNewUsersLisenerBloc(),
-            BlocBuilder<UsersCubit, UsersState>(
-              builder: (context, state) {
-                if (state is UsersLoading) {
-                  return Padding(
-                    padding: EdgeInsets.only(top: 250.h),
-                    child: const Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  );
-                } else if (state is UsersLoaded) {
-                  return buildUsersTable(source: data);
-                } else if (state is UsersError) {
-                  return Center(
-                    child: Text(state.message),
-                  );
-                }
-                return const SizedBox.shrink();
-              },
+            SingleChildScrollView(
+              child: Column(
+                children: [
+                  buildAddNewUserAndTextButton(),
+                  buildAddNewUsersLisenerBloc(),
+                  BlocBuilder<UsersCubit, UsersState>(
+                    builder: (context, state) {
+                      if (state is UsersLoading) {
+                        return const AppCustomLoadingIndecator();
+                      } else if (state is UsersLoaded) {
+                        return buildUsersTable(source: data);
+                      } else if (state is UsersError) {
+                        return Center(
+                          child: Text(state.message),
+                        );
+                      }
+                      return const SizedBox.shrink();
+                    },
+                  ),
+                  buildEditUsersBlocListener(),
+                  buildDeleteUsersBlocListener(),
+                ],
+              ),
             ),
-            buildEditUsersBloc(),
-            buildDeleteUsersBloc(),
           ],
         ),
       ),
@@ -311,12 +313,7 @@ class _UsersScreenState extends State<UsersScreen> {
     AlertDialog alertDialog = const AlertDialog(
       backgroundColor: Colors.transparent,
       elevation: 0,
-      content: Center(
-        child: CircularProgressIndicator(
-          color: ColorsManager.black,
-          valueColor: AlwaysStoppedAnimation<Color>(ColorsManager.black),
-        ),
-      ),
+      content: AppCustomLoadingIndecator(),
     );
     showDialog(
         barrierColor: Colors.white.withOpacity(0),
@@ -338,7 +335,7 @@ class _UsersScreenState extends State<UsersScreen> {
     }
   }
 
-  Widget buildEditUsersBloc() {
+  Widget buildEditUsersBlocListener() {
     return BlocListener<UsersCubit, UsersState>(
       listenWhen: (previous, current) {
         return previous != current;
@@ -379,7 +376,7 @@ class _UsersScreenState extends State<UsersScreen> {
     );
   }
 
-  Widget buildDeleteUsersBloc() {
+  Widget buildDeleteUsersBlocListener() {
     return BlocListener<UsersCubit, UsersState>(
       listenWhen: (previous, current) {
         return previous != current;

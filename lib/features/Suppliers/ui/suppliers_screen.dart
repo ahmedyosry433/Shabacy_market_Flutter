@@ -7,6 +7,7 @@ import 'package:shabacy_market/features/Suppliers/ui/widget/set_table_suppliers.
 
 import '../../../core/helper/extensions.dart';
 import '../../../core/theme/colors.dart';
+import '../../../core/widgets/app_coustom_loading_indecator.dart';
 import '../../../core/widgets/app_custom_appbar.dart';
 import '../../../core/widgets/app_custom_dropdwo_with_hint.dart';
 import '../../../core/widgets/app_text_button.dart';
@@ -47,37 +48,31 @@ class _SuppliersScreenState extends State<SuppliersScreen> {
     final DataTableSource data = MyData(
       context.watch<SuppliersCubit>().suppliers,
     );
-    return SafeArea(
-        child: Scaffold(
+    return Scaffold(
       backgroundColor: ColorsManager.backGroundColor,
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            AppCustomAppbar(
-              profileStyle:
-                  TextStyles.font11BlackSemiBold.copyWith(fontSize: 0),
-            ),
-            buildAddNewAndTextButton(),
-            buildAddNewSupplierListenerBloc(),
-            buildTableBloc(data: data),
-            buildEditSuppliersListenerBloc(),
-            buildDeleteSuppliersListenerBloc(),
-          ],
+    child: Column(
+      children: [
+        AppCustomAppbar(
+          profileStyle:
+              TextStyles.font11BlackSemiBold.copyWith(fontSize: 0),
         ),
+        buildAddNewAndTextButton(),
+        buildAddNewSupplierListenerBloc(),
+        buildTableBloc(data: data),
+        buildEditSuppliersListenerBloc(),
+        buildDeleteSuppliersListenerBloc(),
+      ],
+    ),
       ),
-    ));
+    );
   }
 
   Widget buildTableBloc({required DataTableSource data}) {
     return BlocBuilder<SuppliersCubit, SuppliersState>(
       builder: (context, state) {
         if (state is SuppliersLoading) {
-          return Padding(
-            padding: EdgeInsets.only(top: 250.h),
-            child: const Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
+          return const AppCustomLoadingIndecator();
         }
         if (state is SuppliersLoaded) {
           return Column(
@@ -123,12 +118,7 @@ class _SuppliersScreenState extends State<SuppliersScreen> {
     return BlocBuilder<SuppliersCubit, SuppliersState>(
       builder: (context, state) {
         if (state is SuppliersLoading) {
-          return Padding(
-            padding: EdgeInsets.only(top: 250.h),
-            child: const Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
+          return const AppCustomLoadingIndecator();
         }
         if (state is SuppliersLoaded) {
           return buildAddNewSupplierForm();
@@ -276,7 +266,6 @@ class _SuppliersScreenState extends State<SuppliersScreen> {
           showProgressIndecator(context);
         } else if (state is AddSuppliersLoaded) {
           context.pop();
-
           MotionToast.success(
             width: 390.w,
             position: MotionToastPosition.top,
@@ -312,10 +301,7 @@ class _SuppliersScreenState extends State<SuppliersScreen> {
       backgroundColor: Colors.transparent,
       elevation: 0,
       content: Center(
-        child: CircularProgressIndicator(
-          color: ColorsManager.black,
-          valueColor: AlwaysStoppedAnimation<Color>(ColorsManager.black),
-        ),
+        child: AppCustomLoadingIndecator(),
       ),
     );
     showDialog(

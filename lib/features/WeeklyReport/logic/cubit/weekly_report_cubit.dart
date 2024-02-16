@@ -13,9 +13,11 @@ part 'weekly_report_state.dart';
 class WeeklyReportCubit extends Cubit<WeeklyReportState> {
   WeeklyReportRepo weeklyReportRepo;
   WeeklyReportCubit(this.weeklyReportRepo) : super(WeeklyReportInitial());
+  List<WeeklyReportTableModel> weeklyReportTableModel = [];
 
   Future<void> getWeeklyReportTableModelCubit() async {
     emit(WeeklyReportLoading());
+
     try {
       String token = await SharedPreferencesHelper.getValueForKey('token');
 
@@ -25,11 +27,32 @@ class WeeklyReportCubit extends Cubit<WeeklyReportState> {
               startDate: '2024-02-09T22:00:00.000Z',
               endDate: '2024-02-15T22:00:00.000Z'));
 
+      for (var element in data.reportModel.weeklyReportTableModelList) {
+        weeklyReportTableModel.add(element);
+      }
+
       emit(WeeklyReportLoaded(allReportData: data));
 
       print('______________________________________${getEndDate().toString()}');
     } catch (e) {
       emit(WeeklyReportError(e.toString()));
+    }
+  }
+
+  Future<void> exportExcelWeeklyReportsCubit() async {
+    emit(WeeklyExportExcelReportLoading());
+    try {
+      String token = await SharedPreferencesHelper.getValueForKey('token');
+
+      await weeklyReportRepo.exportExcelWeeklyReportsRepo(
+          token: token,
+          startAndEndDateModel: StartAndEndDateModel(
+              startDate: '2024-02-09T22:00:00.000Z',
+              endDate: '2024-02-15T22:00:00.000Z'));
+
+      emit(WeeklyExportExcelReportLoaded());
+    } catch (e) {
+      emit(WeeklyExportExcelReportError(e.toString()));
     }
   }
 

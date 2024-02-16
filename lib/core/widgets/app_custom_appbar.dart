@@ -19,35 +19,46 @@ class AppCustomAppbar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 10.w),
-      height: 70.h,
-      color: ColorsManager.white,
-      child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        Text('bussnisName'.tr(), style: TextStyles.font16BlackSemiBold),
-        Row(
-          children: [
-            GestureDetector(
-                onTap: () => context.pushNamed(Routes.homeScreen),
-                child: Text('home'.tr(),
-                    style: homeStyle ?? TextStyles.font14GrayMedium)),
-            horizontalSpace(10),
-            GestureDetector(
-                onTap: () => context.pushNamed(Routes.profileScreen),
-                child: Text('profile'.tr(),
-                    style: profileStyle ?? TextStyles.font14GrayMedium)),
-            horizontalSpace(10),
-            GestureDetector(
-              onTap: () async {
-                context.pushReplacementNamed(Routes.loginScreen);
+      height: 110.h,
+      decoration: const BoxDecoration(
+        borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(20), bottomRight: Radius.circular(20)),
+        gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [ColorsManager.lightPrimryColor, ColorsManager.white]),
+      ),
+      child: Padding(
+        padding: EdgeInsets.only(top: 40.h),
+        child:
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+          Text('bussnisName'.tr(), style: TextStyles.font16BlackSemiBold),
+          Row(
+            children: [
+              GestureDetector(
+                  onTap: () => context.pushNamed(Routes.homeScreen),
+                  child: Text('home'.tr(),
+                      style: homeStyle ?? TextStyles.font14GrayMedium)),
+              horizontalSpace(10),
+              GestureDetector(
+                  onTap: () => context.pushNamed(Routes.profileScreen),
+                  child: Text('profile'.tr(),
+                      style: profileStyle ?? TextStyles.font14GrayMedium)),
+              horizontalSpace(10),
+              GestureDetector(
+                onTap: () async {
+                  context.pushReplacementNamed(Routes.loginScreen);
 
-                await SharedPreferencesHelper.removeValueForKey('token');
-              },
-              child: Text('logout'.tr(),
-                  style: TextStyles.font14GrayMedium
-                      .copyWith(color: ColorsManager.primryColor.shade300)),
-            ),
-          ],
-        ),
-      ]),
+                  await SharedPreferencesHelper.removeValueForKey('token');
+                },
+                child: Text('logout'.tr(),
+                    style: TextStyles.font14GrayMedium
+                        .copyWith(color: ColorsManager.primryColor.shade300)),
+              ),
+            ],
+          ),
+        ]),
+      ),
     );
   }
 }

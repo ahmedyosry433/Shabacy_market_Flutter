@@ -18,3 +18,12 @@ final class WeeklyReportError extends WeeklyReportState {
   final String message;
   WeeklyReportError(this.message);
 }
+
+final class WeeklyExportExcelReportLoading extends WeeklyReportState {}
+
+final class WeeklyExportExcelReportLoaded extends WeeklyReportState {}
+
+final class WeeklyExportExcelReportError extends WeeklyReportState {
+  final String message;
+  WeeklyExportExcelReportError(this.message);
+}

@@ -11,9 +11,16 @@ class WeeklyReportRepo {
   Future<AllReportData> getWeeklyReportTableModelRepo(
       {required String token,
       required StartAndEndDateModel startAndEndDateModel}) async {
-   var res = await apiService.getAllWeeklyReports(
+    var res = await apiService.getAllWeeklyReports(
         token: token, startAndEndDateModel: startAndEndDateModel);
-  
+
     return res;
+  }
+
+  Future<void> exportExcelWeeklyReportsRepo(
+      {required String token,
+      required StartAndEndDateModel startAndEndDateModel}) async {
+    await apiService.exportExcelWeeklyReports(
+        token: token, startAndEndDateModel: startAndEndDateModel);
   }
 }

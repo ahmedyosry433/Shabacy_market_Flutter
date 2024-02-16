@@ -2,6 +2,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:motion_toast/motion_toast.dart';
+import 'package:shabacy_market/core/helper/extensions.dart';
 import 'package:shabacy_market/core/helper/spacing.dart';
 import 'package:shabacy_market/core/theme/style.dart';
 import 'package:shabacy_market/core/widgets/app_coustom_loading_indecator.dart';
@@ -32,8 +34,7 @@ class _WeeklyReportScreen extends State<WeeklyReportScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorsManager.backGroundColor,
-      body: SafeArea(
-          child: SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Column(
           children: [
             AppCustomAppbar(
@@ -41,12 +42,41 @@ class _WeeklyReportScreen extends State<WeeklyReportScreen> {
                   TextStyles.font11BlackSemiBold.copyWith(fontSize: 0),
             ),
             buildDateSlid(),
-            buildPDFButtonAndExcelButton(),
-            buildCardsWithBlocBuilder(),
-            buildWeeklyReportTableAndBloc(),
+            BlocBuilder<WeeklyReportCubit, WeeklyReportState>(
+              builder: (context, state) {
+                if (state is WeeklyReportLoading) {
+                  return const AppCustomLoadingIndecator();
+                } else if (state is WeeklyReportLoaded) {
+                  return context
+                          .watch<WeeklyReportCubit>()
+                          .weeklyReportTableModel
+                          .isNotEmpty
+                      ? Column(
+                          children: [
+                            buildPDFButtonAndExcelButton(),
+                            buildCardsWithBlocBuilder(),
+                            buildWeeklyReportTableAndBloc(),
+                          ],
+                        )
+                      : Padding(
+                          padding: EdgeInsets.only(top: 20.h),
+                          child: Text(
+                            'Not Found Orders This Week'.tr(),
+                            style: TextStyles.font20BlackRegular,
+                          ),
+                        );
+                } else if (state is WeeklyReportError) {
+                  return Text(
+                    state.message,
+                  );
+                }
+                return const SizedBox.shrink();
+              },
+            ),
+            buildExportExcelBlocListener(),
           ],
         ),
-      )),
+      ),
     );
   }
 
@@ -66,7 +96,7 @@ class _WeeklyReportScreen extends State<WeeklyReportScreen> {
 
   Widget buildPDFButtonAndExcelButton() {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: EdgeInsets.symmetric(horizontal: 3.w, vertical: 10),
       child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
         AppTextButton(
             backgroundColor: ColorsManager.gray.withOpacity(0.1),
@@ -86,7 +116,9 @@ class _WeeklyReportScreen extends State<WeeklyReportScreen> {
             verticalPadding: 0,
             buttonText: '${'file export'.tr()}Excel',
             textStyle: TextStyles.font13WhiteSemiBold,
-            onPressed: () {}),
+            onPressed: () {
+              context.read<WeeklyReportCubit>().exportExcelWeeklyReportsCubit();
+            }),
       ]),
     );
   }
@@ -175,6 +207,8 @@ class _WeeklyReportScreen extends State<WeeklyReportScreen> {
                   price: state.allReportData.reportModel.totalRemainsReport),
             ],
           );
+        } else if (state is WeeklyReportError) {
+          return Text(state.message);
         }
         return const SizedBox.shrink();
       },
@@ -195,5 +229,56 @@ class _WeeklyReportScreen extends State<WeeklyReportScreen> {
             ],
           ),
         ));
+  }
+
+  Widget buildExportExcelBlocListener() {
+    return BlocListener<WeeklyReportCubit, WeeklyReportState>(
+      listener: (context, state) {
+        if (state is WeeklyExportExcelReportLoading) {
+          showProgressIndecator(context);
+        } else if (state is WeeklyExportExcelReportLoaded) {
+          context.pop();
+          context.read<WeeklyReportCubit>().getWeeklyReportTableModelCubit();
+          MotionToast.success(
+            position: MotionToastPosition.top,
+            iconSize: 30.w,
+            height: 70.h,
+            animationCurve: Curves.easeOutExpo,
+            width: 390.w,
+            description: Text(
+              "Download Succussfully".tr(),
+              style: TextStyles.font14BlackSemiBold,
+            ),
+          ).show(context);
+        } else if (state is WeeklyExportExcelReportError) {
+          context.pop();
+
+          MotionToast.error(
+            position: MotionToastPosition.top,
+            iconSize: 30.w,
+            height: 70.h,
+            animationCurve: Curves.easeOutExpo,
+            description: Text(
+              "Error Download".tr(),
+              style: TextStyles.font11BlackSemiBold,
+            ),
+          ).show(context);
+        }
+      },
+      child: const SizedBox.shrink(),
+    );
+  }
+
+  Widget showProgressIndecator(BuildContext context) {
+    AlertDialog alertDialog = const AlertDialog(
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      content: Center(child: AppCustomLoadingIndecator()),
+    );
+    showDialog(
+        barrierColor: Colors.white.withOpacity(0),
+        context: context,
+        builder: (BuildContext context) => alertDialog);
+    return alertDialog;
   }
 }

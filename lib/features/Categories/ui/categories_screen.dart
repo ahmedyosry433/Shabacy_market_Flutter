@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:motion_toast/motion_toast.dart';
 import '../../../core/helper/extensions.dart';
+import '../../../core/widgets/app_coustom_loading_indecator.dart';
 import '../../../core/widgets/app_custom_appbar.dart';
 import 'widget/set_Categories_table.dart';
 
@@ -36,18 +37,20 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
     );
     return Scaffold(
       backgroundColor: ColorsManager.backGroundColor,
-      body: SafeArea(
-          child: Column(
-        children: [
-          AppCustomAppbar(
-            profileStyle: TextStyles.font11BlackSemiBold.copyWith(fontSize: 0),
-          ),
-          buildAddNewCategoriesAndTextButton(),
-          buildAddNewCategoriesLisenerBloc(),
-          buildTableBloc(data: data),
-          buildEditCategorieListenersBloc(),
-        ],
-      )),
+      body: SingleChildScrollView(
+        child: Column(
+      children: [
+        AppCustomAppbar(
+          profileStyle:
+              TextStyles.font11BlackSemiBold.copyWith(fontSize: 0),
+        ),
+        buildAddNewCategoriesAndTextButton(),
+        buildAddNewCategoriesLisenerBloc(),
+        buildTableBloc(data: data),
+        buildEditCategorieListenersBloc(),
+      ],
+        ),
+      ),
     );
   }
 
@@ -167,16 +170,13 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
     return BlocBuilder<CategoriesCubit, CategoriesState>(
       builder: (context, state) {
         if (state is CategoriesLoading) {
-          return Padding(
-              padding: EdgeInsets.only(top: 250.h),
-              child: const Center(
-                child: CircularProgressIndicator(),
-              ));
+          return const AppCustomLoadingIndecator();
         } else if (state is CategoriesLoaded) {
           return buildUsersTable(source: data);
         } else if (state is CategoriesError) {
           return Text(state.message);
         }
+
         return const SizedBox.shrink();
       },
     );
@@ -267,15 +267,9 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
 
   Widget showProgressIndecator(BuildContext context) {
     AlertDialog alertDialog = const AlertDialog(
-      backgroundColor: Colors.transparent,
-      elevation: 0,
-      content: Center(
-        child: CircularProgressIndicator(
-          color: ColorsManager.black,
-          valueColor: AlwaysStoppedAnimation<Color>(ColorsManager.black),
-        ),
-      ),
-    );
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        content: AppCustomLoadingIndecator());
     showDialog(
         barrierColor: Colors.white.withOpacity(0),
         context: context,

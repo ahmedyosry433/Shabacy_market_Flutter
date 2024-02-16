@@ -7,6 +7,7 @@ import 'package:shabacy_market/features/Users/data/model/user_model.dart';
 import '../../../core/helper/spacing.dart';
 import '../../../core/theme/colors.dart';
 import '../../../core/theme/style.dart';
+import '../../../core/widgets/app_coustom_loading_indecator.dart';
 import '../../../core/widgets/app_custom_appbar.dart';
 import '../../../core/widgets/app_text_form_field.dart';
 import '../../../core/widgets/app_text_form_field_with_hint.dart';
@@ -27,31 +28,26 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-          backgroundColor: ColorsManager.backGroundColor,
-          body: SingleChildScrollView(
-            child: Column(
-              children: [
-                AppCustomAppbar(
-                  profileStyle: TextStyles.font11BlackSemiBold.copyWith(
-                    fontSize: 0,
-                  ),
+    return Scaffold(
+        backgroundColor: ColorsManager.backGroundColor,
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              AppCustomAppbar(
+                profileStyle: TextStyles.font11BlackSemiBold.copyWith(
+                  fontSize: 0,
                 ),
-                buildProfileFormWithBlocBuilder(),
-              ],
-            ),
-          )),
-    );
+              ),
+              buildProfileFormWithBlocBuilder(),
+            ],
+          ),
+        ));
   }
 
   Widget buildProfileFormWithBlocBuilder() {
     return BlocBuilder<ProfileCubit, ProfileState>(builder: (context, state) {
       if (state is ProfileLoading) {
-        return Padding(
-          padding: EdgeInsets.only(top: 250.h),
-          child: const Center(child: CircularProgressIndicator()),
-        );
+        return const AppCustomLoadingIndecator();
       } else if (state is ProfileLoaded) {
         return Container(
           decoration: BoxDecoration(

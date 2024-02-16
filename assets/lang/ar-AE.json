@@ -97,7 +97,10 @@
     "Tue": "الثلاثاء",
     "Wed": "الاربعاء",
     "Thu": "الخميس",
-    "Fri": "الجمعة"
+    "Fri": "الجمعة",
+    "Error Download": "خطأ في التحميل",
+    "Download Succussfully": "تم التحميل بنجاح",
+    "Not Found Orders This Week":"لا توجد طلبات لهذا الاسبوع"
 
 
 

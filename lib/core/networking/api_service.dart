@@ -277,4 +277,27 @@ class ApiService {
 
     return AllReportData.fromJson(data);
   }
+
+  Future<void> exportExcelWeeklyReports(
+      {required String token,
+      required StartAndEndDateModel startAndEndDateModel}) async {
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+
+    await _dio.request(
+        ApiConstants.apiBaseUrl +
+            ApiConstants.startDateExportExcelReportUrl +
+            startAndEndDateModel.startDate +
+            ApiConstants.endDateReportUrl +
+            startAndEndDateModel.endDate,
+        data: startAndEndDateModel,
+        options: Options(
+          method: 'GET',
+          headers: headers,
+        ));
+
+    
+  }
 }

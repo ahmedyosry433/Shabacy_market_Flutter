@@ -5,11 +5,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:motion_toast/motion_toast.dart';
 import '../../../core/helper/extensions.dart';
 import '../../../core/helper/spacing.dart';
+import '../../../core/widgets/app_coustom_loading_indecator.dart';
 import '../../../core/widgets/app_text_form_field.dart';
 import '../../../core/widgets/app_text_form_field_with_hint.dart';
 
 import '../../../core/router/routes.dart';
-import '../../../core/theme/colors.dart';
 import '../../../core/theme/style.dart';
 import '../../../core/widgets/app_text_button.dart';
 import '../logic/cubit/login_cubit.dart';
@@ -19,64 +19,62 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: SingleChildScrollView(
-          child: InkWell(
-            onTap: () => FocusScope.of(context).unfocus(),
-            splashColor: Colors.transparent,
-            highlightColor: Colors.transparent,
-            hoverColor: Colors.transparent,
-            focusColor: Colors.transparent,
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 17.w, vertical: 25.h),
-              child: Form(
-                key: context.read<LoginCubit>().formKey,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('login'.tr(), style: TextStyles.font25BlackSemiBold),
-                    verticalSpace(40),
-                    AppTextFormFieldWithTopHint(
-                      topHintText: 'email'.tr(),
-                      appTextFormField: AppTextFormField(
-                        controller: context.read<LoginCubit>().emailController,
-                        keyboardType: TextInputType.emailAddress,
-                        hintText: 'enterEmail'.tr(),
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'enterValidEmail'.tr();
-                          }
-                        },
-                      ),
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: InkWell(
+          onTap: () => FocusScope.of(context).unfocus(),
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          hoverColor: Colors.transparent,
+          focusColor: Colors.transparent,
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 17.w, vertical: 25.h),
+            child: Form(
+              key: context.read<LoginCubit>().formKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('login'.tr(), style: TextStyles.font25BlackSemiBold),
+                  verticalSpace(40),
+                  AppTextFormFieldWithTopHint(
+                    topHintText: 'email'.tr(),
+                    appTextFormField: AppTextFormField(
+                      controller: context.read<LoginCubit>().emailController,
+                      keyboardType: TextInputType.emailAddress,
+                      hintText: 'enterEmail'.tr(),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'enterValidEmail'.tr();
+                        }
+                      },
                     ),
-                    verticalSpace(20),
-                    AppTextFormFieldWithTopHint(
-                      topHintText: 'password'.tr(),
-                      appTextFormField: AppTextFormField(
-                        controller:
-                            context.read<LoginCubit>().passwordController,
-                        keyboardType: TextInputType.visiblePassword,
-                        isObscureText: true,
-                        hintText: 'enterPassword'.tr(),
-                        validator: (value) {
-                          if (value == null ||
-                              value.isEmpty ||
-                              value.length < 6) {
-                            return 'enterVaildPassword'.tr();
-                          }
-                        },
-                      ),
+                  ),
+                  verticalSpace(20),
+                  AppTextFormFieldWithTopHint(
+                    topHintText: 'password'.tr(),
+                    appTextFormField: AppTextFormField(
+                      controller:
+                          context.read<LoginCubit>().passwordController,
+                      keyboardType: TextInputType.visiblePassword,
+                      isObscureText: true,
+                      hintText: 'enterPassword'.tr(),
+                      validator: (value) {
+                        if (value == null ||
+                            value.isEmpty ||
+                            value.length < 6) {
+                          return 'enterVaildPassword'.tr();
+                        }
+                      },
                     ),
-                    verticalSpace(40),
-                    AppTextButton(
-                      buttonText: 'login'.tr(),
-                      onPressed: () => login(context),
-                      textStyle: TextStyles.font14WhiteMedium,
-                    ),
-                    buildLoginBloc(),
-                  ],
-                ),
+                  ),
+                  verticalSpace(40),
+                  AppTextButton(
+                    buttonText: 'login'.tr(),
+                    onPressed: () => login(context),
+                    textStyle: TextStyles.font14WhiteMedium,
+                  ),
+                  buildLoginBloc(),
+                ],
               ),
             ),
           ),
@@ -111,7 +109,6 @@ class LoginScreen extends StatelessWidget {
           context.pop();
 
           MotionToast.error(
-            
             position: MotionToastPosition.top,
             iconSize: 30.w,
             height: 70.h,
@@ -131,12 +128,7 @@ class LoginScreen extends StatelessWidget {
     AlertDialog alertDialog = const AlertDialog(
       backgroundColor: Colors.transparent,
       elevation: 0,
-      content: Center(
-        child: CircularProgressIndicator(
-          color: ColorsManager.black,
-          valueColor: AlwaysStoppedAnimation<Color>(ColorsManager.black),
-        ),
-      ),
+      content: Center(child: AppCustomLoadingIndecator()),
     );
     showDialog(
         barrierColor: Colors.white.withOpacity(0),
