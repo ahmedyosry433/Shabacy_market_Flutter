@@ -77,9 +77,9 @@ class ReportModel {
   factory ReportModel.fromJson(Map<String, dynamic> json) {
     return ReportModel(
       totalReport: json['report']['total'],
-      totalPaidReport: json['report']['totalPaid'],
-      totalRemainsReport: json['report']['totalRemains'],
-      totalQuantityReport: json['report']['totalQuantity'],
+      totalPaidReport: json['report']['totalPaid'] ,
+      totalRemainsReport: json['report']['totalRemains'] ,
+      totalQuantityReport: json['report']['totalQuantity'] ,
       weeklyReportTableModelList: List<WeeklyReportTableModel>.from(
           json['usersReport'].map((x) => WeeklyReportTableModel.fromJson(x))),
     );

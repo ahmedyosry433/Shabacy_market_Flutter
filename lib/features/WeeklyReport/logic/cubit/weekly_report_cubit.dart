@@ -2,7 +2,7 @@
 
 import 'package:bloc/bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter/material.dart';
 import 'package:shabacy_market/features/WeeklyReport/data/repo/weekly_report_repo.dart';
 
 import '../../../../core/helper/shared_preferences_helper.dart';
@@ -15,6 +15,8 @@ class WeeklyReportCubit extends Cubit<WeeklyReportState> {
   WeeklyReportCubit(this.weeklyReportRepo) : super(WeeklyReportInitial());
   List<WeeklyReportTableModel> weeklyReportTableModel = [];
 
+  DateTime? startDate;
+  DateTime? endDate;
   Future<void> getWeeklyReportTableModelCubit() async {
     emit(WeeklyReportLoading());
 
@@ -22,18 +24,18 @@ class WeeklyReportCubit extends Cubit<WeeklyReportState> {
       String token = await SharedPreferencesHelper.getValueForKey('token');
 
       var data = await weeklyReportRepo.getWeeklyReportTableModelRepo(
-          token: token,
-          startAndEndDateModel: StartAndEndDateModel(
-              startDate: '2024-02-09T22:00:00.000Z',
-              endDate: '2024-02-15T22:00:00.000Z'));
+        token: token,
+        startAndEndDateModel: StartAndEndDateModel(
+          startDate: startDate!.toString(),
+          endDate: endDate!.toString(),
+        ),
+      );
 
       for (var element in data.reportModel.weeklyReportTableModelList) {
         weeklyReportTableModel.add(element);
       }
-
+      formatDate(dateFormating: endDate!);
       emit(WeeklyReportLoaded(allReportData: data));
-
-      print('______________________________________${getEndDate().toString()}');
     } catch (e) {
       emit(WeeklyReportError(e.toString()));
     }
@@ -56,38 +58,60 @@ class WeeklyReportCubit extends Cubit<WeeklyReportState> {
     }
   }
 
-  getDate() {
-    var timeNow = DateTime.now();
-    var weekDay = timeNow.weekday;
-    var startDateParsed = timeNow.subtract(Duration(days: weekDay + 1)); //+7
-
-    return timeNow;
+  void stareAndEndDate() {
+    getStartOfWeek();
+    getEndOfWeek();
   }
 
-  String startDate = '';
-  String startDateDayWord = '';
-  getStartDate() {
-    var timeNow = DateTime.now();
-    var weekDay = timeNow.weekday;
-    var startDateParsed =
-        timeNow.subtract(Duration(days: weekDay + 1 - 7)); //+7
+  DateTime getStartOfWeek() {
+    DateTime date = DateTime.now();
+    int dayOfWeek = date.weekday;
+    DateTime startDateVar = date.subtract(Duration(days: dayOfWeek - 1));
 
-    startDate = DateFormat('d-MM-yyyy').format(startDateParsed).toString();
-    startDateDayWord = DateFormat('E').format(startDateParsed);
+    DateTime startDatevarSubTwoDays =
+        startDateVar.subtract(const Duration(days: 2));
+
+    startDate = startDatevarSubTwoDays;
+
+    return startDatevarSubTwoDays;
   }
 
-  String endDate = '';
-  String endDateDayWord = '';
+  DateTime getEndOfWeek() {
+    DateTime date = DateTime.now();
+    int dayOfWeek = date.weekday;
+    DateTime endDateVar = date.add(Duration(days: 7 - dayOfWeek));
+    DateTime endDateVarSubTwoDays =
+        endDateVar.subtract(const Duration(days: 2));
+    endDate = endDateVarSubTwoDays;
+    
+    return endDateVar;
+  }
 
-  getEndDate() {
-    var timeNow = DateTime.now();
-    var weekDay = timeNow.weekday;
-    var endDatePrased = timeNow
-        .subtract(Duration(days: weekDay - 5 - 7))
-        .toUtc(); //+7  to get last week   %%  -7  to get future week
+  void backWeek() {
+    emit(DateTimeLoading());
+    try {
+      startDate = startDate!.subtract(const Duration(days: 7));
+      endDate = endDate!.subtract(const Duration(days: 7));
+      emit(DateTimeLoaded());
+    } catch (e) {
+      emit(DateTimeError(e.toString()));
+    }
+  }
 
-    endDate = DateFormat('d-MM-yyyy').format(endDatePrased).toString();
-    endDateDayWord = DateFormat('E').format(endDatePrased);
-    return endDatePrased;
+  void nextWeek() {
+    emit(DateTimeLoading());
+    try {
+      startDate = startDate!.add(const Duration(days: 7));
+      endDate = endDate!.add(const Duration(days: 7));
+      emit(DateTimeLoaded());
+    } catch (e) {
+      emit(DateTimeError(e.toString()));
+    }
+  }
+
+  String formatDate({required DateTime dateFormating}) {
+    var dateFormated =
+        DateFormat('E d-MM-yyyy', 'ar').format(dateFormating).toString();
+    return dateFormated;
   }
 }

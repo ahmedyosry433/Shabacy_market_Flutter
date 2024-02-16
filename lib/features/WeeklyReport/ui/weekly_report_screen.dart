@@ -26,8 +26,7 @@ class _WeeklyReportScreen extends State<WeeklyReportScreen> {
   void initState() {
     super.initState();
     context.read<WeeklyReportCubit>().getWeeklyReportTableModelCubit();
-    context.read<WeeklyReportCubit>().getStartDate();
-    context.read<WeeklyReportCubit>().getEndDate();
+    context.read<WeeklyReportCubit>().stareAndEndDate();
   }
 
   @override
@@ -66,13 +65,18 @@ class _WeeklyReportScreen extends State<WeeklyReportScreen> {
                           ),
                         );
                 } else if (state is WeeklyReportError) {
-                  return Text(
-                    state.message,
+                  return Padding(
+                    padding: EdgeInsets.only(top: 20.h),
+                    child: Text(
+                      'Not Found Orders This Week'.tr(),
+                      style: TextStyles.font14BlueSemiBold,
+                    ),
                   );
                 }
                 return const SizedBox.shrink();
               },
             ),
+            changeDateAndBloc(),
             buildExportExcelBlocListener(),
           ],
         ),
@@ -84,12 +88,19 @@ class _WeeklyReportScreen extends State<WeeklyReportScreen> {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 8.0.w, vertical: 10),
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-        IconButton(onPressed: () {}, icon: const Icon(Icons.chevron_left)),
+        IconButton(
+            onPressed: () {
+              BlocProvider.of<WeeklyReportCubit>(context).backWeek();
+            },
+            icon: const Icon(Icons.chevron_left)),
         Text(
-            '${BlocProvider.of<WeeklyReportCubit>(context).startDateDayWord.tr()} ${BlocProvider.of<WeeklyReportCubit>(context).startDate.tr()} - ${BlocProvider.of<WeeklyReportCubit>(context).endDateDayWord.tr()} ${BlocProvider.of<WeeklyReportCubit>(context).endDate.tr()}'
-                .tr(),
+            '${context.watch<WeeklyReportCubit>().formatDate(dateFormating: context.watch<WeeklyReportCubit>().startDate!).toString()} - ${context.watch<WeeklyReportCubit>().formatDate(dateFormating: context.watch<WeeklyReportCubit>().endDate!).toString()}',
             style: TextStyles.font16BlackRegular),
-        IconButton(onPressed: () {}, icon: const Icon(Icons.chevron_right)),
+        IconButton(
+            onPressed: () {
+              BlocProvider.of<WeeklyReportCubit>(context).nextWeek();
+            },
+            icon: const Icon(Icons.chevron_right)),
       ]),
     );
   }
@@ -269,16 +280,41 @@ class _WeeklyReportScreen extends State<WeeklyReportScreen> {
     );
   }
 
-  Widget showProgressIndecator(BuildContext context) {
-    AlertDialog alertDialog = const AlertDialog(
-      backgroundColor: Colors.transparent,
-      elevation: 0,
-      content: Center(child: AppCustomLoadingIndecator()),
-    );
-    showDialog(
-        barrierColor: Colors.white.withOpacity(0),
-        context: context,
-        builder: (BuildContext context) => alertDialog);
-    return alertDialog;
+  Widget changeDateAndBloc() {
+    return BlocListener<WeeklyReportCubit, WeeklyReportState>(
+        listener: (context, state) {
+          if (state is DateTimeLoading) {
+            showProgressIndecator(context);
+          } else if (state is DateTimeLoaded) {
+            context.pop();
+            context.read<WeeklyReportCubit>().getWeeklyReportTableModelCubit();
+          } else if (state is DateTimeError) {
+            context.pop();
+            MotionToast.error(
+              position: MotionToastPosition.top,
+              iconSize: 30.w,
+              height: 70.h,
+              animationCurve: Curves.easeOutExpo,
+              description: Text(
+                state.message,
+                style: TextStyles.font11BlackSemiBold,
+              ),
+            ).show(context);
+          }
+        },
+        child: const SizedBox.shrink());
   }
+}
+
+Widget showProgressIndecator(BuildContext context) {
+  AlertDialog alertDialog = const AlertDialog(
+    backgroundColor: Colors.transparent,
+    elevation: 0,
+    content: Center(child: AppCustomLoadingIndecator()),
+  );
+  showDialog(
+      barrierColor: Colors.white.withOpacity(0),
+      context: context,
+      builder: (BuildContext context) => alertDialog);
+  return alertDialog;
 }

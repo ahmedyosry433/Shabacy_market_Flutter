@@ -27,3 +27,11 @@ final class WeeklyExportExcelReportError extends WeeklyReportState {
   final String message;
   WeeklyExportExcelReportError(this.message);
 }
+final class DateTimeLoading extends WeeklyReportState {}
+
+final class DateTimeLoaded extends WeeklyReportState {}
+
+final class DateTimeError extends WeeklyReportState {
+  final String message;
+  DateTimeError(this.message);
+}
