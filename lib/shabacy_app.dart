@@ -3,20 +3,15 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:shabacy_market/core/helper/shared_preferences_helper.dart';
+
 import 'package:shabacy_market/core/router/routes.dart';
 
 import 'core/router/app_router.dart';
 
-class ShabacyApp extends StatefulWidget {
+class ShabacyApp extends StatelessWidget {
   final AppRouter appRouter;
   const ShabacyApp({super.key, required this.appRouter});
 
-  @override
-  State<ShabacyApp> createState() => _ShabacyAppState();
-}
-
-class _ShabacyAppState extends State<ShabacyApp> {
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
@@ -30,10 +25,8 @@ class _ShabacyAppState extends State<ShabacyApp> {
         localizationsDelegates: context.localizationDelegates,
         supportedLocales: context.supportedLocales,
         debugShowCheckedModeBanner: false,
-        initialRoute: SharedPreferencesHelper.token == null
-            ? Routes.loginScreen
-            : Routes.homeScreen,
-        onGenerateRoute: widget.appRouter.onGenerateRoute,
+        initialRoute: Routes.splashScreen,
+        onGenerateRoute: appRouter.onGenerateRoute,
       ),
     );
   }

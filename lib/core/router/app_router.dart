@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shabacy_market/features/DailyPurchases/logic/cubit/daily_purchases_cubit.dart';
+import 'package:shabacy_market/features/DailyPurchases/ui/daily_purchases_screen.dart';
 import 'package:shabacy_market/features/WeeklyReport/logic/cubit/weekly_report_cubit.dart';
 import 'package:shabacy_market/features/WeeklyReport/ui/weekly_report_screen.dart';
+import 'package:shabacy_market/features/splash/ui/splash_screen.dart';
 import '../../features/Home/logic/cubit/home_cubit.dart';
 import '../dj/dependency_injection.dart';
 import 'routes.dart';
@@ -21,6 +24,10 @@ import '../../features/Suppliers/ui/suppliers_screen.dart';
 class AppRouter {
   Route? onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
+      case Routes.splashScreen:
+        return MaterialPageRoute(
+          builder: (_) => const SplashScreen(),
+        );
       case Routes.loginScreen:
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
@@ -73,6 +80,13 @@ class AppRouter {
           builder: (_) => BlocProvider(
             create: (context) => getIt<WeeklyReportCubit>(),
             child: const WeeklyReportScreen(),
+          ),
+        );
+      case Routes.dailyPurchasesScreen:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => getIt<DailyPurchasesCubit>(),
+            child: const DailyPurchasesScreen(),
           ),
         );
 

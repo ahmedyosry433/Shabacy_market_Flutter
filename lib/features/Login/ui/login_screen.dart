@@ -28,7 +28,7 @@ class LoginScreen extends StatelessWidget {
           hoverColor: Colors.transparent,
           focusColor: Colors.transparent,
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 17.w, vertical: 25.h),
+            padding: EdgeInsets.symmetric(horizontal: 17.w, vertical: 65.h),
             child: Form(
               key: context.read<LoginCubit>().formKey,
               child: Column(
@@ -53,8 +53,7 @@ class LoginScreen extends StatelessWidget {
                   AppTextFormFieldWithTopHint(
                     topHintText: 'password'.tr(),
                     appTextFormField: AppTextFormField(
-                      controller:
-                          context.read<LoginCubit>().passwordController,
+                      controller: context.read<LoginCubit>().passwordController,
                       keyboardType: TextInputType.visiblePassword,
                       isObscureText: true,
                       hintText: 'enterPassword'.tr(),

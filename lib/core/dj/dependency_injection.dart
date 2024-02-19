@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:shabacy_market/features/DailyPurchases/data/repo/daily_purchases_repo.dart';
+import 'package:shabacy_market/features/DailyPurchases/logic/cubit/daily_purchases_cubit.dart';
 import 'package:shabacy_market/features/Home/data/repo/home_repo.dart';
 import 'package:shabacy_market/features/Home/logic/cubit/home_cubit.dart';
 import 'package:shabacy_market/features/Suppliers/data/repo/suppliers_repo.dart';
@@ -46,6 +48,10 @@ Future<void> setupGetit() async {
   //Weekly Report Screen
   getIt.registerLazySingleton(() => WeeklyReportRepo(apiService: getIt()));
   getIt.registerFactory<WeeklyReportCubit>(() => WeeklyReportCubit(getIt()));
+  //Weekly Report Screen
+  getIt.registerLazySingleton(() => DailyPurchasesRepo(apiService: getIt()));
+  getIt
+      .registerFactory<DailyPurchasesCubit>(() => DailyPurchasesCubit(getIt()));
 
   // signup
 }
