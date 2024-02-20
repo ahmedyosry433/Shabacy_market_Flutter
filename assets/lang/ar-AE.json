@@ -78,6 +78,7 @@
     "delete supplier successfully": "تم حذف المورد بنجاح",
     "total price": "السعر الكلي",
     "paid": "المدفوع",
+    "enter paid": "ادخل المدفوع",
     "quantity": "الكمية",
     "remaining": "المتبقي",
     "saturday" : "السبت",
@@ -100,7 +101,26 @@
     "Fri": "الجمعة",
     "Error Download": "خطأ في التحميل",
     "Download Succussfully": "تم التحميل بنجاح",
-    "Not Found Orders This Week":"لا توجد طلبات لهذا الاسبوع"
+    "Not Found Orders This Week":"لا توجد طلبات لهذا الاسبوع",
+    "day": "اليوم",
+    "period": "الفترة",
+    "item": "الصنف",
+    "select item": "اختر الصنف",
+    "select period": "اختر الفترة",
+    "new order": "طلب جديد",
+    "add order": "اضافة طلب",
+    "customer": "العميل",
+    "unit price": "سعر الافرادي",
+    "select customer": "اختر العميل",
+    "enter unit price": "ادخل سعر الافرادي",
+    "enter quantity": "ادخل الكمية",
+    "AM": "صباحي",
+    "PM": "مسائي",
+    "customer name": "اسم العميل",
+    "total balance": "الرصيد الإجمالي",
+    "price": "السعر"
+   
+
 
 
 

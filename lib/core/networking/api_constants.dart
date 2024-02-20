@@ -7,6 +7,8 @@ class ApiConstants {
   static const String addUsersRegisterUrl = '/register';
   static const String allCategoriesUrl = 'categories';
   static const String startDateReportUrl = 'orders/weekly-report?startDate=';
-  static const String startDateExportExcelReportUrl = 'orders/weekly-report-export?startDate=';
+  static const String startDateExportExcelReportUrl =
+      'orders/weekly-report-export?startDate=';
   static const String endDateReportUrl = '&endDate=';
+  static const String ordersUrl = 'orders';
 }

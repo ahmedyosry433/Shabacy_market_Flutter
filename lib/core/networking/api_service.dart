@@ -8,6 +8,7 @@ import 'package:shabacy_market/features/Login/data/models/login_request.dart';
 import 'package:shabacy_market/features/Login/data/models/login_response.dart';
 
 import '../../features/Categories/data/model/categories_model.dart';
+import '../../features/DailyPurchases/data/model/daily_purchases_model.dart';
 import '../../features/Users/data/model/user_model.dart';
 import '../../features/Suppliers/data/models/suppliers_model.dart';
 import '../../features/WeeklyReport/data/model/weekly_report_model.dart';
@@ -144,6 +145,37 @@ class ApiService {
       allUsersList.add(allUsersOject);
     }
     return allUsersList;
+  }
+
+  Future<List<GetDailyPurchasesModel>> getAllOrders(
+      {required String token,
+      required String period,
+      required String categoryId,
+      required String gtDate,
+      required String ltDate}) async {
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+
+    Response response = await _dio.request(
+        '${ApiConstants.apiBaseUrl}${ApiConstants.ordersUrl}?filter={"date":{"\$gt":"${gtDate}T22:00:00.000Z","\$lt":"${ltDate}T21:59:59.999Z"},"period":"$period","category":"$categoryId"}',
+        options: Options(
+          method: 'GET',
+          headers: headers,
+        ));
+
+    var data = response.data;
+
+    List<GetDailyPurchasesModel> allOrders = [];
+
+    for (var a in data['result']) {
+      GetDailyPurchasesModel allOrdersOject =
+          GetDailyPurchasesModel.fromJson(a);
+      allOrders.add(allOrdersOject);
+    }
+
+    return allOrders;
   }
 
   Future<void> addUserRegister(
@@ -297,7 +329,20 @@ class ApiService {
           method: 'GET',
           headers: headers,
         ));
+  }
 
-    
+  Future<void> addNewOrder(
+      {required String token,
+      required DailyPurchasesRequestModel dailyRequestModel}) async {
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+    await _dio.request(ApiConstants.apiBaseUrl + ApiConstants.ordersUrl,
+        data: dailyRequestModel,
+        options: Options(
+          method: 'POST',
+          headers: headers,
+        ));
   }
 }

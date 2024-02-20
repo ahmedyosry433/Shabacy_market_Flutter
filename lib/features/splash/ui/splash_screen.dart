@@ -4,11 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shabacy_market/core/helper/extensions.dart';
-import 'package:shabacy_market/features/Login/ui/login_screen.dart';
 
 import '../../../core/helper/shared_preferences_helper.dart';
 import '../../../core/router/routes.dart';
-import '../../Home/ui/home_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

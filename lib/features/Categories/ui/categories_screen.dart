@@ -39,16 +39,16 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
       backgroundColor: ColorsManager.backGroundColor,
       body: SingleChildScrollView(
         child: Column(
-      children: [
-        AppCustomAppbar(
-          profileStyle:
-              TextStyles.font11BlackSemiBold.copyWith(fontSize: 0),
-        ),
-        buildAddNewCategoriesAndTextButton(),
-        buildAddNewCategoriesLisenerBloc(),
-        buildTableBloc(data: data),
-        buildEditCategorieListenersBloc(),
-      ],
+          children: [
+            AppCustomAppbar(
+              profileStyle:
+                  TextStyles.font11BlackSemiBold.copyWith(fontSize: 0),
+            ),
+            buildAddNewCategoriesAndTextButton(),
+            buildAddNewCategoriesLisenerBloc(),
+            buildEditCategorieListenersBloc(),
+            buildTableBloc(data: data),
+          ],
         ),
       ),
     );
