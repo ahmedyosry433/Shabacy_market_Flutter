@@ -118,7 +118,18 @@
     "PM": "مسائي",
     "customer name": "اسم العميل",
     "total balance": "الرصيد الإجمالي",
-    "price": "السعر"
+    "price": "السعر",
+    "add order successfully": "تم اضافة الطلب بنجاح",
+    "edit order successfully": "تم تعديل الطلب بنجاح",
+    "delete order successfully": "تم حذف الطلب بنجاح",
+    "error adding order": "خطأ في اضافة الطلب",
+    "error updating order": "خطأ في تعديل الطلب",
+    "error deleting order": "خطأ في حذف الطلب",
+    "edit order": "تعديل الطلب",
+    "are you sure delete order": "هل انت متاكد من حذف الطلب",
+    "nummber": "رقم",
+    "Shabacy" :"الشباسي"
+
    
 
 

@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -20,24 +22,27 @@ class AppTextFormField extends StatefulWidget {
   final TextInputType keyboardType;
   final bool? readOnly;
   final bool? enable;
+  Function(String)? onChanged;
 
-  const AppTextFormField(
-      {super.key,
-      this.contentPadding,
-      this.focusedBorder,
-      this.enabledBorder,
-      this.inputTextStyle,
-      this.hintStyle,
-      required this.hintText,
-      this.isObscureText,
-      this.suffixIcon,
-      this.backgroundColor,
-      required this.validator,
-      this.controller,
-      this.prefixIcon,
-      required this.keyboardType,
-      this.readOnly,
-      this.enable});
+  AppTextFormField({
+    super.key,
+    this.contentPadding,
+    this.focusedBorder,
+    this.enabledBorder,
+    this.inputTextStyle,
+    this.hintStyle,
+    required this.hintText,
+    this.isObscureText,
+    this.suffixIcon,
+    this.backgroundColor,
+    required this.validator,
+    this.controller,
+    this.prefixIcon,
+    required this.keyboardType,
+    this.readOnly,
+    this.enable,
+    this.onChanged,
+  });
 
   @override
   State<AppTextFormField> createState() => _AppTextFormFieldState();
@@ -61,6 +66,7 @@ class _AppTextFormFieldState extends State<AppTextFormField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onChanged: widget.onChanged,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       enabled: widget.enable,
       readOnly: widget.readOnly ?? false,

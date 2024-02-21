@@ -47,10 +47,9 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   Widget build(BuildContext context) {
-    // final token = SharedPreferencesHelper.getValueForKey('token');
     return FutureBuilder(
       future: Future.delayed(const Duration(seconds: 3), () async {
-        context.pushNamedAndRemoveUntil(Routes.homeScreen,
+        context.pushNamedAndRemoveUntil(Routes.loginScreen,
             predicate: (context) => false);
       }),
       builder: (context, snapshot) {
@@ -59,11 +58,12 @@ class _SplashScreenState extends State<SplashScreen>
             child: SizedBox(
               height: 250.h,
               width: 250.w,
-              child: Lottie.asset('assets/image/splash.json',
-                  //   fit: BoxFit.contain,color: Colors.white,
-                  animate: true,
-                  controller: controller,
-                  ),
+              child: Lottie.asset(
+                'assets/image/splash.json',
+                //   fit: BoxFit.contain,color: Colors.white,
+                animate: true,
+                controller: controller,
+              ),
             ),
           ),
         );

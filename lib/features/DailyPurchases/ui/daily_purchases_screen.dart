@@ -28,7 +28,7 @@ class _DailyPurchasesScreenState extends State<DailyPurchasesScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<DailyPurchasesCubit>().init();
+    context.read<DailyPurchasesCubit>().initOnce();
 
     dateController.text =
         formating.format(context.read<DailyPurchasesCubit>().selectDate!);
@@ -85,7 +85,7 @@ class _DailyPurchasesScreenState extends State<DailyPurchasesScreen> {
                               )),
                           buildNewOrder(),
                           verticalSpace(10),
-                          
+                          buildOrdersTable(source: data),
                         ],
                       ),
                     );
@@ -95,8 +95,9 @@ class _DailyPurchasesScreenState extends State<DailyPurchasesScreen> {
                   return const SizedBox();
                 },
               ),
-              buildOrdersTable(source: data),
               buildTableBlocListener(),
+              buildEditBlocListener(),
+              buildDeleteBlocListener(),
             ],
           ),
         ),
@@ -137,11 +138,16 @@ class _DailyPurchasesScreenState extends State<DailyPurchasesScreen> {
                         .then(
                       (value) {
                         setState(() {
-                          if (value != null) {
+                          if (value != null &&
+                              value !=
+                                  BlocProvider.of<DailyPurchasesCubit>(context)
+                                      .selectDate) {
                             BlocProvider.of<DailyPurchasesCubit>(context)
                                 .selectDate = value;
                             dateController.text =
                                 formating.format(value).toString();
+                            BlocProvider.of<DailyPurchasesCubit>(context)
+                                .init();
                           }
                         });
                       },
@@ -178,6 +184,8 @@ class _DailyPurchasesScreenState extends State<DailyPurchasesScreen> {
                         setState(() {
                           BlocProvider.of<DailyPurchasesCubit>(context)
                               .dropdownPeriodValue = value;
+
+                          BlocProvider.of<DailyPurchasesCubit>(context).init();
                         });
                       },
                       validator: (vaild) {},
@@ -205,6 +213,7 @@ class _DailyPurchasesScreenState extends State<DailyPurchasesScreen> {
                         setState(() {
                           BlocProvider.of<DailyPurchasesCubit>(context)
                               .dropdownCategroyValue = value;
+                          BlocProvider.of<DailyPurchasesCubit>(context).init();
                         });
                       },
                       validator: (vaild) {},
@@ -221,6 +230,8 @@ class _DailyPurchasesScreenState extends State<DailyPurchasesScreen> {
   }
 
   Widget buildNewOrder() {
+    final blocRead = context.read<DailyPurchasesCubit>();
+    final blocWatch = context.watch<DailyPurchasesCubit>();
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 10.h),
       decoration: BoxDecoration(
@@ -272,8 +283,14 @@ class _DailyPurchasesScreenState extends State<DailyPurchasesScreen> {
                   child: AppTextFormFieldWithTopHint(
                       topHintText: 'unit price'.tr(),
                       appTextFormField: AppTextFormField(
-                        controller:
-                            context.read<DailyPurchasesCubit>().priceController,
+                        onChanged: (price) {
+                          setState(() {
+                            blocRead.totalController.text = (int.parse(price) *
+                                    int.parse(blocRead.quantityController.text))
+                                .toString();
+                          });
+                        },
+                        controller: blocRead.priceController,
                         contentPadding: EdgeInsets.symmetric(
                             vertical: 7.h, horizontal: 10.w),
                         hintText: 'enter unit price'.tr(),
@@ -294,6 +311,14 @@ class _DailyPurchasesScreenState extends State<DailyPurchasesScreen> {
                   child: AppTextFormFieldWithTopHint(
                       topHintText: 'quantity'.tr(),
                       appTextFormField: AppTextFormField(
+                        onChanged: (quantity) {
+                          setState(() {
+                            blocRead
+                                .totalController.text = (int.parse(quantity) *
+                                    int.parse(blocRead.priceController.text))
+                                .toString();
+                          });
+                        },
                         controller: context
                             .read<DailyPurchasesCubit>()
                             .quantityController,
@@ -313,6 +338,7 @@ class _DailyPurchasesScreenState extends State<DailyPurchasesScreen> {
                   child: AppTextFormFieldWithTopHint(
                       topHintText: 'total purchases'.tr(),
                       appTextFormField: AppTextFormField(
+                        controller: blocWatch.totalController,
                         readOnly: true,
                         contentPadding: EdgeInsets.symmetric(
                             vertical: 7.h, horizontal: 10.w),
@@ -329,8 +355,15 @@ class _DailyPurchasesScreenState extends State<DailyPurchasesScreen> {
                   child: AppTextFormFieldWithTopHint(
                       topHintText: 'paid'.tr(),
                       appTextFormField: AppTextFormField(
-                        controller:
-                            context.read<DailyPurchasesCubit>().paidController,
+                        onChanged: (paid) {
+                          setState(() {
+                            blocRead.remainsController.text =
+                                (int.parse(blocRead.totalController.text) -
+                                        int.parse(paid))
+                                    .toString();
+                          });
+                        },
+                        controller: blocRead.paidController,
                         contentPadding: EdgeInsets.symmetric(
                             vertical: 7.h, horizontal: 10.w),
                         hintText: 'enter paid'.tr(),
@@ -347,6 +380,7 @@ class _DailyPurchasesScreenState extends State<DailyPurchasesScreen> {
                   child: AppTextFormFieldWithTopHint(
                       topHintText: 'remaining'.tr(),
                       appTextFormField: AppTextFormField(
+                        controller: blocWatch.remainsController,
                         readOnly: true,
                         contentPadding: EdgeInsets.symmetric(
                             vertical: 7.h, horizontal: 10.w),
@@ -385,7 +419,7 @@ class _DailyPurchasesScreenState extends State<DailyPurchasesScreen> {
             iconSize: 30.w,
             height: 70.h,
             description: Text(
-              "edit category successfully".tr(),
+              "add order successfully".tr(),
               style: TextStyles.font14BlackSemiBold,
             ),
           ).show(context);
@@ -397,7 +431,81 @@ class _DailyPurchasesScreenState extends State<DailyPurchasesScreen> {
             iconSize: 30.w,
             height: 70.h,
             description: Text(
-              "edit category successfully".tr(),
+              "error adding order".tr(),
+              style: TextStyles.font14BlackSemiBold,
+            ),
+          ).show(context);
+        }
+      },
+      child: const SizedBox.shrink(),
+    );
+  }
+
+  Widget buildEditBlocListener() {
+    return BlocListener<DailyPurchasesCubit, DailyPurchasesState>(
+      listener: (context, state) {
+        if (state is EditedOrderLoading) {
+          showProgressIndecator(context);
+        } else if (state is EditedOrderLoaded) {
+          Navigator.of(context).pop();
+          BlocProvider.of<DailyPurchasesCubit>(context).init();
+          MotionToast.success(
+            width: 390.w,
+            position: MotionToastPosition.top,
+            iconSize: 30.w,
+            height: 70.h,
+            description: Text(
+              "edit order successfully".tr(),
+              style: TextStyles.font14BlackSemiBold,
+            ),
+          ).show(context);
+          Navigator.of(context).pop();
+        } else if (state is EditedOrderError) {
+          Navigator.of(context).pop();
+          MotionToast.error(
+            width: 390.w,
+            position: MotionToastPosition.top,
+            iconSize: 30.w,
+            height: 70.h,
+            description: Text(
+              "error updating order".tr(),
+              style: TextStyles.font14BlackSemiBold,
+            ),
+          ).show(context);
+        }
+      },
+      child: const SizedBox.shrink(),
+    );
+  }
+
+  Widget buildDeleteBlocListener() {
+    return BlocListener<DailyPurchasesCubit, DailyPurchasesState>(
+      listener: (context, state) {
+        if (state is DeleteOrderLoading) {
+          showProgressIndecator(context);
+        } else if (state is DeleteOrderLoaded) {
+          Navigator.of(context).pop();
+          BlocProvider.of<DailyPurchasesCubit>(context).init();
+          MotionToast.success(
+            width: 390.w,
+            position: MotionToastPosition.top,
+            iconSize: 30.w,
+            height: 70.h,
+            description: Text(
+              "delete order successfully".tr(),
+              style: TextStyles.font14BlackSemiBold,
+            ),
+          ).show(context);
+          Navigator.of(context).pop();
+        } else if (state is DeleteOrderError) {
+          Navigator.of(context).pop();
+          MotionToast.error(
+            width: 390.w,
+            position: MotionToastPosition.top,
+            iconSize: 30.w,
+            height: 70.h,
+            description: Text(
+              "error deleting order".tr(),
               style: TextStyles.font14BlackSemiBold,
             ),
           ).show(context);
@@ -454,7 +562,7 @@ class _DailyPurchasesScreenState extends State<DailyPurchasesScreen> {
     return alertDialog;
   }
 
-  newOrder() {
+  void newOrder() {
     if (BlocProvider.of<DailyPurchasesCubit>(context)
         .newOrderFormKey
         .currentState!

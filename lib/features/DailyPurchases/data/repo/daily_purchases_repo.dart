@@ -55,4 +55,22 @@ class DailyPurchasesRepo {
 
     return response;
   }
+
+  Future<void> editOrderRepo(
+      {required String token,
+      required String orderId,
+      required DailyPurchasesEditModel dailyPurchasesEditModel}) async {
+    await apiService.editOrder(
+        token: token,
+        orderId: orderId,
+        dailyPurchasesEditModel: dailyPurchasesEditModel);
+  }
+
+  Future<void> deleteOrderRepo(
+      {required String token, required String orderId}) async {
+    await apiService.deleteOrder(
+      token: token,
+      orderId: orderId,
+    );
+  }
 }

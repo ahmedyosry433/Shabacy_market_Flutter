@@ -345,4 +345,37 @@ class ApiService {
           headers: headers,
         ));
   }
+
+  Future<void> editOrder(
+      {required String token,
+      required String orderId,
+      required DailyPurchasesEditModel dailyPurchasesEditModel}) async {
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+
+    await _dio.request(
+        '${ApiConstants.apiBaseUrl}${ApiConstants.ordersUrl}/$orderId',
+        data: dailyPurchasesEditModel,
+        options: Options(
+          method: 'PATCH',
+          headers: headers,
+        ));
+  }
+
+  Future<void> deleteOrder(
+      {required String token, required String orderId}) async {
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+
+    await _dio.request(
+        '${ApiConstants.apiBaseUrl}${ApiConstants.ordersUrl}/$orderId',
+        options: Options(
+          method: 'DELETE',
+          headers: headers,
+        ));
+  }
 }

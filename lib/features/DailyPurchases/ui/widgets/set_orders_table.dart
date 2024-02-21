@@ -39,10 +39,15 @@ class MyData extends DataTableSource {
       ),
       DataCell(
         Text(_data[index].totalBalance.toString(),
-            style: TextStyles.font14GrayMedium),
+            style: _data[index].totalBalance >= 0
+                ? TextStyles.font14GrayMedium
+                : TextStyles.font14RedMedium),
       ),
       DataCell(
-        EditiAndDeleteOrderButton(order: _data[index]),
+        EditiAndDeleteOrderButton(
+          order: _data[index],
+          index: index + 1,
+        ),
       ),
     ]);
   }

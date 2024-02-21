@@ -18,44 +18,43 @@ class DailyPurchasesCubit extends Cubit<DailyPurchasesState> {
   DailyPurchasesCubit(this.dailyPurchasesRepo) : super(DailyPurchasesInitial());
 
   DateTime? selectDate = DateTime.now();
+  DateTime? editselectDate;
   List<CategoriesModel> categories = [];
   List<SuppliersModel> suppliers = [];
   var dropdownCategroyValue;
   var dropdownSupplierValue;
+  var editDropdownSupplierValue;
   var dropdownPeriodValue;
   GlobalKey<FormState> newOrderFormKey = GlobalKey();
+  GlobalKey<FormState> editOrderFormKey = GlobalKey();
   TextEditingController paidController = TextEditingController();
   TextEditingController priceController = TextEditingController();
   TextEditingController quantityController = TextEditingController();
+  TextEditingController remainsController = TextEditingController(text: '0');
+  TextEditingController totalController = TextEditingController(text: '0');
+  TextEditingController editTotalController = TextEditingController();
+  TextEditingController editPaidController = TextEditingController();
+  TextEditingController editPriceController = TextEditingController();
+  TextEditingController editQuantityController = TextEditingController();
+  TextEditingController editDateController = TextEditingController();
+  TextEditingController editRemainsController = TextEditingController();
 
   String currentUserId = 'ahmed';
   List<GetDailyPurchasesModel> listOfOrders = [];
   getAllCategories() async {
-    // emit(Loading());
-    try {
-      final token = await SharedPreferencesHelper.getValueForKey('token');
-      List<CategoriesModel> res =
-          await dailyPurchasesRepo.getAllCategoriesRepo(token: token);
+    final token = await SharedPreferencesHelper.getValueForKey('token');
+    List<CategoriesModel> res =
+        await dailyPurchasesRepo.getAllCategoriesRepo(token: token);
 
-      categories = res;
-      // emit(Loaded());
-    } catch (e) {
-      // emit(Error(e.toString()));
-    }
+    categories = res;
   }
 
   getAllSuppliers() async {
-    // emit(Loading());
-    try {
-      final token = await SharedPreferencesHelper.getValueForKey('token');
-      List<SuppliersModel> res =
-          await dailyPurchasesRepo.getAllSuppliersRepo(token: token);
+    final token = await SharedPreferencesHelper.getValueForKey('token');
+    List<SuppliersModel> res =
+        await dailyPurchasesRepo.getAllSuppliersRepo(token: token);
 
-      suppliers = res;
-      // emit(Loaded());
-    } catch (e) {
-      // emit(Error(e.toString()));
-    }
+    suppliers = res;
   }
 
   getCurrentUser() async {
@@ -88,6 +87,8 @@ class DailyPurchasesCubit extends Cubit<DailyPurchasesState> {
       paidController.clear();
       priceController.clear();
       quantityController.clear();
+      remainsController.clear();
+      totalController.clear();
     } catch (e) {
       emit(AddedOrderError(e.toString()));
     }
@@ -113,6 +114,17 @@ class DailyPurchasesCubit extends Cubit<DailyPurchasesState> {
   Future<void> init() async {
     emit(Loading());
     try {
+      await getAllOrdersCubit();
+
+      emit(Loaded());
+    } catch (e) {
+      emit(Error(e.toString()));
+    }
+  }
+
+  Future<void> initOnce() async {
+    emit(Loading());
+    try {
       await getAllCategories();
 
       dropdownCategroyValue = categories[0].id;
@@ -125,6 +137,45 @@ class DailyPurchasesCubit extends Cubit<DailyPurchasesState> {
       emit(Loaded());
     } catch (e) {
       emit(Error(e.toString()));
+    }
+  }
+
+  void editOrderCubit({
+    required String orderId,
+  }) async {
+    emit(EditedOrderLoading());
+
+    try {
+      final token = await SharedPreferencesHelper.getValueForKey('token');
+      await dailyPurchasesRepo.editOrderRepo(
+          token: token,
+          orderId: orderId,
+          dailyPurchasesEditModel: DailyPurchasesEditModel(
+            date: editselectDate.toString(),
+            paid: int.parse(editPaidController.text),
+            price: int.parse(editPriceController.text),
+            quantity: int.parse(editQuantityController.text),
+            userId: editDropdownSupplierValue,
+          ));
+      emit(EditedOrderLoaded());
+    } catch (e) {
+      emit(EditedOrderError(e.toString()));
+    }
+  }
+
+  void deleteOrderCubit({
+    required String orderId,
+  }) async {
+    emit(DeleteOrderLoading());
+    try {
+      final token = await SharedPreferencesHelper.getValueForKey('token');
+      await dailyPurchasesRepo.deleteOrderRepo(
+        token: token,
+        orderId: orderId,
+      );
+      emit(DeleteOrderLoaded());
+    } catch (e) {
+      emit(DeleteOrderError(e.toString()));
     }
   }
 }
