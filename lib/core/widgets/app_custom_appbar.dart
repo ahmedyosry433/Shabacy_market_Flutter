@@ -32,7 +32,9 @@ class AppCustomAppbar extends StatelessWidget {
         padding: EdgeInsets.only(top: 40.h),
         child:
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          Text('bussnisName'.tr(), style: TextStyles.font16BlackSemiBold),
+          Image.asset('assets/image/logo_without_background.png',
+              width: 55.w, height: 100.h),
+          // Text('bussnisName'.tr(), style: TextStyles.font11BlackSemiBold),
           Row(
             children: [
               GestureDetector(
