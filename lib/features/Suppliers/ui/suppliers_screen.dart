@@ -145,11 +145,24 @@ class _SuppliersScreenState extends State<SuppliersScreen> {
               buttonText: 'addNewSupplier'.tr(),
               textStyle: TextStyles.font13WhiteRegular,
               onPressed: () {
-                showModalBottomSheet(
+                showDialog(
                     context: context,
-                    builder: (_) => SizedBox(
-                          height: 800.h,
-                          child: buildAddNewSupplierForm(),
+                    builder: (_) => SingleChildScrollView(
+                          child: Align(
+                            alignment: Alignment.topCenter,
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                  top: 30.h, right: 10.w, left: 10.w),
+                              child: Material(
+                                color: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15.r)),
+                                child: SizedBox(
+                                  child: buildAddNewSupplierForm(),
+                                ),
+                              ),
+                            ),
+                          ),
                         ));
               })
         ],
@@ -226,6 +239,7 @@ class _SuppliersScreenState extends State<SuppliersScreen> {
                   value: BlocProvider.of<SuppliersCubit>(context).dropdownValue,
                 ),
               ),
+              verticalSpace(20),
               Row(
                 children: [
                   AppTextButton(

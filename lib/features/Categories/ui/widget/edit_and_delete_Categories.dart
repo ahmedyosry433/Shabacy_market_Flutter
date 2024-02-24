@@ -40,70 +40,88 @@ class _EditCategoriesButtonState extends State<EditCategoriesButton> {
                     .editCategriesNameController
                     .text = widget.categories.name;
               });
-              showModalBottomSheet(
+              showDialog(
                   context: context,
-                  builder: (_) => SizedBox(
-                        height: 400.h,
-                        child: SingleChildScrollView(
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 10.w, vertical: 10.h),
-                            child: Form(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text('editCategory'.tr(),
-                                      style: TextStyles.font20BlackRegular),
-                                  verticalSpace(10.h),
-                                  AppTextFormFieldWithTopHint(
-                                    topHintText: 'categoryName'.tr(),
-                                    appTextFormField: AppTextFormField(
-                                      controller:
-                                          BlocProvider.of<CategoriesCubit>(
-                                                  context)
-                                              .editCategriesNameController,
-                                      contentPadding: EdgeInsets.symmetric(
-                                          vertical: 9.h, horizontal: 10.w),
-                                      hintText: 'enterCategoryName'.tr(),
-                                      validator: (validator) {
-                                        if (validator!.isEmpty ||
-                                            validator.length < 3) {
-                                          return 'enterVaildCategoryName'.tr();
-                                        }
-                                      },
-                                      keyboardType: TextInputType.name,
+                  builder: (_) => Align(
+                        alignment: Alignment.topCenter,
+                        child: SizedBox(
+                          height: 400.h,
+                          child: SingleChildScrollView(
+                            physics: const BouncingScrollPhysics(),
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                  top: 30.h, right: 10.w, left: 10.w),
+                              child: Material(
+                                color: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15.r)),
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 10.h, vertical: 10.w),
+                                  child: Form(
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text('editCategory'.tr(),
+                                            style:
+                                                TextStyles.font20BlackRegular),
+                                        verticalSpace(10.h),
+                                        AppTextFormFieldWithTopHint(
+                                          topHintText: 'categoryName'.tr(),
+                                          appTextFormField: AppTextFormField(
+                                            controller: BlocProvider.of<
+                                                    CategoriesCubit>(context)
+                                                .editCategriesNameController,
+                                            contentPadding:
+                                                EdgeInsets.symmetric(
+                                                    vertical: 9.h,
+                                                    horizontal: 10.w),
+                                            hintText: 'enterCategoryName'.tr(),
+                                            validator: (validator) {
+                                              if (validator!.isEmpty ||
+                                                  validator.length < 3) {
+                                                return 'enterVaildCategoryName'
+                                                    .tr();
+                                              }
+                                            },
+                                            keyboardType: TextInputType.name,
+                                          ),
+                                        ),
+                                        verticalSpace(10.h),
+                                        Row(
+                                          children: [
+                                            AppTextButton(
+                                                backgroundColor:
+                                                    ColorsManager.red,
+                                                verticalPadding: 0,
+                                                horizontalPadding: 0,
+                                                buttonHeight: 30.h,
+                                                buttonWidth: 60.w,
+                                                buttonText: 'cancel'.tr(),
+                                                textStyle: TextStyles
+                                                    .font13WhiteSemiBold,
+                                                onPressed: () {
+                                                  context.pop();
+                                                }),
+                                            horizontalSpace(10),
+                                            AppTextButton(
+                                                verticalPadding: 0,
+                                                horizontalPadding: 0,
+                                                buttonHeight: 30.h,
+                                                buttonWidth: 60.w,
+                                                buttonText: 'edit'.tr(),
+                                                textStyle: TextStyles
+                                                    .font13WhiteSemiBold,
+                                                onPressed: () {
+                                                  editCategoryubmit();
+                                                }),
+                                          ],
+                                        )
+                                      ],
                                     ),
                                   ),
-                                  verticalSpace(10.h),
-                                  Row(
-                                    children: [
-                                      AppTextButton(
-                                          backgroundColor: ColorsManager.red,
-                                          verticalPadding: 0,
-                                          horizontalPadding: 0,
-                                          buttonHeight: 30.h,
-                                          buttonWidth: 60.w,
-                                          buttonText: 'cancel'.tr(),
-                                          textStyle:
-                                              TextStyles.font13WhiteSemiBold,
-                                          onPressed: () {
-                                            context.pop();
-                                          }),
-                                      horizontalSpace(10),
-                                      AppTextButton(
-                                          verticalPadding: 0,
-                                          horizontalPadding: 0,
-                                          buttonHeight: 30.h,
-                                          buttonWidth: 60.w,
-                                          buttonText: 'edit'.tr(),
-                                          textStyle:
-                                              TextStyles.font13WhiteSemiBold,
-                                          onPressed: () {
-                                            editCategoryubmit();
-                                          }),
-                                    ],
-                                  )
-                                ],
+                                ),
                               ),
                             ),
                           ),

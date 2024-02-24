@@ -41,132 +41,161 @@ class _EditiAndDeleteUsersButtonState extends State<EditiAndDeleteUsersButton> {
                     widget.user.role;
               });
 
-              showModalBottomSheet(
+              showDialog(
                   context: context,
-                  builder: (_) => SizedBox(
-                        height: 400.h,
+                  builder: (_) => Align(
+                        alignment: Alignment.topCenter,
                         child: SingleChildScrollView(
+                          physics: const BouncingScrollPhysics(),
                           child: Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 10.w, vertical: 10.h),
-                            child: Form(
-                              key: BlocProvider.of<UsersCubit>(context)
-                                  .editUserFormKey,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text('edite user'.tr(),
-                                      style: TextStyles.font20BlackRegular),
-                                  verticalSpace(10.h),
-                                  AppTextFormFieldWithTopHint(
-                                    topHintText: 'name'.tr(),
-                                    appTextFormField: AppTextFormField(
-                                      controller:
-                                          BlocProvider.of<UsersCubit>(context)
-                                              .editNameController,
-                                      contentPadding: EdgeInsets.symmetric(
-                                          vertical: 9.h, horizontal: 10.w),
-                                      hintText: 'enterName'.tr(),
-                                      validator: (validator) {
-                                        if (validator!.isEmpty ||
-                                            validator.length < 3) {
-                                          return 'enterValidName'.tr();
-                                        }
-                                      },
-                                      keyboardType: TextInputType.name,
+                            padding: EdgeInsets.only(
+                                top: 30.h, right: 10.w, left: 10.w),
+                            child: Material(
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15.r)),
+                              child: SizedBox(
+                                child: SingleChildScrollView(
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 10.w, vertical: 10.h),
+                                    child: Form(
+                                      key: BlocProvider.of<UsersCubit>(context)
+                                          .editUserFormKey,
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text('edite user'.tr(),
+                                              style: TextStyles
+                                                  .font20BlackRegular),
+                                          verticalSpace(10.h),
+                                          AppTextFormFieldWithTopHint(
+                                            topHintText: 'name'.tr(),
+                                            appTextFormField: AppTextFormField(
+                                              controller:
+                                                  BlocProvider.of<UsersCubit>(
+                                                          context)
+                                                      .editNameController,
+                                              contentPadding:
+                                                  EdgeInsets.symmetric(
+                                                      vertical: 9.h,
+                                                      horizontal: 10.w),
+                                              hintText: 'enterName'.tr(),
+                                              validator: (validator) {
+                                                if (validator!.isEmpty ||
+                                                    validator.length < 3) {
+                                                  return 'enterValidName'.tr();
+                                                }
+                                              },
+                                              keyboardType: TextInputType.name,
+                                            ),
+                                          ),
+                                          verticalSpace(10.h),
+                                          AppTextFormFieldWithTopHint(
+                                            topHintText: 'email'.tr(),
+                                            appTextFormField: AppTextFormField(
+                                              controller:
+                                                  BlocProvider.of<UsersCubit>(
+                                                          context)
+                                                      .editEmailController,
+                                              contentPadding:
+                                                  EdgeInsets.symmetric(
+                                                      vertical: 9.h,
+                                                      horizontal: 10.w),
+                                              hintText: 'enterEmail'.tr(),
+                                              validator: (validator) {
+                                                if (validator!.isEmpty ||
+                                                    validator.length < 10) {
+                                                  return 'enterValidEmail'.tr();
+                                                }
+                                              },
+                                              keyboardType:
+                                                  TextInputType.emailAddress,
+                                            ),
+                                          ),
+                                          verticalSpace(10.h),
+                                          AppCustomDropdownWithTopHint(
+                                            topHintText: 'typeOfUser'.tr(),
+                                            appCustomDropdown:
+                                                AppCustomDropDownFormButton(
+                                              hintText:
+                                                  Text('selectTypeOfUser'.tr()),
+                                              items: [
+                                                DropdownMenuItem(
+                                                  value: 'SUPER_ADMIN',
+                                                  child: Text(
+                                                    'SUPER_ADMIN'.tr(),
+                                                  ),
+                                                ),
+                                                DropdownMenuItem(
+                                                  value: 'ADMIN',
+                                                  child: Text(
+                                                    'ADMIN'.tr(),
+                                                  ),
+                                                ),
+                                                DropdownMenuItem(
+                                                  value: 'EMPLOYEE',
+                                                  child: Text(
+                                                    'EMPLOYEE'.tr(),
+                                                  ),
+                                                ),
+                                              ],
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  context
+                                                          .read<UsersCubit>()
+                                                          .editDropdownValue =
+                                                      value;
+                                                });
+                                              },
+                                              value:
+                                                  BlocProvider.of<UsersCubit>(
+                                                          context)
+                                                      .editDropdownValue,
+                                              validator: (value) {
+                                                if (value == null) {
+                                                  return 'selectTypeOfUser'
+                                                      .tr();
+                                                }
+                                              },
+                                            ),
+                                          ),
+                                          verticalSpace(20),
+                                          Row(
+                                            children: [
+                                              AppTextButton(
+                                                  backgroundColor:
+                                                      ColorsManager.red,
+                                                  verticalPadding: 0,
+                                                  horizontalPadding: 0,
+                                                  buttonHeight: 30.h,
+                                                  buttonWidth: 60.w,
+                                                  buttonText: 'cancel'.tr(),
+                                                  textStyle: TextStyles
+                                                      .font13WhiteSemiBold,
+                                                  onPressed: () {
+                                                    context.pop();
+                                                  }),
+                                              horizontalSpace(10),
+                                              AppTextButton(
+                                                  verticalPadding: 0,
+                                                  horizontalPadding: 0,
+                                                  buttonHeight: 30.h,
+                                                  buttonWidth: 60.w,
+                                                  buttonText: 'edit'.tr(),
+                                                  textStyle: TextStyles
+                                                      .font13WhiteSemiBold,
+                                                  onPressed: () {
+                                                    editUserSubmit();
+                                                  }),
+                                            ],
+                                          )
+                                        ],
+                                      ),
                                     ),
                                   ),
-                                  verticalSpace(10.h),
-                                  AppTextFormFieldWithTopHint(
-                                    topHintText: 'email'.tr(),
-                                    appTextFormField: AppTextFormField(
-                                      controller:
-                                          BlocProvider.of<UsersCubit>(context)
-                                              .editEmailController,
-                                      contentPadding: EdgeInsets.symmetric(
-                                          vertical: 9.h, horizontal: 10.w),
-                                      hintText: 'enterEmail'.tr(),
-                                      validator: (validator) {
-                                        if (validator!.isEmpty ||
-                                            validator.length < 10) {
-                                          return 'enterValidEmail'.tr();
-                                        }
-                                      },
-                                      keyboardType: TextInputType.emailAddress,
-                                    ),
-                                  ),
-                                  verticalSpace(10.h),
-                                  AppCustomDropdownWithTopHint(
-                                    topHintText: 'typeOfUser'.tr(),
-                                    appCustomDropdown:
-                                        AppCustomDropDownFormButton(
-                                      hintText: Text('selectTypeOfUser'.tr()),
-                                      items: [
-                                        DropdownMenuItem(
-                                          value: 'SUPER_ADMIN',
-                                          child: Text(
-                                            'SUPER_ADMIN'.tr(),
-                                          ),
-                                        ),
-                                        DropdownMenuItem(
-                                          value: 'ADMIN',
-                                          child: Text(
-                                            'ADMIN'.tr(),
-                                          ),
-                                        ),
-                                        DropdownMenuItem(
-                                          value: 'EMPLOYEE',
-                                          child: Text(
-                                            'EMPLOYEE'.tr(),
-                                          ),
-                                        ),
-                                      ],
-                                      onChanged: (value) {
-                                        setState(() {
-                                          context
-                                              .read<UsersCubit>()
-                                              .editDropdownValue = value;
-                                        });
-                                      },
-                                      value:
-                                          BlocProvider.of<UsersCubit>(context)
-                                              .editDropdownValue,
-                                      validator: (value) {
-                                        if (value == null) {
-                                          return 'selectTypeOfUser'.tr();
-                                        }
-                                      },
-                                    ),
-                                  ),
-                                  Row(
-                                    children: [
-                                      AppTextButton(
-                                          backgroundColor: ColorsManager.red,
-                                          verticalPadding: 0,
-                                          horizontalPadding: 0,
-                                          buttonHeight: 30.h,
-                                          buttonWidth: 60.w,
-                                          buttonText: 'cancel'.tr(),
-                                          textStyle:
-                                              TextStyles.font13WhiteSemiBold,
-                                          onPressed: () {
-                                            context.pop();
-                                          }),
-                                      horizontalSpace(10),
-                                      AppTextButton(
-                                          verticalPadding: 0,
-                                          horizontalPadding: 0,
-                                          buttonHeight: 30.h,
-                                          buttonWidth: 60.w,
-                                          buttonText: 'edit'.tr(),
-                                          textStyle:
-                                              TextStyles.font13WhiteSemiBold,
-                                          onPressed: () {
-                                            editUserSubmit();
-                                          }),
-                                    ],
-                                  )
-                                ],
+                                ),
                               ),
                             ),
                           ),

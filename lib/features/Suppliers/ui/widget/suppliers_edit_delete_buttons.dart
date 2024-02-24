@@ -43,11 +43,27 @@ class _SuppliersEditAndDeleteButtonState
                 context.read<SuppliersCubit>().dropdownEditValue =
                     widget.supplierModel.adminId.toString();
               });
-              showModalBottomSheet(
+              showDialog(
                   context: context,
-                  builder: (_) => SizedBox(
-                        height: 800.h,
-                        child: buildEditSupplier(context),
+                  builder: (_) => Align(
+                        alignment: Alignment.topCenter,
+                        child: SingleChildScrollView(
+                          physics: const BouncingScrollPhysics(),
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                                top: 30.h, right: 10.w, left: 10.w),
+                            child: Material(
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15.r)),
+                              child: SizedBox(
+                                child: buildEditSupplier(
+                                  context,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
                       ));
             },
             child: const Icon(Icons.edit, color: ColorsManager.primryColor)),
@@ -107,9 +123,9 @@ class _SuppliersEditAndDeleteButtonState
   }
 
   Widget buildEditSupplier(BuildContext context) {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
+      child: SingleChildScrollView(
         child: Form(
           key: BlocProvider.of<SuppliersCubit>(context).editSupplierFormKey,
           child: Column(
@@ -177,6 +193,7 @@ class _SuppliersEditAndDeleteButtonState
                       .dropdownEditValue,
                 ),
               ),
+              verticalSpace(20),
               Row(
                 children: [
                   AppTextButton(

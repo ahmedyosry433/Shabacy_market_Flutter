@@ -514,34 +514,47 @@ class _DailyPurchasesScreenState extends State<DailyPurchasesScreen> {
   }
 
   Widget buildOrdersTable({required DataTableSource source}) {
-    return PaginatedDataTable(
-      arrowHeadColor: ColorsManager.primryColor,
-      columns: [
-        DataColumn(label: Text('id'.tr(), style: TextStyles.font14BlackMedium)),
-        DataColumn(
-            label: Text('customer name'.tr(),
-                style: TextStyles.font14BlackMedium)),
-        DataColumn(
-            label: Text('quantity'.tr(), style: TextStyles.font14BlackMedium)),
-        DataColumn(
-            label: Text('price'.tr(), style: TextStyles.font14BlackMedium)),
-        DataColumn(
-            label:
-                Text('total price'.tr(), style: TextStyles.font14BlackMedium)),
-        DataColumn(
-            label: Text('paid'.tr(), style: TextStyles.font14BlackMedium)),
-        DataColumn(
-            label: Text('remaining'.tr(), style: TextStyles.font14BlackMedium)),
-        DataColumn(
-            label: Text('total balance'.tr(),
-                style: TextStyles.font14BlackMedium)),
-        DataColumn(
-            label: Text('control'.tr(), style: TextStyles.font14BlackMedium)),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'purchases list'.tr(),
+          style: TextStyles.font20BlackRegular,
+        ),
+        PaginatedDataTable(
+          arrowHeadColor: ColorsManager.primryColor,
+          columns: [
+            DataColumn(
+                label: Text('id'.tr(), style: TextStyles.font14BlackMedium)),
+            DataColumn(
+                label: Text('customer name'.tr(),
+                    style: TextStyles.font14BlackMedium)),
+            DataColumn(
+                label:
+                    Text('quantity'.tr(), style: TextStyles.font14BlackMedium)),
+            DataColumn(
+                label: Text('price'.tr(), style: TextStyles.font14BlackMedium)),
+            DataColumn(
+                label: Text('total price'.tr(),
+                    style: TextStyles.font14BlackMedium)),
+            DataColumn(
+                label: Text('paid'.tr(), style: TextStyles.font14BlackMedium)),
+            DataColumn(
+                label: Text('remaining'.tr(),
+                    style: TextStyles.font14BlackMedium)),
+            DataColumn(
+                label: Text('total balance'.tr(),
+                    style: TextStyles.font14BlackMedium)),
+            DataColumn(
+                label:
+                    Text('control'.tr(), style: TextStyles.font14BlackMedium)),
+          ],
+          source: source,
+          columnSpacing: 25.w,
+          horizontalMargin: 10.w,
+          rowsPerPage: 5,
+        ),
       ],
-      source: source,
-      columnSpacing: 25.w,
-      horizontalMargin: 10.w,
-      rowsPerPage: 5,
     );
   }
 

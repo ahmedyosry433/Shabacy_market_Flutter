@@ -91,15 +91,29 @@ class _UsersScreenState extends State<UsersScreen> {
               buttonText: 'addUser'.tr(),
               textStyle: TextStyles.font13WhiteRegular,
               onPressed: () {
-                showModalBottomSheet(
+                showDialog(
                     context: context,
-                    builder: (_) => SizedBox(
-                          height: 400.h,
+                    builder: (_) => Align(
+                          alignment: Alignment.topCenter,
                           child: SingleChildScrollView(
                             child: Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 10.w, vertical: 10.h),
-                              child: buildFormAddNewUser(),
+                              padding: EdgeInsets.only(
+                                  top: 30.h, right: 10.w, left: 10.w),
+                              child: Material(
+                                color: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(15.r)),
+                                child: SizedBox(
+                                  height: 400.h,
+                                  child: SingleChildScrollView(
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 10.w, vertical: 10.h),
+                                      child: buildFormAddNewUser(),
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
                         ));
@@ -215,6 +229,7 @@ class _UsersScreenState extends State<UsersScreen> {
               },
             ),
           ),
+          verticalSpace(20),
           Row(
             children: [
               AppTextButton(

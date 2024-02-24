@@ -51,7 +51,10 @@ class AppCustomDropDownFormButton extends StatelessWidget {
       decoration: InputDecoration(
         isDense: true,
         contentPadding: contentPadding ??
-            EdgeInsets.symmetric(horizontal: 20.w, vertical: 18.h),
+            EdgeInsets.symmetric(
+              vertical: 9.h,
+              horizontal: 10.w,
+            ),
         focusedBorder: focusedBorder ??
             const OutlineInputBorder(
               borderSide: BorderSide(

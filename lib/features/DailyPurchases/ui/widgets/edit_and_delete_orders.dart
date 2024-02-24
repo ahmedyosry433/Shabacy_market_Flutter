@@ -52,235 +52,276 @@ class _EditiAndDeleteOrderButtonState extends State<EditiAndDeleteOrderButton> {
                 blocRead.editTotalController.text =
                     (widget.order.price * widget.order.quantity).toString();
               });
-              showModalBottomSheet(
+              showDialog(
                   context: context,
-                  builder: (_) => SizedBox(
-                        height: 400.h,
-                        child: SingleChildScrollView(
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 10.w, vertical: 10.h),
-                            child: Form(
-                              key: blocRead.editOrderFormKey,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text('edit order'.tr(),
-                                      style: TextStyles.font20BlackRegular),
-                                  verticalSpace(10.h),
-                                  AppTextFormFieldWithTopHint(
-                                      topHintText: 'day'.tr(),
-                                      appTextFormField: AppTextFormField(
-                                        readOnly: true,
-                                        controller: context
-                                            .read<DailyPurchasesCubit>()
-                                            .editDateController,
-                                        suffixIcon: IconButton(
-                                          onPressed: () {
-                                            final now = DateTime.now();
-                                            final firstDate =
-                                                DateTime(now.year - 2);
-                                            final lastDate =
-                                                DateTime(now.year + 2);
-                                            showDatePicker(
-                                                    context: context,
-                                                    initialDate: BlocProvider
-                                                            .of<DailyPurchasesCubit>(
-                                                                context)
-                                                        .editselectDate!,
-                                                    firstDate: firstDate,
-                                                    lastDate: lastDate)
-                                                .then(
-                                              (value) {
+                  builder: (_) => Align(
+                        alignment: Alignment.topCenter,
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                              top: 30.h, right: 10.w, left: 10.w),
+                          child: Material(
+                            color: Colors.white,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15.r)),
+                            child: SizedBox(
+                              height: 400.h,
+                              child: SingleChildScrollView(
+                                physics: const BouncingScrollPhysics(),
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 10.w, vertical: 10.h),
+                                  child: Form(
+                                    key: blocRead.editOrderFormKey,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text('edit order'.tr(),
+                                            style:
+                                                TextStyles.font20BlackRegular),
+                                        verticalSpace(10.h),
+                                        AppTextFormFieldWithTopHint(
+                                            topHintText: 'day'.tr(),
+                                            appTextFormField: AppTextFormField(
+                                              readOnly: true,
+                                              controller: context
+                                                  .read<DailyPurchasesCubit>()
+                                                  .editDateController,
+                                              suffixIcon: IconButton(
+                                                onPressed: () {
+                                                  final now = DateTime.now();
+                                                  final firstDate =
+                                                      DateTime(now.year - 2);
+                                                  final lastDate =
+                                                      DateTime(now.year + 2);
+                                                  showDatePicker(
+                                                          context: context,
+                                                          initialDate: BlocProvider
+                                                                  .of<DailyPurchasesCubit>(
+                                                                      context)
+                                                              .editselectDate!,
+                                                          firstDate: firstDate,
+                                                          lastDate: lastDate)
+                                                      .then(
+                                                    (value) {
+                                                      setState(() {
+                                                        if (value != null &&
+                                                            value !=
+                                                                blocRead
+                                                                    .editselectDate) {
+                                                          blocRead.editselectDate =
+                                                              value;
+                                                          blocRead.editDateController
+                                                                  .text =
+                                                              blocRead
+                                                                  .formatting
+                                                                  .format(value)
+                                                                  .toString();
+                                                        }
+                                                      });
+                                                    },
+                                                  );
+                                                },
+                                                icon: const Icon(
+                                                  Icons.calendar_month_outlined,
+                                                  size: 25,
+                                                ),
+                                              ),
+                                              contentPadding:
+                                                  EdgeInsets.symmetric(
+                                                      vertical: 7.h,
+                                                      horizontal: 10.w),
+                                              hintText: '',
+                                              validator: (validator) {},
+                                              keyboardType: TextInputType.name,
+                                            )),
+                                        verticalSpace(10.h),
+                                        AppCustomDropdownWithTopHint(
+                                            topHintText: 'customer'.tr(),
+                                            appCustomDropdown:
+                                                AppCustomDropDownFormButton(
+                                              contentPadding:
+                                                  EdgeInsets.symmetric(
+                                                      vertical: 7.h,
+                                                      horizontal: 10.w),
+                                              hintText:
+                                                  Text('select customer'.tr()),
+                                              items:
+                                                  blocRead.suppliers.map((e) {
+                                                return DropdownMenuItem<String>(
+                                                  value: e.id,
+                                                  child: Text(e.name),
+                                                );
+                                              }).toList(),
+                                              onChanged: (value) {
                                                 setState(() {
-                                                  if (value != null &&
-                                                      value !=
-                                                          blocRead
-                                                              .editselectDate) {
-                                                    blocRead.editselectDate =
-                                                        value;
-                                                    blocRead.editDateController
-                                                            .text =
-                                                        blocRead.formatting
-                                                            .format(value)
-                                                            .toString();
-                                                  }
+                                                  blocRead.editDropdownSupplierValue =
+                                                      value;
                                                 });
                                               },
-                                            );
-                                          },
-                                          icon: const Icon(
-                                            Icons.calendar_month_outlined,
-                                            size: 25,
-                                          ),
-                                        ),
-                                        contentPadding: EdgeInsets.symmetric(
-                                            vertical: 7.h, horizontal: 10.w),
-                                        hintText: '',
-                                        validator: (validator) {},
-                                        keyboardType: TextInputType.name,
-                                      )),
-                                  verticalSpace(10.h),
-                                  AppCustomDropdownWithTopHint(
-                                      topHintText: 'customer'.tr(),
-                                      appCustomDropdown:
-                                          AppCustomDropDownFormButton(
-                                        contentPadding: EdgeInsets.symmetric(
-                                            vertical: 7.h, horizontal: 10.w),
-                                        hintText: Text('select customer'.tr()),
-                                        items: blocRead.suppliers.map((e) {
-                                          return DropdownMenuItem<String>(
-                                            value: e.id,
-                                            child: Text(e.name),
-                                          );
-                                        }).toList(),
-                                        onChanged: (value) {
-                                          setState(() {
-                                            blocRead.editDropdownSupplierValue =
-                                                value;
-                                          });
-                                        },
-                                        validator: (vaild) {
-                                          if (vaild == null || vaild == '') {
-                                            return 'select customer'.tr();
-                                          }
-                                        },
-                                        value:
-                                            blocRead.editDropdownSupplierValue,
-                                      )),
-                                  verticalSpace(10.h),
-                                  AppTextFormFieldWithTopHint(
-                                      topHintText: 'unit price'.tr(),
-                                      appTextFormField: AppTextFormField(
-                                        onChanged: (price) {
-                                          setState(() {
-                                            blocRead.editTotalController
-                                                .text = (int.parse(price) *
-                                                    int.parse(blocRead
-                                                        .editQuantityController
-                                                        .text))
-                                                .toString();
-                                          });
-                                        },
-                                        controller:
-                                            blocRead.editPriceController,
-                                        contentPadding: EdgeInsets.symmetric(
-                                            vertical: 7.h, horizontal: 10.w),
-                                        hintText: 'enter unit price'.tr(),
-                                        validator: (validator) {
-                                          if (validator!.isEmpty) {
-                                            return 'enter unit price'.tr();
-                                          }
-                                        },
-                                        keyboardType: TextInputType.number,
-                                      )),
-                                  verticalSpace(10.h),
-                                  AppTextFormFieldWithTopHint(
-                                      topHintText: 'quantity'.tr(),
-                                      appTextFormField: AppTextFormField(
-                                        onChanged: (quantity) {
-                                          setState(() {
-                                            blocRead.editTotalController.text =
-                                                (int.parse(quantity) *
-                                                        int.parse(blocRead
-                                                            .editPriceController
-                                                            .text))
-                                                    .toString();
-                                          });
-                                        },
-                                        controller:
-                                            blocRead.editQuantityController,
-                                        contentPadding: EdgeInsets.symmetric(
-                                            vertical: 7.h, horizontal: 10.w),
-                                        hintText: 'enter quantity'.tr(),
-                                        validator: (validator) {
-                                          if (validator!.isEmpty) {
-                                            return 'enter quantity'.tr();
-                                          }
-                                        },
-                                        keyboardType: TextInputType.number,
-                                      )),
-                                  verticalSpace(10.h),
-                                  AppTextFormFieldWithTopHint(
-                                      topHintText: 'total purchases'.tr(),
-                                      appTextFormField: AppTextFormField(
-                                        controller:
-                                            blocWatch.editTotalController,
-                                        readOnly: true,
-                                        contentPadding: EdgeInsets.symmetric(
-                                            vertical: 7.h, horizontal: 10.w),
-                                        hintText: '',
-                                        validator: (validator) {},
-                                        keyboardType: TextInputType.name,
-                                      )),
-                                  verticalSpace(10.h),
-                                  AppTextFormFieldWithTopHint(
-                                      topHintText: 'paid'.tr(),
-                                      appTextFormField: AppTextFormField(
-                                        onChanged: (paid) {
-                                          setState(() {
-                                            blocRead.editRemainsController
-                                                .text = (int.parse(blocRead
-                                                        .editTotalController
-                                                        .text) -
-                                                    int.parse(paid))
-                                                .toString();
-                                          });
-                                        },
-                                        controller: blocRead.editPaidController,
-                                        contentPadding: EdgeInsets.symmetric(
-                                            vertical: 7.h, horizontal: 10.w),
-                                        hintText: 'enter paid'.tr(),
-                                        validator: (validator) {
-                                          if (validator!.isEmpty) {
-                                            return 'enter paid'.tr();
-                                          }
-                                        },
-                                        keyboardType: TextInputType.number,
-                                      )),
-                                  verticalSpace(10.h),
-                                  AppTextFormFieldWithTopHint(
-                                      topHintText: 'remaining'.tr(),
-                                      appTextFormField: AppTextFormField(
-                                        controller:
-                                            blocWatch.editRemainsController,
-                                        readOnly: true,
-                                        contentPadding: EdgeInsets.symmetric(
-                                            vertical: 7.h, horizontal: 10.w),
-                                        hintText: '',
-                                        validator: (validator) {},
-                                        keyboardType: TextInputType.name,
-                                      )),
-                                  verticalSpace(10.h),
-                                  Row(
-                                    children: [
-                                      AppTextButton(
-                                          backgroundColor: ColorsManager.red,
-                                          verticalPadding: 0,
-                                          horizontalPadding: 0,
-                                          buttonHeight: 30.h,
-                                          buttonWidth: 60.w,
-                                          buttonText: 'cancel'.tr(),
-                                          textStyle:
-                                              TextStyles.font13WhiteSemiBold,
-                                          onPressed: () {
-                                            context.pop();
-                                          }),
-                                      horizontalSpace(10),
-                                      AppTextButton(
-                                          verticalPadding: 0,
-                                          horizontalPadding: 0,
-                                          buttonHeight: 30.h,
-                                          buttonWidth: 60.w,
-                                          buttonText: 'edit'.tr(),
-                                          textStyle:
-                                              TextStyles.font13WhiteSemiBold,
-                                          onPressed: () {
-                                            editOrderSubmit();
-                                          }),
-                                    ],
-                                  )
-                                ],
+                                              validator: (vaild) {
+                                                if (vaild == null ||
+                                                    vaild == '') {
+                                                  return 'select customer'.tr();
+                                                }
+                                              },
+                                              value: blocRead
+                                                  .editDropdownSupplierValue,
+                                            )),
+                                        verticalSpace(10.h),
+                                        AppTextFormFieldWithTopHint(
+                                            topHintText: 'unit price'.tr(),
+                                            appTextFormField: AppTextFormField(
+                                              onChanged: (price) {
+                                                setState(() {
+                                                  blocRead.editTotalController
+                                                      .text = (int.parse(
+                                                              price) *
+                                                          int.parse(blocRead
+                                                              .editQuantityController
+                                                              .text))
+                                                      .toString();
+                                                });
+                                              },
+                                              controller:
+                                                  blocRead.editPriceController,
+                                              contentPadding:
+                                                  EdgeInsets.symmetric(
+                                                      vertical: 7.h,
+                                                      horizontal: 10.w),
+                                              hintText: 'enter unit price'.tr(),
+                                              validator: (validator) {
+                                                if (validator!.isEmpty) {
+                                                  return 'enter unit price'
+                                                      .tr();
+                                                }
+                                              },
+                                              keyboardType:
+                                                  TextInputType.number,
+                                            )),
+                                        verticalSpace(10.h),
+                                        AppTextFormFieldWithTopHint(
+                                            topHintText: 'quantity'.tr(),
+                                            appTextFormField: AppTextFormField(
+                                              onChanged: (quantity) {
+                                                setState(() {
+                                                  blocRead.editTotalController
+                                                      .text = (int.parse(
+                                                              quantity) *
+                                                          int.parse(blocRead
+                                                              .editPriceController
+                                                              .text))
+                                                      .toString();
+                                                });
+                                              },
+                                              controller: blocRead
+                                                  .editQuantityController,
+                                              contentPadding:
+                                                  EdgeInsets.symmetric(
+                                                      vertical: 7.h,
+                                                      horizontal: 10.w),
+                                              hintText: 'enter quantity'.tr(),
+                                              validator: (validator) {
+                                                if (validator!.isEmpty) {
+                                                  return 'enter quantity'.tr();
+                                                }
+                                              },
+                                              keyboardType:
+                                                  TextInputType.number,
+                                            )),
+                                        verticalSpace(10.h),
+                                        AppTextFormFieldWithTopHint(
+                                            topHintText: 'total purchases'.tr(),
+                                            appTextFormField: AppTextFormField(
+                                              controller:
+                                                  blocWatch.editTotalController,
+                                              readOnly: true,
+                                              contentPadding:
+                                                  EdgeInsets.symmetric(
+                                                      vertical: 7.h,
+                                                      horizontal: 10.w),
+                                              hintText: '',
+                                              validator: (validator) {},
+                                              keyboardType: TextInputType.name,
+                                            )),
+                                        verticalSpace(10.h),
+                                        AppTextFormFieldWithTopHint(
+                                            topHintText: 'paid'.tr(),
+                                            appTextFormField: AppTextFormField(
+                                              onChanged: (paid) {
+                                                setState(() {
+                                                  blocRead.editRemainsController
+                                                      .text = (int.parse(blocRead
+                                                              .editTotalController
+                                                              .text) -
+                                                          int.parse(paid))
+                                                      .toString();
+                                                });
+                                              },
+                                              controller:
+                                                  blocRead.editPaidController,
+                                              contentPadding:
+                                                  EdgeInsets.symmetric(
+                                                      vertical: 7.h,
+                                                      horizontal: 10.w),
+                                              hintText: 'enter paid'.tr(),
+                                              validator: (validator) {
+                                                if (validator!.isEmpty) {
+                                                  return 'enter paid'.tr();
+                                                }
+                                              },
+                                              keyboardType:
+                                                  TextInputType.number,
+                                            )),
+                                        verticalSpace(10.h),
+                                        AppTextFormFieldWithTopHint(
+                                            topHintText: 'remaining'.tr(),
+                                            appTextFormField: AppTextFormField(
+                                              controller: blocWatch
+                                                  .editRemainsController,
+                                              readOnly: true,
+                                              contentPadding:
+                                                  EdgeInsets.symmetric(
+                                                      vertical: 7.h,
+                                                      horizontal: 10.w),
+                                              hintText: '',
+                                              validator: (validator) {},
+                                              keyboardType: TextInputType.name,
+                                            )),
+                                        verticalSpace(10.h),
+                                        Row(
+                                          children: [
+                                            AppTextButton(
+                                                backgroundColor:
+                                                    ColorsManager.red,
+                                                verticalPadding: 0,
+                                                horizontalPadding: 0,
+                                                buttonHeight: 30.h,
+                                                buttonWidth: 60.w,
+                                                buttonText: 'cancel'.tr(),
+                                                textStyle: TextStyles
+                                                    .font13WhiteSemiBold,
+                                                onPressed: () {
+                                                  context.pop();
+                                                }),
+                                            horizontalSpace(10),
+                                            AppTextButton(
+                                                verticalPadding: 0,
+                                                horizontalPadding: 0,
+                                                buttonHeight: 30.h,
+                                                buttonWidth: 60.w,
+                                                buttonText: 'edit'.tr(),
+                                                textStyle: TextStyles
+                                                    .font13WhiteSemiBold,
+                                                onPressed: () {
+                                                  editOrderSubmit();
+                                                }),
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
                               ),
                             ),
                           ),
