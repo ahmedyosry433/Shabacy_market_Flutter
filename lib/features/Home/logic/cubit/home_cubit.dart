@@ -12,7 +12,7 @@ part 'home_state.dart';
 class HomeCubit extends Cubit<HomeState> {
   final HomeRepo _homeRepo;
   HomeCubit(this._homeRepo) : super(HomeInitial());
-
+  UserModel? currentUser;
   void getCurrentUser() async {
     emit(HomeLoading());
     try {
@@ -20,6 +20,8 @@ class HomeCubit extends Cubit<HomeState> {
           await SharedPreferencesHelper.getValueForKey('token');
 
       final response = await _homeRepo.getCurrentUserRepo(token: token);
+      currentUser = response;
+
       emit(HomeLoaded(response));
     } catch (e) {
       emit(HomeError(e.toString()));
