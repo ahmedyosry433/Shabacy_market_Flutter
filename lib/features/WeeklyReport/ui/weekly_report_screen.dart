@@ -37,8 +37,7 @@ class _WeeklyReportScreen extends State<WeeklyReportScreen> {
         child: Column(
           children: [
             AppCustomAppbar(
-              profileStyle:
-                  TextStyles.font11BlackSemiBold.copyWith(fontSize: 0),
+              isHome: false,
             ),
             buildDateSlid(),
             BlocBuilder<WeeklyReportCubit, WeeklyReportState>(
@@ -52,7 +51,8 @@ class _WeeklyReportScreen extends State<WeeklyReportScreen> {
                           .isNotEmpty
                       ? Column(
                           children: [
-                            buildPDFButtonAndExcelButton(),
+                            // buildPDFButtonAndExcelButton(),
+                            verticalSpace(20),
                             buildCardsWithBlocBuilder(),
                             buildWeeklyReportTableAndBloc(),
                           ],
@@ -86,7 +86,7 @@ class _WeeklyReportScreen extends State<WeeklyReportScreen> {
 
   Widget buildDateSlid() {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 8.0.w, vertical: 10),
+      padding: EdgeInsets.symmetric(vertical: 10.h),
       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         IconButton(
             onPressed: () {
@@ -143,49 +143,48 @@ class _WeeklyReportScreen extends State<WeeklyReportScreen> {
           return PaginatedDataTable(
             columns: [
               DataColumn(
-                  label:
-                      Text('id'.tr(), style: TextStyles.font14BlackSemiBold)),
+                  label: Text('id'.tr(), style: TextStyles.font14BlackMeduim)),
               DataColumn(
                   label:
-                      Text('name'.tr(), style: TextStyles.font14BlackSemiBold)),
+                      Text('name'.tr(), style: TextStyles.font14BlackMeduim)),
               DataColumn(
                   label: Text('total price'.tr(),
-                      style: TextStyles.font14BlackSemiBold)),
+                      style: TextStyles.font14BlackMeduim)),
               DataColumn(
                   label:
-                      Text('paid'.tr(), style: TextStyles.font14BlackSemiBold)),
+                      Text('paid'.tr(), style: TextStyles.font14BlackMeduim)),
               DataColumn(
                   label: Text('quantity'.tr(),
-                      style: TextStyles.font14BlackSemiBold)),
+                      style: TextStyles.font14BlackMeduim)),
               DataColumn(
                   label: Text('remaining'.tr(),
-                      style: TextStyles.font14BlackSemiBold)),
+                      style: TextStyles.font14BlackMeduim)),
               DataColumn(
                   label: Text('saturday'.tr(),
-                      style: TextStyles.font14BlackSemiBold)),
+                      style: TextStyles.font14BlackMeduim)),
               DataColumn(
-                  label: Text('sunday'.tr(),
-                      style: TextStyles.font14BlackSemiBold)),
+                  label:
+                      Text('sunday'.tr(), style: TextStyles.font14BlackMeduim)),
               DataColumn(
-                  label: Text('monday'.tr(),
-                      style: TextStyles.font14BlackSemiBold)),
+                  label:
+                      Text('monday'.tr(), style: TextStyles.font14BlackMeduim)),
               DataColumn(
                   label: Text('tuesday'.tr(),
-                      style: TextStyles.font14BlackSemiBold)),
+                      style: TextStyles.font14BlackMeduim)),
               DataColumn(
                   label: Text('wednesday'.tr(),
-                      style: TextStyles.font14BlackSemiBold)),
+                      style: TextStyles.font14BlackMeduim)),
               DataColumn(
                   label: Text('thursday'.tr(),
-                      style: TextStyles.font14BlackSemiBold)),
+                      style: TextStyles.font14BlackMeduim)),
               DataColumn(
-                  label: Text('friday'.tr(),
-                      style: TextStyles.font14BlackSemiBold)),
+                  label:
+                      Text('friday'.tr(), style: TextStyles.font14BlackMeduim)),
             ],
             source: WeeklyReportTableData(
                 state.allReportData.weeklyReportTableModel),
-            columnSpacing: 15.w,
-            horizontalMargin: 10.w,
+            columnSpacing: 25.w,
+            horizontalMargin: 15.w,
             rowsPerPage: 4,
           );
         } else if (state is WeeklyReportError) {

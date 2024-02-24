@@ -43,8 +43,7 @@ class _UsersScreenState extends State<UsersScreen> {
         child: Column(
           children: [
             AppCustomAppbar(
-              profileStyle:
-                  TextStyles.font11BlackSemiBold.copyWith(fontSize: 0),
+              isHome: false,
             ),
             SingleChildScrollView(
               child: Column(
@@ -82,13 +81,15 @@ class _UsersScreenState extends State<UsersScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text('usersList'.tr(), style: TextStyles.font16BlackSemiBold),
+          Text('usersList'.tr(), style: TextStyles.font20BlackRegular),
           AppTextButton(
+              verticalPadding: 0.w,
+              horizontalPadding: 0.w,
               buttonHeight: 40.h,
               buttonWidth: 100.w,
               backgroundColor: ColorsManager.primryColor,
               buttonText: 'addUser'.tr(),
-              textStyle: TextStyles.font13WhiteSemiBold,
+              textStyle: TextStyles.font13WhiteRegular,
               onPressed: () {
                 showModalBottomSheet(
                     context: context,
@@ -249,17 +250,16 @@ class _UsersScreenState extends State<UsersScreen> {
     return PaginatedDataTable(
       arrowHeadColor: ColorsManager.primryColor,
       columns: [
+        DataColumn(label: Text('id'.tr(), style: TextStyles.font14BlackMedium)),
         DataColumn(
-            label: Text('id'.tr(), style: TextStyles.font14BlackSemiBold)),
+            label: Text('name'.tr(), style: TextStyles.font14BlackMedium)),
         DataColumn(
-            label: Text('name'.tr(), style: TextStyles.font14BlackSemiBold)),
-        DataColumn(
-            label: Text('email'.tr(), style: TextStyles.font14BlackSemiBold)),
+            label: Text('email'.tr(), style: TextStyles.font14BlackMedium)),
         DataColumn(
             label:
-                Text('typeOfUser'.tr(), style: TextStyles.font14BlackSemiBold)),
+                Text('typeOfUser'.tr(), style: TextStyles.font14BlackMedium)),
         DataColumn(
-            label: Text('control'.tr(), style: TextStyles.font14BlackSemiBold)),
+            label: Text('control'.tr(), style: TextStyles.font14BlackMedium)),
       ],
       source: source,
       columnSpacing: 45.w,

@@ -51,19 +51,18 @@ class _SuppliersScreenState extends State<SuppliersScreen> {
     return Scaffold(
       backgroundColor: ColorsManager.backGroundColor,
       body: SingleChildScrollView(
-    child: Column(
-      children: [
-        AppCustomAppbar(
-          profileStyle:
-              TextStyles.font11BlackSemiBold.copyWith(fontSize: 0),
+        child: Column(
+          children: [
+            AppCustomAppbar(
+              isHome: false,
+            ),
+            buildAddNewAndTextButton(),
+            buildAddNewSupplierListenerBloc(),
+            buildTableBloc(data: data),
+            buildEditSuppliersListenerBloc(),
+            buildDeleteSuppliersListenerBloc(),
+          ],
         ),
-        buildAddNewAndTextButton(),
-        buildAddNewSupplierListenerBloc(),
-        buildTableBloc(data: data),
-        buildEditSuppliersListenerBloc(),
-        buildDeleteSuppliersListenerBloc(),
-      ],
-    ),
       ),
     );
   }
@@ -81,23 +80,23 @@ class _SuppliersScreenState extends State<SuppliersScreen> {
                 arrowHeadColor: ColorsManager.primryColor,
                 columns: [
                   DataColumn(
-                      label: Text('id'.tr(),
-                          style: TextStyles.font14BlackSemiBold)),
+                      label:
+                          Text('id'.tr(), style: TextStyles.font14BlackMedium)),
                   DataColumn(
                       label: Text('name'.tr(),
-                          style: TextStyles.font14BlackSemiBold)),
+                          style: TextStyles.font14BlackMedium)),
                   DataColumn(
                       label: Text('phone'.tr(),
-                          style: TextStyles.font14BlackSemiBold)),
+                          style: TextStyles.font14BlackMedium)),
                   DataColumn(
                       label: Text('balance'.tr(),
-                          style: TextStyles.font14BlackSemiBold)),
+                          style: TextStyles.font14BlackMedium)),
                   DataColumn(
                       label: Text('delegate'.tr(),
-                          style: TextStyles.font14BlackSemiBold)),
+                          style: TextStyles.font14BlackMedium)),
                   DataColumn(
                       label: Text('control'.tr(),
-                          style: TextStyles.font14BlackSemiBold)),
+                          style: TextStyles.font14BlackMedium)),
                 ],
                 source: data,
                 columnSpacing: 45.w,
@@ -136,13 +135,15 @@ class _SuppliersScreenState extends State<SuppliersScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text('suppliersList'.tr(), style: TextStyles.font16BlackSemiBold),
+          Text('suppliersList'.tr(), style: TextStyles.font20BlackRegular),
           AppTextButton(
+              verticalPadding: 0.w,
+              horizontalPadding: 0.h,
               buttonHeight: 40.h,
               buttonWidth: 100.w,
               backgroundColor: ColorsManager.primryColor,
               buttonText: 'addNewSupplier'.tr(),
-              textStyle: TextStyles.font13WhiteSemiBold,
+              textStyle: TextStyles.font13WhiteRegular,
               onPressed: () {
                 showModalBottomSheet(
                     context: context,

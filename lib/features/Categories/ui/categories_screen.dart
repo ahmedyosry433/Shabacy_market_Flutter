@@ -41,8 +41,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
         child: Column(
           children: [
             AppCustomAppbar(
-              profileStyle:
-                  TextStyles.font11BlackSemiBold.copyWith(fontSize: 0),
+              isHome: false,
             ),
             buildAddNewCategoriesAndTextButton(),
             buildAddNewCategoriesLisenerBloc(),
@@ -60,15 +59,15 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text('categoriesList'.tr(), style: TextStyles.font19BlackSemiBold),
+          Text('categoriesList'.tr(), style: TextStyles.font20BlackRegular),
           AppTextButton(
               verticalPadding: 0,
               horizontalPadding: 0,
               buttonHeight: 40.h,
-              buttonWidth: 100.w,
+              buttonWidth: 90.w,
               backgroundColor: ColorsManager.primryColor,
               buttonText: 'addNewCategory'.tr(),
-              textStyle: TextStyles.font13WhiteSemiBold,
+              textStyle: TextStyles.font13WhiteRegular,
               onPressed: () {
                 showModalBottomSheet(
                     context: context,
@@ -152,12 +151,11 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
     return PaginatedDataTable(
       arrowHeadColor: ColorsManager.primryColor,
       columns: [
+        DataColumn(label: Text('id'.tr(), style: TextStyles.font14BlackMeduim)),
         DataColumn(
-            label: Text('id'.tr(), style: TextStyles.font14BlackSemiBold)),
+            label: Text('name'.tr(), style: TextStyles.font14BlackMeduim)),
         DataColumn(
-            label: Text('name'.tr(), style: TextStyles.font14BlackSemiBold)),
-        DataColumn(
-            label: Text('control'.tr(), style: TextStyles.font14BlackSemiBold)),
+            label: Text('control'.tr(), style: TextStyles.font14BlackMeduim)),
       ],
       source: source,
       columnSpacing: 90.w,

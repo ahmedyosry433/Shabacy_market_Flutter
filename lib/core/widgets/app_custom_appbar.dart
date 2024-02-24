@@ -12,13 +12,16 @@ import '../theme/colors.dart';
 import '../theme/style.dart';
 
 class AppCustomAppbar extends StatelessWidget {
-  AppCustomAppbar({super.key, this.profileStyle, this.homeStyle});
-  TextStyle? profileStyle;
-  TextStyle? homeStyle;
+  AppCustomAppbar({
+    super.key,
+    required this.isHome,
+  });
+  bool isHome;
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 10.w),
+      padding: EdgeInsets.symmetric(horizontal: 12.w),
       height: 110.h,
       decoration: const BoxDecoration(
         borderRadius: BorderRadius.only(
@@ -32,32 +35,38 @@ class AppCustomAppbar extends StatelessWidget {
         padding: EdgeInsets.only(top: 40.h),
         child:
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-          Image.asset('assets/image/logo_without_background.png',
-              width: 55.w, height: 100.h),
-          // Text('bussnisName'.tr(), style: TextStyles.font11BlackSemiBold),
-          Row(
-            children: [
-              GestureDetector(
-                  onTap: () => context.pushNamed(Routes.homeScreen),
-                  child: Text('home'.tr(),
-                      style: homeStyle ?? TextStyles.font14GrayMedium)),
-              horizontalSpace(10),
-              GestureDetector(
-                  onTap: () => context.pushNamed(Routes.profileScreen),
-                  child: Text('profile'.tr(),
-                      style: profileStyle ?? TextStyles.font14GrayMedium)),
-              horizontalSpace(10),
-              GestureDetector(
-                onTap: () async {
-                  context.pushReplacementNamed(Routes.loginScreen);
-
-                  await SharedPreferencesHelper.removeValueForKey('token');
-                },
-                child: Text('logout'.tr(),
-                    style: TextStyles.font14GrayMedium
-                        .copyWith(color: ColorsManager.primryColor.shade300)),
-              ),
-            ],
+          GestureDetector(
+            onTap: () => isHome ? null : context.pushNamed(Routes.homeScreen),
+            child: Row(
+              children: [
+                Image.asset('assets/image/logo_without_background_and_name.png',
+                    height: 45.h, width: 45.w),
+                horizontalSpace(5),
+                Text('bussnisName'.tr(), style: TextStyles.font13BlackSemiBold),
+              ],
+            ),
+          ),
+          Container(
+            height: 40.h,
+            width: 40.w,
+            decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border:
+                    Border.all(color: ColorsManager.primryColor, width: 0.5),
+                color: ColorsManager.white),
+            child: isHome
+                ? IconButton(
+                    onPressed: () {
+                      Scaffold.of(context).openDrawer();
+                    },
+                    icon: const Icon(Icons.menu_rounded,
+                        color: ColorsManager.primryColor))
+                : IconButton(
+                    onPressed: () {
+                      context.pop();
+                    },
+                    icon: const Icon(Icons.arrow_forward,
+                        color: ColorsManager.primryColor)),
           ),
         ]),
       ),

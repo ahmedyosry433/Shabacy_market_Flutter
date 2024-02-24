@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shabacy_market/core/helper/extensions.dart';
+import 'package:shabacy_market/core/widgets/app_custom_drawer.dart';
 import 'package:shabacy_market/features/Home/logic/cubit/home_cubit.dart';
 import '../../../core/theme/colors.dart';
 import '../../../core/widgets/app_coustom_loading_indecator.dart';
@@ -28,12 +29,13 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const AppCustomDrawer(),
       backgroundColor: ColorsManager.backGroundColor,
       body: SingleChildScrollView(
         child: Column(
           children: [
             AppCustomAppbar(
-              homeStyle: TextStyles.font11BlackSemiBold.copyWith(fontSize: 0),
+              isHome: true,
             ),
             BlocBuilder<HomeCubit, HomeState>(
               builder: (context, state) {

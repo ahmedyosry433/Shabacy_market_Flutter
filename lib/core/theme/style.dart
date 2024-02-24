@@ -22,10 +22,28 @@ class TextStyles {
     fontWeight: FontWeightHelper.semiBold,
     fontFamily: 'Cairo',
   );
+  static TextStyle font13WhiteRegular = TextStyle(
+    color: ColorsManager.white,
+    fontSize: 13.sp,
+    fontWeight: FontWeightHelper.regular,
+    fontFamily: 'Cairo',
+  );
   static TextStyle font13BlackSemiBold = TextStyle(
     color: ColorsManager.black,
     fontSize: 13.sp,
     fontWeight: FontWeightHelper.semiBold,
+    fontFamily: 'Cairo',
+  );
+  static TextStyle font12BlackRegular = TextStyle(
+    color: ColorsManager.black,
+    fontSize: 12.sp,
+    fontWeight: FontWeightHelper.regular,
+    fontFamily: 'Cairo',
+  );
+  static TextStyle font14BlackMeduim = TextStyle(
+    color: ColorsManager.black,
+    fontSize: 14.sp,
+    fontWeight: FontWeightHelper.medium,
     fontFamily: 'Cairo',
   );
   static TextStyle font14BlackMedium = TextStyle(
@@ -42,6 +60,12 @@ class TextStyles {
   );
   static TextStyle font16BlackRegular = TextStyle(
     color: ColorsManager.black,
+    fontSize: 16.sp,
+    fontWeight: FontWeightHelper.regular,
+    fontFamily: 'Cairo',
+  );
+  static TextStyle font16RedRegular = TextStyle(
+    color: ColorsManager.red,
     fontSize: 16.sp,
     fontWeight: FontWeightHelper.regular,
     fontFamily: 'Cairo',

@@ -34,9 +34,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           child: Column(
             children: [
               AppCustomAppbar(
-                profileStyle: TextStyles.font11BlackSemiBold.copyWith(
-                  fontSize: 0,
-                ),
+                isHome: false,
               ),
               buildProfileFormWithBlocBuilder(),
             ],

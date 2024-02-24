@@ -61,8 +61,7 @@ class _DailyPurchasesScreenState extends State<DailyPurchasesScreen> {
           child: Column(
             children: [
               AppCustomAppbar(
-                profileStyle:
-                    TextStyles.font11BlackSemiBold.copyWith(fontSize: 0),
+                isHome: false,
               ),
               BlocBuilder<DailyPurchasesCubit, DailyPurchasesState>(
                 builder: (context, state) {
@@ -80,8 +79,7 @@ class _DailyPurchasesScreenState extends State<DailyPurchasesScreen> {
                               alignment: Alignment.topRight,
                               child: Text(
                                 'new order'.tr(),
-                                style: TextStyles.font16BlackSemiBold
-                                    .copyWith(fontWeight: FontWeight.bold),
+                                style: TextStyles.font20BlackRegular,
                               )),
                           buildNewOrder(),
                           verticalSpace(10),
@@ -394,9 +392,9 @@ class _DailyPurchasesScreenState extends State<DailyPurchasesScreen> {
             verticalSpace(10),
             AppTextButton(
               buttonHeight: 40.h,
-              buttonWidth: 120.w,
+              buttonWidth: 100.w,
               buttonText: 'add order'.tr(),
-              textStyle: TextStyles.font13WhiteSemiBold,
+              textStyle: TextStyles.font13WhiteRegular,
               onPressed: () => newOrder(),
             )
           ],
@@ -519,29 +517,26 @@ class _DailyPurchasesScreenState extends State<DailyPurchasesScreen> {
     return PaginatedDataTable(
       arrowHeadColor: ColorsManager.primryColor,
       columns: [
-        DataColumn(
-            label: Text('id'.tr(), style: TextStyles.font14BlackSemiBold)),
+        DataColumn(label: Text('id'.tr(), style: TextStyles.font14BlackMedium)),
         DataColumn(
             label: Text('customer name'.tr(),
-                style: TextStyles.font14BlackSemiBold)),
+                style: TextStyles.font14BlackMedium)),
+        DataColumn(
+            label: Text('quantity'.tr(), style: TextStyles.font14BlackMedium)),
+        DataColumn(
+            label: Text('price'.tr(), style: TextStyles.font14BlackMedium)),
         DataColumn(
             label:
-                Text('quantity'.tr(), style: TextStyles.font14BlackSemiBold)),
+                Text('total price'.tr(), style: TextStyles.font14BlackMedium)),
         DataColumn(
-            label: Text('price'.tr(), style: TextStyles.font14BlackSemiBold)),
+            label: Text('paid'.tr(), style: TextStyles.font14BlackMedium)),
         DataColumn(
-            label: Text('total price'.tr(),
-                style: TextStyles.font14BlackSemiBold)),
-        DataColumn(
-            label: Text('paid'.tr(), style: TextStyles.font14BlackSemiBold)),
-        DataColumn(
-            label:
-                Text('remaining'.tr(), style: TextStyles.font14BlackSemiBold)),
+            label: Text('remaining'.tr(), style: TextStyles.font14BlackMedium)),
         DataColumn(
             label: Text('total balance'.tr(),
-                style: TextStyles.font14BlackSemiBold)),
+                style: TextStyles.font14BlackMedium)),
         DataColumn(
-            label: Text('control'.tr(), style: TextStyles.font14BlackSemiBold)),
+            label: Text('control'.tr(), style: TextStyles.font14BlackMedium)),
       ],
       source: source,
       columnSpacing: 25.w,

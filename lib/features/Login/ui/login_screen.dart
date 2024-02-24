@@ -28,13 +28,26 @@ class LoginScreen extends StatelessWidget {
           hoverColor: Colors.transparent,
           focusColor: Colors.transparent,
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 17.w, vertical: 65.h),
+            padding: EdgeInsets.symmetric(horizontal: 17.w, vertical: 55.h),
             child: Form(
               key: context.read<LoginCubit>().formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('login'.tr(), style: TextStyles.font25BlackSemiBold),
+                  Align(
+                    alignment: Alignment.topLeft,
+                    child: Column(
+                      children: [
+                        Image.asset(
+                            'assets/image/logo_without_background_and_name.png',
+                            height: 50.h,
+                            width: 50.w),
+                        Text('bussnisName'.tr(),
+                            style: TextStyles.font12BlackRegular),
+                      ],
+                    ),
+                  ),
+                  Text('login'.tr(), style: TextStyles.font19BlackSemiBold),
                   verticalSpace(40),
                   AppTextFormFieldWithTopHint(
                     topHintText: 'email'.tr(),

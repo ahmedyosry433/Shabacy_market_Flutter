@@ -22,7 +22,8 @@ class AppCustomDropdownWithTopHint extends StatelessWidget {
         Align(
           alignment: Alignment.topRight,
           child: Text(topHintText,
-              style: TextStyles.font14BlackSemiBold.copyWith(height: 2)),
+              style: TextStyles.font14BlackSemiBold
+                  .copyWith(height: 2, fontWeight: FontWeight.w400)),
         ),
         verticalSpace(10),
         appCustomDropdown,
