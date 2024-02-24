@@ -25,8 +25,8 @@ class _WeeklyReportScreen extends State<WeeklyReportScreen> {
   @override
   void initState() {
     super.initState();
+    context.read<WeeklyReportCubit>().getSaturdayOfCurrentWeek();
     context.read<WeeklyReportCubit>().getWeeklyReportTableModelCubit();
-    context.read<WeeklyReportCubit>().stareAndEndDate();
   }
 
   @override

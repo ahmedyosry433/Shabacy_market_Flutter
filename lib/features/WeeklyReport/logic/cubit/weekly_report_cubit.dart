@@ -58,33 +58,14 @@ class WeeklyReportCubit extends Cubit<WeeklyReportState> {
     }
   }
 
-  void stareAndEndDate() {
-    getStartOfWeek();
-    getEndOfWeek();
-  }
+  void getSaturdayOfCurrentWeek() {
+    DateTime now = DateTime.now();
+    int weekday = now.weekday;
 
-  DateTime getStartOfWeek() {
-    DateTime date = DateTime.now();
-    int dayOfWeek = date.weekday;
-    DateTime startDateVar = date.subtract(Duration(days: dayOfWeek - 1));
+    int daysToSaturday = DateTime.saturday - weekday;
 
-    DateTime startDatevarSubTwoDays =
-        startDateVar.subtract(const Duration(days: 2));
-
-    startDate = startDatevarSubTwoDays;
-
-    return startDatevarSubTwoDays;
-  }
-
-  DateTime getEndOfWeek() {
-    DateTime date = DateTime.now();
-    int dayOfWeek = date.weekday;
-    DateTime endDateVar = date.add(Duration(days: 7 - dayOfWeek));
-    DateTime endDateVarSubTwoDays =
-        endDateVar.subtract(const Duration(days: 2));
-    endDate = endDateVarSubTwoDays;
-    
-    return endDateVar;
+    startDate = now.subtract(Duration(days: daysToSaturday));
+    endDate = startDate!.add(const Duration(days: 6));
   }
 
   void backWeek() {

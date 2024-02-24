@@ -6,7 +6,6 @@ import 'package:shabacy_market/features/Profile/logic/cubit/profile_cubit.dart';
 import 'package:shabacy_market/features/Users/data/model/user_model.dart';
 import '../../../core/helper/spacing.dart';
 import '../../../core/theme/colors.dart';
-import '../../../core/theme/style.dart';
 import '../../../core/widgets/app_coustom_loading_indecator.dart';
 import '../../../core/widgets/app_custom_appbar.dart';
 import '../../../core/widgets/app_text_form_field.dart';
