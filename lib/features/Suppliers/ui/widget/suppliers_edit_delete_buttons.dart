@@ -178,15 +178,35 @@ class _SuppliersEditAndDeleteButtonState
                       EdgeInsets.symmetric(vertical: 9.h, horizontal: 10.w),
                   onChanged: (value) {
                     setState(() {
-                      context.read<SuppliersCubit>().dropdownEditValue = value;
+                      BlocProvider.of<SuppliersCubit>(context)
+                          .dropdownEditValue = value;
                     });
                   },
                   items: BlocProvider.of<SuppliersCubit>(context)
                       .users
                       .map((value) {
                     return DropdownMenuItem<String>(
-                      value: value.id.toString(),
-                      child: Text(value.name),
+                      value: value.id,
+                      child: Row(
+                        children: [
+                          Icon(Icons.check_sharp,
+                              color: BlocProvider.of<SuppliersCubit>(context)
+                                          .dropdownEditValue ==
+                                      value.id
+                                  ? Colors.green
+                                  : Colors
+                                      .transparent), // Icon when item is selected
+                          const SizedBox(width: 8),
+                          BlocProvider.of<SuppliersCubit>(context)
+                                      .dropdownEditValue ==
+                                  value.id
+                              ? Text(
+                                  value.name,
+                                  style: TextStyles.font11BlackSemiBold,
+                                )
+                              : Text(value.name),
+                        ],
+                      ),
                     );
                   }).toList(),
                   value: BlocProvider.of<SuppliersCubit>(context)

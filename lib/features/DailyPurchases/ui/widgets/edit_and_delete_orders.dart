@@ -147,16 +147,41 @@ class _EditiAndDeleteOrderButtonState extends State<EditiAndDeleteOrderButton> {
                                               hintText:
                                                   Text('select customer'.tr()),
                                               items:
-                                                  blocRead.suppliers.map((e) {
+                                                  blocWatch.suppliers.map((e) {
                                                 return DropdownMenuItem<String>(
                                                   value: e.id,
-                                                  child: Text(e.name),
+                                                  child: Row(
+                                                    children: [
+                                                      Icon(Icons.check_sharp,
+                                                          color: BlocProvider.of<
+                                                                              DailyPurchasesCubit>(
+                                                                          context)
+                                                                      .editDropdownSupplierValue ==
+                                                                  e.id
+                                                              ? Colors.green
+                                                              : Colors
+                                                                  .transparent), // Icon when item is selected
+                                                      const SizedBox(width: 8),
+                                                      BlocProvider.of<DailyPurchasesCubit>(
+                                                                      context)
+                                                                  .editDropdownSupplierValue ==
+                                                              e.id
+                                                          ? Text(
+                                                              e.name,
+                                                              style: TextStyles
+                                                                  .font11BlackSemiBold,
+                                                            )
+                                                          : Text(e.name),
+                                                    ],
+                                                  ),
                                                 );
                                               }).toList(),
                                               onChanged: (value) {
                                                 setState(() {
-                                                  blocRead.editDropdownSupplierValue =
-                                                      value;
+                                                  BlocProvider.of<
+                                                              DailyPurchasesCubit>(
+                                                          context)
+                                                      .editDropdownSupplierValue = value;
                                                 });
                                               },
                                               validator: (vaild) {
@@ -165,7 +190,9 @@ class _EditiAndDeleteOrderButtonState extends State<EditiAndDeleteOrderButton> {
                                                   return 'select customer'.tr();
                                                 }
                                               },
-                                              value: blocRead
+                                              value: BlocProvider.of<
+                                                          DailyPurchasesCubit>(
+                                                      context)
                                                   .editDropdownSupplierValue,
                                             )),
                                         verticalSpace(10.h),

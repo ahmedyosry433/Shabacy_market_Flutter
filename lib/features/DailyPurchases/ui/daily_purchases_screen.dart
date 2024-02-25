@@ -175,7 +175,27 @@ class _DailyPurchasesScreenState extends State<DailyPurchasesScreen> {
                       items: Period.values.map((e) {
                         return DropdownMenuItem<String>(
                           value: e.name,
-                          child: Text(e.name.tr()),
+                          child: Row(
+                            children: [
+                              Icon(Icons.check_sharp,
+                                  color: BlocProvider.of<DailyPurchasesCubit>(
+                                                  context)
+                                              .dropdownPeriodValue ==
+                                          e.name
+                                      ? Colors.green
+                                      : Colors
+                                          .transparent), // Icon when item is selected
+                              const SizedBox(width: 8),
+                              BlocProvider.of<DailyPurchasesCubit>(context)
+                                          .dropdownPeriodValue ==
+                                      e.name
+                                  ? Text(
+                                      e.name.tr(),
+                                      style: TextStyles.font11BlackSemiBold,
+                                    )
+                                  : Text(e.name.tr()),
+                            ],
+                          ),
                         );
                       }).toList(),
                       onChanged: (value) {
@@ -204,7 +224,27 @@ class _DailyPurchasesScreenState extends State<DailyPurchasesScreen> {
                           .map((e) {
                         return DropdownMenuItem<String>(
                           value: e.id,
-                          child: Text(e.name),
+                          child: Row(
+                            children: [
+                              Icon(Icons.check_sharp,
+                                  color: BlocProvider.of<DailyPurchasesCubit>(
+                                                  context)
+                                              .dropdownCategroyValue ==
+                                          e.id
+                                      ? Colors.green
+                                      : Colors
+                                          .transparent), // Icon when item is selected
+                              const SizedBox(width: 8),
+                              BlocProvider.of<DailyPurchasesCubit>(context)
+                                          .dropdownCategroyValue ==
+                                      e.id
+                                  ? Text(
+                                      e.name,
+                                      style: TextStyles.font11BlackSemiBold,
+                                    )
+                                  : Text(e.name),
+                            ],
+                          ),
                         );
                       }).toList(),
                       onChanged: (value) {
@@ -252,13 +292,33 @@ class _DailyPurchasesScreenState extends State<DailyPurchasesScreen> {
                       appCustomDropdown: AppCustomDropDownFormButton(
                         contentPadding: EdgeInsets.symmetric(
                             vertical: 7.h, horizontal: 10.w),
-                        hintText: Text('select customer'.tr()),
+                        hintText: Text('select supplier'.tr()),
                         items: BlocProvider.of<DailyPurchasesCubit>(context)
                             .suppliers
                             .map((e) {
                           return DropdownMenuItem<String>(
                             value: e.id,
-                            child: Text(e.name),
+                            child: Row(
+                              children: [
+                                Icon(Icons.check_sharp,
+                                    color: BlocProvider.of<DailyPurchasesCubit>(
+                                                    context)
+                                                .dropdownSupplierValue ==
+                                            e.id
+                                        ? Colors.green
+                                        : Colors
+                                            .transparent), // Icon when item is selected
+                                const SizedBox(width: 8),
+                                BlocProvider.of<DailyPurchasesCubit>(context)
+                                            .dropdownSupplierValue ==
+                                        e.id
+                                    ? Text(
+                                        e.name,
+                                        style: TextStyles.font11BlackSemiBold,
+                                      )
+                                    : Text(e.name),
+                              ],
+                            ),
                           );
                         }).toList(),
                         onChanged: (value) {
@@ -527,7 +587,7 @@ class _DailyPurchasesScreenState extends State<DailyPurchasesScreen> {
             DataColumn(
                 label: Text('id'.tr(), style: TextStyles.font14BlackMedium)),
             DataColumn(
-                label: Text('customer name'.tr(),
+                label: Text('supplier name'.tr(),
                     style: TextStyles.font14BlackMedium)),
             DataColumn(
                 label:

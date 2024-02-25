@@ -109,7 +109,7 @@
     "select period": "اختر الفترة",
     "new order": "طلب جديد",
     "add order": "اضافة طلب",
-    "customer": "العميل",
+    "customer": "المورد",
     "unit price": "سعر الافرادي",
     "select customer": "اختر العميل",
     "enter unit price": "ادخل سعر الافرادي",
@@ -117,6 +117,10 @@
     "AM": "صباحي",
     "PM": "مسائي",
     "customer name": "اسم العميل",
+    "supplier name": "اسم المورد",
+    "user name": "اسم المستخدم",
+    "item name": "اسم الصنف",
+    
     "total balance": "الرصيد الإجمالي",
     "price": "السعر",
     "add order successfully": "تم اضافة الطلب بنجاح",
@@ -131,8 +135,11 @@
     "Shabacy" :"الشباسي",
     "purchases list":"قائمة المشتريات",
     "hello":"أهلا" ,
-    "nice day": "يومك جميل"
+    "nice day": "يومك جميل",
+    "select supplier": "اختر المورد",
+    "password is less than 6 characters": "كلمه المرور أقل من 6 حروف"
 
+    
    
 
 

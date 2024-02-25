@@ -34,6 +34,7 @@ class _SuppliersScreenState extends State<SuppliersScreen> {
     BlocProvider.of<SuppliersCubit>(context).getAllUsersCubit();
   }
 
+
   @override
   void dispose() {
     super.dispose();
@@ -83,7 +84,7 @@ class _SuppliersScreenState extends State<SuppliersScreen> {
                       label:
                           Text('id'.tr(), style: TextStyles.font14BlackMedium)),
                   DataColumn(
-                      label: Text('name'.tr(),
+                      label: Text('supplier name'.tr(),
                           style: TextStyles.font14BlackMedium)),
                   DataColumn(
                       label: Text('phone'.tr(),
@@ -232,11 +233,28 @@ class _SuppliersScreenState extends State<SuppliersScreen> {
                       .users
                       .map((value) {
                     return DropdownMenuItem<String>(
-                      value: value.id.toString(),
-                      child: Text(value.name),
+                      value: value.id,
+                      child: Row(
+                        children: [
+                          Icon(Icons.check_sharp,
+                              color: context
+                                          .read<SuppliersCubit>()
+                                          .dropdownValue ==
+                                      value.id
+                                  ? Colors.green
+                                  : Colors
+                                      .transparent), // Icon when item is selected
+                          const SizedBox(width: 8),
+                          context.read<SuppliersCubit>().dropdownValue ==
+                                  value.id
+                              ? Text(value.name,
+                                  style: TextStyles.font11BlackSemiBold)
+                              : Text(value.name),
+                        ],
+                      ),
                     );
                   }).toList(),
-                  value: BlocProvider.of<SuppliersCubit>(context).dropdownValue,
+                  value: context.read<SuppliersCubit>().dropdownValue,
                 ),
               ),
               verticalSpace(20),
@@ -428,4 +446,5 @@ class _SuppliersScreenState extends State<SuppliersScreen> {
       child: const SizedBox.shrink(),
     );
   }
+  
 }

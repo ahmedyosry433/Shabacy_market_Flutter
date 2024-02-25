@@ -28,27 +28,28 @@ class LoginScreen extends StatelessWidget {
           hoverColor: Colors.transparent,
           focusColor: Colors.transparent,
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 17.w, vertical: 55.h),
+            padding: EdgeInsets.symmetric(horizontal: 17.w, vertical: 60.h),
             child: Form(
               key: context.read<LoginCubit>().formKey,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Align(
-                    alignment: Alignment.topLeft,
+                    alignment: Alignment.center,
                     child: Column(
                       children: [
                         Image.asset(
                             'assets/image/logo_without_background_and_name.png',
-                            height: 50.h,
-                            width: 50.w),
+                            height: 70.h,
+                            width: 70.w),
                         Text('bussnisName'.tr(),
-                            style: TextStyles.font12BlackRegular),
+                            style: TextStyles.font16BlackRegular),
                       ],
                     ),
                   ),
+                  verticalSpace(30),
                   Text('login'.tr(), style: TextStyles.font19BlackSemiBold),
-                  verticalSpace(40),
+                  verticalSpace(30),
                   AppTextFormFieldWithTopHint(
                     topHintText: 'email'.tr(),
                     appTextFormField: AppTextFormField(
@@ -56,7 +57,9 @@ class LoginScreen extends StatelessWidget {
                       keyboardType: TextInputType.emailAddress,
                       hintText: 'enterEmail'.tr(),
                       validator: (value) {
-                        if (value == null || value.isEmpty) {
+                        if (value == null ||
+                            value.isEmpty ||
+                            value.length < 7) {
                           return 'enterValidEmail'.tr();
                         }
                       },

@@ -14,12 +14,13 @@ class AppCustomDropDownFormButton extends StatelessWidget {
   final EdgeInsetsGeometry? contentPadding;
   final InputBorder? focusedBorder;
   final InputBorder? enabledBorder;
-
+  TextStyle? style;
   final TextStyle? hintStyle;
   final Widget? hintText;
   final Widget? suffixIcon;
   final Color? backgroundColor;
   final Function(String?) validator;
+  List<Widget> Function(BuildContext)? selectedItemBuilder;
   AppCustomDropDownFormButton({
     Key? key,
     required this.items,
@@ -32,19 +33,22 @@ class AppCustomDropDownFormButton extends StatelessWidget {
     this.hintText,
     this.suffixIcon,
     this.backgroundColor,
+    this.style,
+    this.selectedItemBuilder,
     required this.validator,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return DropdownButtonFormField(
+      selectedItemBuilder: selectedItemBuilder,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       validator: (value) => validator(value as String?),
       hint: hintText ??
           Text(
             'selectDelegate'.tr(),
           ),
-      style: TextStyles.font14BlackMedium,
+      style: style ?? TextStyles.font14BlackMedium,
       elevation: 1,
       // autovalidateMode: AutovalidateMode.onUserInteraction,
       icon: const Icon(Icons.keyboard_arrow_down),

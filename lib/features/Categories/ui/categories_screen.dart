@@ -170,7 +170,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
       columns: [
         DataColumn(label: Text('id'.tr(), style: TextStyles.font14BlackMeduim)),
         DataColumn(
-            label: Text('name'.tr(), style: TextStyles.font14BlackMeduim)),
+            label: Text('item name'.tr(), style: TextStyles.font14BlackMeduim)),
         DataColumn(
             label: Text('control'.tr(), style: TextStyles.font14BlackMeduim)),
       ],

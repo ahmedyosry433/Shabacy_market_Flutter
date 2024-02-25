@@ -145,8 +145,8 @@ class _WeeklyReportScreen extends State<WeeklyReportScreen> {
               DataColumn(
                   label: Text('id'.tr(), style: TextStyles.font14BlackMeduim)),
               DataColumn(
-                  label:
-                      Text('name'.tr(), style: TextStyles.font14BlackMeduim)),
+                  label: Text('supplier name'.tr(),
+                      style: TextStyles.font14BlackMeduim)),
               DataColumn(
                   label: Text('total price'.tr(),
                       style: TextStyles.font14BlackMeduim)),

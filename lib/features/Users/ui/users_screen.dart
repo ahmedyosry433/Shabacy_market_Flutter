@@ -155,7 +155,7 @@ class _UsersScreenState extends State<UsersScreen> {
                   EdgeInsets.symmetric(vertical: 9.h, horizontal: 10.w),
               hintText: 'enterEmail'.tr(),
               validator: (validator) {
-                if (validator!.isEmpty || validator.length < 10) {
+                if (validator!.isEmpty || validator.length < 7) {
                   return 'enterValidEmail'.tr();
                 }
               },
@@ -187,7 +187,11 @@ class _UsersScreenState extends State<UsersScreen> {
               contentPadding:
                   EdgeInsets.symmetric(vertical: 9.h, horizontal: 10.w),
               hintText: 'enterPassword'.tr(),
-              validator: (validator) {},
+              validator: (value) {
+                if (value == null || value.isEmpty || value.length < 6) {
+                  return 'enterVaildPassword'.tr();
+                }
+              },
               keyboardType: TextInputType.visiblePassword,
             ),
           ),
@@ -267,7 +271,7 @@ class _UsersScreenState extends State<UsersScreen> {
       columns: [
         DataColumn(label: Text('id'.tr(), style: TextStyles.font14BlackMedium)),
         DataColumn(
-            label: Text('name'.tr(), style: TextStyles.font14BlackMedium)),
+            label: Text('user name'.tr(), style: TextStyles.font14BlackMedium)),
         DataColumn(
             label: Text('email'.tr(), style: TextStyles.font14BlackMedium)),
         DataColumn(

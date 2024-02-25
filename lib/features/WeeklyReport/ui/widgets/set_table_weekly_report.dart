@@ -32,7 +32,9 @@ class WeeklyReportTableData extends DataTableSource {
         ),
         DataCell(
           Text(_data[index].totalRemains.toString(),
-              style: TextStyles.font14GrayMedium),
+              style: _data[index].totalRemains >= 0
+                  ? TextStyles.font14GrayMedium
+                  : TextStyles.font14RedMedium),
         ),
         DataCell(
           Text(_data[index].sat.toString(), style: TextStyles.font14GrayMedium),

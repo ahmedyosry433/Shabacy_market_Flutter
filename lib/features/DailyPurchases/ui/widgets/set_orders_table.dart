@@ -35,7 +35,9 @@ class MyData extends DataTableSource {
       ),
       DataCell(
         Text(_data[index].remains.toString(),
-            style: TextStyles.font14GrayMedium),
+            style: _data[index].remains <= 0
+                ? TextStyles.font14RedMedium
+                : TextStyles.font14GrayMedium),
       ),
       DataCell(
         Text(_data[index].totalBalance.toString(),

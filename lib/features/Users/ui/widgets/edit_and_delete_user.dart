@@ -106,7 +106,7 @@ class _EditiAndDeleteUsersButtonState extends State<EditiAndDeleteUsersButton> {
                                               hintText: 'enterEmail'.tr(),
                                               validator: (validator) {
                                                 if (validator!.isEmpty ||
-                                                    validator.length < 10) {
+                                                    validator.length < 7) {
                                                   return 'enterValidEmail'.tr();
                                                 }
                                               },

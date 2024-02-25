@@ -22,7 +22,7 @@ class AppCustomDrawer extends StatelessWidget {
           child: ListView(
             children: [
               Padding(
-                padding: EdgeInsets.only(right: 15),
+                padding: const EdgeInsets.only(right: 15),
                 child: Text(
                     '${'hello'.tr()}, ${context.read<HomeCubit>().currentUser!.name}',
                     style: TextStyles.font14BlueSemiBold),
@@ -33,7 +33,7 @@ class AppCustomDrawer extends StatelessWidget {
                     'nice day'.tr(),
                     style: TextStyles.font14GrayMedium,
                   )),
-              Divider(),
+              const Divider(),
               ListTile(
                 leading: const Icon(Icons.person_2_outlined),
                 title: InkWell(

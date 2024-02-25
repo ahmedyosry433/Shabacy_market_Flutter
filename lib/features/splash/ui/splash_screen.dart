@@ -1,5 +1,6 @@
 // ignore_for_file: unnecessary_null_comparison
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
@@ -7,6 +8,7 @@ import 'package:shabacy_market/core/helper/extensions.dart';
 
 import '../../../core/helper/shared_preferences_helper.dart';
 import '../../../core/router/routes.dart';
+import '../../../core/theme/style.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -55,15 +57,25 @@ class _SplashScreenState extends State<SplashScreen>
       builder: (context, snapshot) {
         return Scaffold(
           body: Center(
-            child: SizedBox(
-              height: 250.h,
-              width: 250.w,
-              child: Lottie.asset(
-                'assets/image/splash.json',
-                //   fit: BoxFit.contain,color: Colors.white,
-                animate: true,
-                controller: controller,
-              ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(
+                  height: 200.h,
+                  width: 200.w,
+                  child: Lottie.asset(
+                    'assets/image/splash.json',
+                    //   fit: BoxFit.contain,color: Colors.white,
+                    animate: true,
+                    controller: controller,
+                  ),
+                ),
+                Text(
+                  'bussnisName'.tr(),
+                  style: TextStyles.font20BlackRegular,
+                )
+              ],
             ),
           ),
         );

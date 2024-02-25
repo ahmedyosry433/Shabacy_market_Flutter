@@ -32,7 +32,7 @@ class MyData extends DataTableSource {
                 : TextStyles.font14RedMedium),
       ),
       DataCell(
-        Text(_data[index].adminName.toString(),
+        Text(_data[index].adminName.toString() ,
             style: TextStyles.font14GrayMedium),
       ),
       DataCell(
