@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_offline/flutter_offline.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:motion_toast/motion_toast.dart';
 import 'package:shabacy_market/features/Suppliers/ui/widget/set_table_suppliers.dart';
@@ -10,6 +11,7 @@ import '../../../core/theme/colors.dart';
 import '../../../core/widgets/app_coustom_loading_indecator.dart';
 import '../../../core/widgets/app_custom_appbar.dart';
 import '../../../core/widgets/app_custom_dropdwo_with_hint.dart';
+import '../../../core/widgets/app_custom_no_internet.dart';
 import '../../../core/widgets/app_text_button.dart';
 import '../../../core/widgets/app_text_form_field.dart';
 import '../../../core/widgets/app_text_form_field_with_hint.dart';
@@ -34,7 +36,6 @@ class _SuppliersScreenState extends State<SuppliersScreen> {
     BlocProvider.of<SuppliersCubit>(context).getAllUsersCubit();
   }
 
-
   @override
   void dispose() {
     super.dispose();
@@ -57,11 +58,27 @@ class _SuppliersScreenState extends State<SuppliersScreen> {
             AppCustomAppbar(
               isHome: false,
             ),
-            buildAddNewAndTextButton(),
-            buildAddNewSupplierListenerBloc(),
-            buildTableBloc(data: data),
-            buildEditSuppliersListenerBloc(),
-            buildDeleteSuppliersListenerBloc(),
+            OfflineBuilder(
+              connectivityBuilder: (
+                BuildContext context,
+                ConnectivityResult connectivity,
+                Widget child,
+              ) {
+                final bool connected = connectivity != ConnectivityResult.none;
+                if (connected) {
+                  return Column(children: [
+                    buildAddNewAndTextButton(),
+                    buildAddNewSupplierListenerBloc(),
+                    buildTableBloc(data: data),
+                    buildEditSuppliersListenerBloc(),
+                    buildDeleteSuppliersListenerBloc(),
+                  ]);
+                } else {
+                  return const AppCustomNoInternet();
+                }
+              },
+              child: const AppCustomLoadingIndecator(),
+            ),
           ],
         ),
       ),
@@ -446,5 +463,4 @@ class _SuppliersScreenState extends State<SuppliersScreen> {
       child: const SizedBox.shrink(),
     );
   }
-  
 }

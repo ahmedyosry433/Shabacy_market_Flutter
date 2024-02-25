@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_offline/flutter_offline.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:motion_toast/motion_toast.dart';
 import 'package:shabacy_market/core/helper/extensions.dart';
@@ -13,6 +14,7 @@ import 'package:shabacy_market/features/WeeklyReport/logic/cubit/weekly_report_c
 import 'package:shabacy_market/features/WeeklyReport/ui/widgets/set_table_weekly_report.dart';
 
 import '../../../core/theme/colors.dart';
+import '../../../core/widgets/app_custom_no_internet.dart';
 
 class WeeklyReportScreen extends StatefulWidget {
   const WeeklyReportScreen({super.key});
@@ -39,42 +41,58 @@ class _WeeklyReportScreen extends State<WeeklyReportScreen> {
             AppCustomAppbar(
               isHome: false,
             ),
-            buildDateSlid(),
-            BlocBuilder<WeeklyReportCubit, WeeklyReportState>(
-              builder: (context, state) {
-                if (state is WeeklyReportLoading) {
-                  return const AppCustomLoadingIndecator();
-                } else if (state is WeeklyReportLoaded) {
-                  return context
-                          .watch<WeeklyReportCubit>()
-                          .weeklyReportTableModel
-                          .isNotEmpty
-                      ? Column(
-                          children: [
-                            // buildPDFButtonAndExcelButton(),
-                            verticalSpace(20),
-                            buildCardsWithBlocBuilder(),
-                            buildWeeklyReportTableAndBloc(),
-                          ],
-                        )
-                      : Padding(
-                          padding: EdgeInsets.only(top: 20.h),
-                          child: Text(
-                            'Not Found Orders This Week'.tr(),
-                            style: TextStyles.font20BlackRegular,
-                          ),
-                        );
-                } else if (state is WeeklyReportError) {
-                  return Padding(
-                    padding: EdgeInsets.only(top: 20.h),
-                    child: Text(
-                      'Not Found Orders This Week'.tr(),
-                      style: TextStyles.font14BlueSemiBold,
+            OfflineBuilder(
+              connectivityBuilder: (
+                BuildContext context,
+                ConnectivityResult connectivity,
+                Widget child,
+              ) {
+                final bool connected = connectivity != ConnectivityResult.none;
+                if (connected) {
+                  return Column(children: [
+                    buildDateSlid(),
+                    BlocBuilder<WeeklyReportCubit, WeeklyReportState>(
+                      builder: (context, state) {
+                        if (state is WeeklyReportLoading) {
+                          return const AppCustomLoadingIndecator();
+                        } else if (state is WeeklyReportLoaded) {
+                          return context
+                                  .watch<WeeklyReportCubit>()
+                                  .weeklyReportTableModel
+                                  .isNotEmpty
+                              ? Column(
+                                  children: [
+                                    // buildPDFButtonAndExcelButton(),
+                                    verticalSpace(20),
+                                    buildCardsWithBlocBuilder(),
+                                    buildWeeklyReportTableAndBloc(),
+                                  ],
+                                )
+                              : Padding(
+                                  padding: EdgeInsets.only(top: 20.h),
+                                  child: Text(
+                                    'Not Found Orders This Week'.tr(),
+                                    style: TextStyles.font20BlackRegular,
+                                  ),
+                                );
+                        } else if (state is WeeklyReportError) {
+                          return Padding(
+                            padding: EdgeInsets.only(top: 20.h),
+                            child: Text(
+                              'Not Found Orders This Week'.tr(),
+                              style: TextStyles.font14BlueSemiBold,
+                            ),
+                          );
+                        }
+                        return const SizedBox.shrink();
+                      },
                     ),
-                  );
+                  ]);
+                } else {
+                  return const AppCustomNoInternet();
                 }
-                return const SizedBox.shrink();
               },
+              child: const AppCustomLoadingIndecator(),
             ),
             changeDateAndBloc(),
             buildExportExcelBlocListener(),

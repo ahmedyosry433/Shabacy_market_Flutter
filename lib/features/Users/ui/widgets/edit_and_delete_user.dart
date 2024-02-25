@@ -221,7 +221,7 @@ class _EditiAndDeleteUsersButtonState extends State<EditiAndDeleteUsersButton> {
                             style: TextStyles.font14BlackMedium,
                           ),
                           Text(
-                            widget.user.name,
+                            widget.user.name.substring(0, 7),
                             style: TextStyles.font14RedMedium,
                           ),
                           Text(

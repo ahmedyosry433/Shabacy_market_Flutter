@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_offline/flutter_offline.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:motion_toast/motion_toast.dart';
 import 'package:shabacy_market/core/helper/spacing.dart';
@@ -15,6 +16,7 @@ import '../../../core/theme/colors.dart';
 import '../../../core/theme/style.dart';
 import '../../../core/widgets/app_custom_appbar.dart';
 import '../../../core/widgets/app_custom_dropdown.dart';
+import '../../../core/widgets/app_custom_no_internet.dart';
 import '../../../core/widgets/app_text_form_field.dart';
 
 class DailyPurchasesScreen extends StatefulWidget {
@@ -63,35 +65,51 @@ class _DailyPurchasesScreenState extends State<DailyPurchasesScreen> {
               AppCustomAppbar(
                 isHome: false,
               ),
-              BlocBuilder<DailyPurchasesCubit, DailyPurchasesState>(
-                builder: (context, state) {
-                  if (state is Loading) {
-                    return const AppCustomLoadingIndecator();
-                  } else if (state is Loaded) {
-                    return Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 5.h, vertical: 10.h),
-                      child: Column(
-                        children: [
-                          buildCompletFormDayAndPeriodAndItem(context),
-                          verticalSpace(20),
-                          Align(
-                              alignment: Alignment.topRight,
-                              child: Text(
-                                'new order'.tr(),
-                                style: TextStyles.font20BlackRegular,
-                              )),
-                          buildNewOrder(),
-                          verticalSpace(10),
-                          buildOrdersTable(source: data),
-                        ],
-                      ),
+              OfflineBuilder(
+                connectivityBuilder: (
+                  BuildContext context,
+                  ConnectivityResult connectivity,
+                  Widget child,
+                ) {
+                  final bool connected =
+                      connectivity != ConnectivityResult.none;
+                  if (connected) {
+                    return BlocBuilder<DailyPurchasesCubit,
+                        DailyPurchasesState>(
+                      builder: (context, state) {
+                        if (state is Loading) {
+                          return const AppCustomLoadingIndecator();
+                        } else if (state is Loaded) {
+                          return Padding(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 5.h, vertical: 10.h),
+                            child: Column(
+                              children: [
+                                buildCompletFormDayAndPeriodAndItem(context),
+                                verticalSpace(20),
+                                Align(
+                                    alignment: Alignment.topRight,
+                                    child: Text(
+                                      'new order'.tr(),
+                                      style: TextStyles.font20BlackRegular,
+                                    )),
+                                buildNewOrder(),
+                                verticalSpace(10),
+                                buildOrdersTable(source: data),
+                              ],
+                            ),
+                          );
+                        } else if (state is Error) {
+                          return Text(state.error);
+                        }
+                        return const SizedBox();
+                      },
                     );
-                  } else if (state is Error) {
-                    return Text(state.error);
+                  } else {
+                    return const AppCustomNoInternet();
                   }
-                  return const SizedBox();
                 },
+                child: const AppCustomLoadingIndecator(),
               ),
               buildTableBlocListener(),
               buildEditBlocListener(),

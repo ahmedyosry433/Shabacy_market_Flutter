@@ -1,11 +1,13 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_offline/flutter_offline.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:motion_toast/motion_toast.dart';
 import '../../../core/helper/extensions.dart';
 import '../../../core/widgets/app_coustom_loading_indecator.dart';
 import '../../../core/widgets/app_custom_appbar.dart';
+import '../../../core/widgets/app_custom_no_internet.dart';
 import 'widget/set_Categories_table.dart';
 
 import '../../../core/helper/spacing.dart';
@@ -43,10 +45,28 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
             AppCustomAppbar(
               isHome: false,
             ),
-            buildAddNewCategoriesAndTextButton(),
-            buildAddNewCategoriesLisenerBloc(),
-            buildEditCategorieListenersBloc(),
-            buildTableBloc(data: data),
+            OfflineBuilder(
+              connectivityBuilder: (
+                BuildContext context,
+                ConnectivityResult connectivity,
+                Widget child,
+              ) {
+                final bool connected = connectivity != ConnectivityResult.none;
+                if (connected) {
+                  return Column(
+                    children: [
+                      buildAddNewCategoriesAndTextButton(),
+                      buildAddNewCategoriesLisenerBloc(),
+                      buildEditCategorieListenersBloc(),
+                      buildTableBloc(data: data),
+                    ],
+                  );
+                } else {
+                  return const AppCustomNoInternet();
+                }
+              },
+              child: const AppCustomLoadingIndecator(),
+            ),
           ],
         ),
       ),

@@ -137,7 +137,9 @@
     "hello":"أهلا" ,
     "nice day": "يومك جميل",
     "select supplier": "اختر المورد",
-    "password is less than 6 characters": "كلمه المرور أقل من 6 حروف"
+    "password is less than 6 characters": "كلمه المرور أقل من 6 حروف",
+    "no internet connection": "لا يوجد اتصال بالانترنت"
+   
 
     
    

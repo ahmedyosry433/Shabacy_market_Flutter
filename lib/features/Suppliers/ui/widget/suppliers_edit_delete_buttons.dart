@@ -85,7 +85,7 @@ class _SuppliersEditAndDeleteButtonState
                             style: TextStyles.font14BlackMedium,
                           ),
                           Text(
-                            widget.supplierModel.name,
+                            widget.supplierModel.name.substring(0, 7),
                             style: TextStyles.font14RedMedium,
                           ),
                           Text(
