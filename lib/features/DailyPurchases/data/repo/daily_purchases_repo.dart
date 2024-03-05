@@ -49,8 +49,8 @@ class DailyPurchasesRepo {
       token: token,
       period: period,
       categoryId: categoryId,
-      gtDate: gtDate,
-      ltDate: ltDate,
+      gtDate: gtDate.toString(),
+      ltDate: ltDate.toString(),
     );
 
     return response;

@@ -94,7 +94,7 @@ class DailyPurchasesCubit extends Cubit<DailyPurchasesState> {
     }
   }
 
-  DateFormat formatting = DateFormat('yyyy-MM-d');
+  DateFormat formatting = DateFormat('yyyy-MM-dd');
 
   getAllOrdersCubit() async {
     final token = await SharedPreferencesHelper.getValueForKey('token');

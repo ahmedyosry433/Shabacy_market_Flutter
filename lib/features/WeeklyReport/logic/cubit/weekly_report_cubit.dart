@@ -64,8 +64,8 @@ class WeeklyReportCubit extends Cubit<WeeklyReportState> {
 
     int daysToSaturday = DateTime.saturday - weekday;
 
-    startDate = now.subtract(Duration(days: daysToSaturday + 2));
-    endDate = startDate!.add(Duration(days: daysToSaturday + 7));
+    startDate = now.subtract(Duration(days: 2));
+    endDate = startDate!.add(Duration(days: 7));
   }
 
   void backWeek() {
