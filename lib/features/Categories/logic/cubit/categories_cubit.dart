@@ -71,7 +71,6 @@ class CategoriesCubit extends Cubit<CategoriesState> {
       await categoriesRepo.deleteCategoriesCubit(
           token: token, categoryId: categoryId);
       emit(DeleteCategoryLoaded());
-      print("__________________________DONE___________");
     } catch (e) {
       emit(DeleteCategoryError(e.toString()));
     }

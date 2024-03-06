@@ -69,7 +69,7 @@ class WeeklyReportCubit extends Cubit<WeeklyReportState> {
 
   void getSaturdayOfCurrentWeek() {
     DateTime now = DateTime.now();
-    int weekday = now.weekday;
+    // int weekday = now.weekday;
 
     int daysToSaturday = DateTime.saturday;
 
