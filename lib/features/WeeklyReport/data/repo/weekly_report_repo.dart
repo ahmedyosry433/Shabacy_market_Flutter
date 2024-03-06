@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:shabacy_market/core/networking/api_service.dart';
 
 import '../model/weekly_report_model.dart';
@@ -17,10 +18,11 @@ class WeeklyReportRepo {
     return res;
   }
 
-  Future<void> exportExcelWeeklyReportsRepo(
+  Future<dynamic> exportExcelWeeklyReportsRepo(
       {required String token,
       required StartAndEndDateModel startAndEndDateModel}) async {
-    await apiService.exportExcelWeeklyReports(
+    Response response = await apiService.exportExcelWeeklyReports(
         token: token, startAndEndDateModel: startAndEndDateModel);
+    return response;
   }
 }

@@ -126,8 +126,11 @@ class DailyPurchasesCubit extends Cubit<DailyPurchasesState> {
     emit(Loading());
     try {
       await getAllCategories();
-
-      dropdownCategroyValue = categories[0].id;
+      if (categories.isNotEmpty) {
+        dropdownCategroyValue = categories[0].id;
+      } else {
+        // dropdownCategroyValue = '';
+      }
       await getAllSuppliers();
 
       await getCurrentUser();

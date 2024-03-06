@@ -62,7 +62,7 @@ class _WeeklyReportScreen extends State<WeeklyReportScreen> {
                                   .isNotEmpty
                               ? Column(
                                   children: [
-                                    // buildPDFButtonAndExcelButton(),
+                                    buildPDFButtonAndExcelButton(),
                                     verticalSpace(20),
                                     buildCardsWithBlocBuilder(),
                                     buildWeeklyReportTableAndBloc(),

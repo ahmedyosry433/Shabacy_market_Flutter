@@ -58,6 +58,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                       buildAddNewCategoriesAndTextButton(),
                       buildAddNewCategoriesLisenerBloc(),
                       buildEditCategorieListenersBloc(),
+                      buildDeleteCategorieListenersBloc(),
                       buildTableBloc(data: data),
                     ],
                   );
@@ -249,6 +250,48 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
             height: 70.h,
             description: Text(
               "error updating category".tr(),
+              style: TextStyles.font14BlackSemiBold,
+            ),
+          ).show(context);
+          BlocProvider.of<CategoriesCubit>(context).getAllCategoriesCubit();
+        }
+      },
+      child: const SizedBox.shrink(),
+    );
+  }
+
+  Widget buildDeleteCategorieListenersBloc() {
+    return BlocListener<CategoriesCubit, CategoriesState>(
+      listenWhen: (previous, current) {
+        return previous != current;
+      },
+      listener: (context, state) {
+        if (state is DeleteCategoryLoading) {
+          showProgressIndecator(context);
+        } else if (state is DeleteCategoryLoaded) {
+          Navigator.of(context).pop();
+          MotionToast.success(
+            width: 390.w,
+            position: MotionToastPosition.top,
+            iconSize: 30.w,
+            height: 70.h,
+            description: Text(
+              "delete item successfully".tr(),
+              style: TextStyles.font14BlackSemiBold,
+            ),
+          ).show(context);
+          BlocProvider.of<CategoriesCubit>(context).getAllCategoriesCubit();
+          Navigator.of(context).pop();
+        } else if (state is DeleteCategoryError) {
+          Navigator.of(context).pop();
+
+          MotionToast.error(
+            width: 390.w,
+            position: MotionToastPosition.top,
+            iconSize: 30.w,
+            height: 70.h,
+            description: Text(
+              "error deleting item".tr(),
               style: TextStyles.font14BlackSemiBold,
             ),
           ).show(context);

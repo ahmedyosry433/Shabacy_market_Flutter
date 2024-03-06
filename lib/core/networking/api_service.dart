@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_print, prefer_final_fields, unused_import
 
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:shabacy_market/core/networking/api_constants.dart';
@@ -285,6 +286,21 @@ class ApiService {
         ));
   }
 
+  Future<void> deleteCategory(
+      {required String token, required String categoryId}) async {
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+
+    await _dio.request(
+        '${ApiConstants.apiBaseUrl}${ApiConstants.allCategoriesUrl}/$categoryId',
+        options: Options(
+          method: 'DELETE',
+          headers: headers,
+        ));
+  }
+
   Future<AllReportData> getAllWeeklyReports(
       {required String token,
       required StartAndEndDateModel startAndEndDateModel}) async {
@@ -310,7 +326,7 @@ class ApiService {
     return AllReportData.fromJson(data);
   }
 
-  Future<void> exportExcelWeeklyReports(
+  Future<dynamic> exportExcelWeeklyReports(
       {required String token,
       required StartAndEndDateModel startAndEndDateModel}) async {
     var headers = {
@@ -318,7 +334,7 @@ class ApiService {
       'Authorization': 'Bearer $token',
     };
 
-    await _dio.request(
+    var response = await _dio.request(
         ApiConstants.apiBaseUrl +
             ApiConstants.startDateExportExcelReportUrl +
             startAndEndDateModel.startDate +
@@ -326,9 +342,12 @@ class ApiService {
             startAndEndDateModel.endDate,
         data: startAndEndDateModel,
         options: Options(
+          responseType: ResponseType.bytes,
           method: 'GET',
           headers: headers,
         ));
+
+    return response;
   }
 
   Future<void> addNewOrder(

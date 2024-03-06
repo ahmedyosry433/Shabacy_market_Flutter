@@ -1,6 +1,9 @@
 // ignore_for_file: depend_on_referenced_packages
 
+import 'dart:io';
+
 import 'package:bloc/bloc.dart';
+import 'package:dio/dio.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:shabacy_market/features/WeeklyReport/data/repo/weekly_report_repo.dart';
@@ -17,6 +20,7 @@ class WeeklyReportCubit extends Cubit<WeeklyReportState> {
 
   DateTime? startDate;
   DateTime? endDate;
+  DateFormat formatting = DateFormat('yyyy-MM-dd');
   Future<void> getWeeklyReportTableModelCubit() async {
     emit(WeeklyReportLoading());
 
@@ -46,12 +50,17 @@ class WeeklyReportCubit extends Cubit<WeeklyReportState> {
     try {
       String token = await SharedPreferencesHelper.getValueForKey('token');
 
-      await weeklyReportRepo.exportExcelWeeklyReportsRepo(
+      Response response = await weeklyReportRepo.exportExcelWeeklyReportsRepo(
           token: token,
           startAndEndDateModel: StartAndEndDateModel(
-              startDate: '2024-02-09T22:00:00.000Z',
-              endDate: '2024-02-15T22:00:00.000Z'));
-
+              startDate: '${formatting.format(startDate!)}T22:00:00.000Z',
+              endDate: '${formatting.format(endDate!)}T22:00:00.000Z'));
+      Directory downloadDirectory;
+      downloadDirectory = Directory('/storage/emulated/0/Download');
+      String filePath =
+          ("${downloadDirectory.path}/weekly_report_${formatting.format(startDate!)}_${formatting.format(endDate!)}.xlsx");
+      File file = File(filePath);
+      await file.writeAsBytes(response.data);
       emit(WeeklyExportExcelReportLoaded());
     } catch (e) {
       emit(WeeklyExportExcelReportError(e.toString()));
@@ -62,10 +71,10 @@ class WeeklyReportCubit extends Cubit<WeeklyReportState> {
     DateTime now = DateTime.now();
     int weekday = now.weekday;
 
-    int daysToSaturday = DateTime.saturday - weekday;
+    int daysToSaturday = DateTime.saturday;
 
-    startDate = now.subtract(Duration(days: 2));
-    endDate = startDate!.add(Duration(days: 7));
+    startDate = now.subtract(Duration(days: daysToSaturday - 1));
+    endDate = startDate!.add(const Duration(days: 6));
   }
 
   void backWeek() {

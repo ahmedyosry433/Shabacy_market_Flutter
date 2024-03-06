@@ -137,6 +137,7 @@ class _DailyPurchasesScreenState extends State<DailyPurchasesScreen> {
           AppTextFormFieldWithTopHint(
               topHintText: 'day'.tr(),
               appTextFormField: AppTextFormField(
+                styel: TextStyles.font14BlackSemiBold,
                 readOnly: true,
                 controller: dateController,
                 suffixIcon: IconButton(

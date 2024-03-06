@@ -130,6 +130,58 @@ class _EditCategoriesButtonState extends State<EditCategoriesButton> {
             },
             child: const Icon(Icons.edit, color: ColorsManager.primryColor)),
         horizontalSpace(10),
+        GestureDetector(
+            onTap: () {
+              showDialog(
+                  context: context,
+                  builder: (_) {
+                    return AlertDialog(
+                      title: Text(
+                        'sureDelete'.tr(),
+                        style: TextStyles.font14BlackSemiBold,
+                      ),
+                      content: Row(
+                        children: [
+                          Text(
+                            '${'you sure delete item'.tr()} ',
+                            style: TextStyles.font14BlackMedium,
+                          ),
+                          Text(
+                            widget.categories.name.length <= 7
+                                ? widget.categories.name
+                                : widget.categories.name.substring(0, 7),
+                            style: TextStyles.font14RedMedium,
+                          ),
+                          Text(
+                            '?'.tr(),
+                            style: TextStyles.font14BlackMedium,
+                          )
+                        ],
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            context.pop();
+                          },
+                          child: Text(
+                            'cancel'.tr(),
+                            style: TextStyles.font14BlackMedium,
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () {
+                            deleteCategorySubmited();
+                          },
+                          child: Text(
+                            'yes'.tr(),
+                            style: TextStyles.font14RedMedium,
+                          ),
+                        )
+                      ],
+                    );
+                  });
+            },
+            child: const Icon(Icons.delete, color: ColorsManager.red)),
       ],
     );
   }
@@ -137,5 +189,10 @@ class _EditCategoriesButtonState extends State<EditCategoriesButton> {
   editCategoryubmit() {
     BlocProvider.of<CategoriesCubit>(context)
         .editCategoriesCubit(categoryId: widget.categories.id);
+  }
+
+  deleteCategorySubmited() {
+    BlocProvider.of<CategoriesCubit>(context)
+        .deleteCategoriesCubit(categoryId: widget.categories.id);
   }
 }

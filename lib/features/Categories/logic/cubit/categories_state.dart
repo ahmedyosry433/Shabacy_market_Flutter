@@ -33,3 +33,12 @@ final class EditCategoryError extends CategoriesState {
   final String message;
   EditCategoryError(this.message);
 }
+
+final class DeleteCategoryLoading extends CategoriesState {}
+
+final class DeleteCategoryLoaded extends CategoriesState {}
+
+final class DeleteCategoryError extends CategoriesState {
+  final String message;
+  DeleteCategoryError(this.message);
+}

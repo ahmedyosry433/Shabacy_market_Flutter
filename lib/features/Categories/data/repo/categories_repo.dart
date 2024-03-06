@@ -30,4 +30,9 @@ class CategoriesRepo {
         editCategoriesName: editCategoriesName,
         categoryId: categoryId);
   }
+
+  Future<void> deleteCategoriesCubit(
+      {required String token, required String categoryId}) async {
+    await apiService.deleteCategory(token: token, categoryId: categoryId);
+  }
 }

@@ -138,7 +138,10 @@
     "nice day": "يومك جميل",
     "select supplier": "اختر المورد",
     "password is less than 6 characters": "كلمه المرور أقل من 6 حروف",
-    "no internet connection": "لا يوجد اتصال بالانترنت"
+    "no internet connection": "لا يوجد اتصال بالانترنت",
+    "you sure delete item": "هل انت متاكد من حذف الصنف",
+    "delete item successfully": "تم حذف الصنف بنجاح",
+    "error deleting item": "خطأ في حذف الصنف"
    
 
     

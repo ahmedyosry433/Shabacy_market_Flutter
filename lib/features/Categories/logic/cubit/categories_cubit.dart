@@ -63,4 +63,17 @@ class CategoriesCubit extends Cubit<CategoriesState> {
       emit(EditCategoryError(e.toString()));
     }
   }
+
+  void deleteCategoriesCubit({required String categoryId}) async {
+    emit(DeleteCategoryLoading());
+    try {
+      String token = await SharedPreferencesHelper.getValueForKey('token');
+      await categoriesRepo.deleteCategoriesCubit(
+          token: token, categoryId: categoryId);
+      emit(DeleteCategoryLoaded());
+      print("__________________________DONE___________");
+    } catch (e) {
+      emit(DeleteCategoryError(e.toString()));
+    }
+  }
 }

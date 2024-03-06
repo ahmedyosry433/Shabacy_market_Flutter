@@ -12,6 +12,7 @@ class AppTextFormField extends StatefulWidget {
   final InputBorder? enabledBorder;
   final TextStyle? inputTextStyle;
   final TextStyle? hintStyle;
+  final TextStyle? styel;
   final String? hintText;
   final bool? isObscureText;
   final Widget? suffixIcon;
@@ -26,6 +27,7 @@ class AppTextFormField extends StatefulWidget {
 
   AppTextFormField({
     super.key,
+    this.styel,
     this.contentPadding,
     this.focusedBorder,
     this.enabledBorder,
@@ -112,7 +114,7 @@ class _AppTextFormFieldState extends State<AppTextFormField> {
             widget.backgroundColor ?? ColorsManager.gray.withOpacity(0.01),
       ),
       obscureText: widget.isObscureText ?? false,
-      style: TextStyles.font14BlackMedium,
+      style: widget.styel ?? TextStyles.font14BlackMedium,
       validator: (value) => widget.validator(value),
     );
   }
