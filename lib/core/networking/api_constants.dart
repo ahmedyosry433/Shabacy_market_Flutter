@@ -1,5 +1,6 @@
 class ApiConstants {
-  static const String apiBaseUrl = 'http://18.194.53.25/';
+  // static const String apiBaseUrl = 'http://18.194.53.25/';
+  static const String apiBaseUrl = 'https://node-api-loiy.onrender.com/';
   static const String loginUrl = 'auth/login';
   static const String profileUrl = 'auth/me';
   static const String allUsersUrl = 'auth';
