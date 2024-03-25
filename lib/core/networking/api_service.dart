@@ -124,6 +124,24 @@ class ApiService {
         ));
   }
 
+  Future<void> editSupplierBalance(
+      {required String token,
+      required String userId,
+      required BalanceModel balance}) async {
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+
+    await _dio.request(
+        '${ApiConstants.apiBaseUrl}${ApiConstants.allSuppliersUrl}${ApiConstants.addBalanceUrl}/$userId',
+        data: balance,
+        options: Options(
+          method: 'PATCH',
+          headers: headers,
+        ));
+  }
+
   Future<List<UserModel>> getAllUsers({required String token}) async {
     var headers = {
       'Content-Type': 'application/json',

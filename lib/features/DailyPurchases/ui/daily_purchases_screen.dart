@@ -40,6 +40,7 @@ class _DailyPurchasesScreenState extends State<DailyPurchasesScreen> {
   }
 
   DateFormat formating = DateFormat.yMd('ar');
+  
   String _enumToString(Period period) {
     switch (period) {
       case Period.AM:

@@ -43,4 +43,22 @@ class SuppliersRepo {
         suppliersId: suppliersId,
         modifySuppliersModel: modifySuppliersModel);
   }
+
+  Future<void> editSupplierBalanceRepo({
+    required String token,
+    required String userId,
+     required BalanceModel balance
+  }) async {
+    await apiService.editSupplierBalance(
+      
+      token: token,
+      userId: userId,
+      balance: balance
+    );
+  }
+
+  Future<UserModel> getCurrentUser({required String token}) async {
+    final response = await apiService.getUserProfile(token: token);
+    return response;
+  }
 }

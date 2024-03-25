@@ -70,3 +70,19 @@ class ModifySuppliersModel {
     };
   }
 }
+
+class BalanceModel {
+  final int balance;
+
+  BalanceModel(this.balance);
+
+  factory BalanceModel.fromJson(Map<String, dynamic> json) {
+    return BalanceModel(json['name']);
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'balance': balance,
+    };
+  }
+}

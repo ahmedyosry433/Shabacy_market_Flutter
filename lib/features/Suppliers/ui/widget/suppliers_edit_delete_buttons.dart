@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, unnecessary_null_comparison
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -70,6 +70,47 @@ class _SuppliersEditAndDeleteButtonState
         horizontalSpace(10),
         GestureDetector(
             onTap: () {
+              setState(() {
+                BlocProvider.of<SuppliersCubit>(context)
+                    .editBalanceController
+                    .text = widget.supplierModel.deposits.toString();
+
+                BlocProvider.of<SuppliersCubit>(context)
+                    .editRemainingController
+                    .text = (int.parse(BlocProvider.of<SuppliersCubit>(context)
+                            .editBalanceController
+                            .text) -
+                        0)
+                    .toString();
+              });
+              showDialog(
+                  context: context,
+                  builder: (_) => Align(
+                        alignment: Alignment.topCenter,
+                        child: SingleChildScrollView(
+                          physics: const BouncingScrollPhysics(),
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                                top: 30.h, right: 10.w, left: 10.w),
+                            child: Material(
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15.r)),
+                              child: SizedBox(
+                                child: buildBalanceButton(
+                                  context,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ));
+            },
+            child: const Icon(Icons.attach_money,
+                color: ColorsManager.primryColor)),
+        horizontalSpace(10),
+        GestureDetector(
+            onTap: () {
               showDialog(
                   context: context,
                   builder: (_) {
@@ -120,6 +161,94 @@ class _SuppliersEditAndDeleteButtonState
             child: const Icon(Icons.delete, color: ColorsManager.red)),
       ],
     );
+  }
+
+  Widget buildBalanceButton(BuildContext context) {
+    return Form(
+        key: BlocProvider.of<SuppliersCubit>(context).editBalanceFormKey,
+        child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 10.h),
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Text(
+                'editBalance'.tr(),
+                style: TextStyles.font16BlackRegular,
+              ),
+              verticalSpace(10),
+              AppTextFormFieldWithTopHint(
+                topHintText: 'balance'.tr(),
+                appTextFormField: AppTextFormField(
+                    readOnly: true,
+                    controller: BlocProvider.of<SuppliersCubit>(context)
+                        .editBalanceController,
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
+                    hintText: 'balance'.tr(),
+                    validator: (validator) {},
+                    keyboardType: TextInputType.number),
+              ),
+              AppTextFormFieldWithTopHint(
+                topHintText: 'remaining'.tr(),
+                appTextFormField: AppTextFormField(
+                    readOnly: true,
+                    controller: BlocProvider.of<SuppliersCubit>(context)
+                        .editRemainingController,
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
+                    hintText: 'remaining'.tr(),
+                    validator: (validator) {},
+                    keyboardType: TextInputType.number),
+              ),
+              AppTextFormFieldWithTopHint(
+                topHintText: 'paid'.tr(),
+                appTextFormField: AppTextFormField(
+                    controller: BlocProvider.of<SuppliersCubit>(context)
+                        .editPaidController,
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 10.h, horizontal: 10.w),
+                    hintText: 'paid'.tr(),
+                    onChanged: (paid) {
+                      setState(() {
+                        context
+                            .read<SuppliersCubit>()
+                            .editRemainingController
+                            .text = (int.parse(context
+                                    .read<SuppliersCubit>()
+                                    .editBalanceController
+                                    .text) -
+                                int.parse(paid))
+                            .toString();
+                      });
+                    },
+                    validator: (validator) {},
+                    keyboardType: TextInputType.number),
+              ),
+              verticalSpace(20),
+              Row(
+                children: [
+                  AppTextButton(
+                      backgroundColor: ColorsManager.red,
+                      verticalPadding: 0,
+                      horizontalPadding: 0,
+                      buttonHeight: 30.h,
+                      buttonWidth: 60.w,
+                      buttonText: 'cancel'.tr(),
+                      textStyle: TextStyles.font13WhiteSemiBold,
+                      onPressed: () {
+                        context.pop();
+                      }),
+                  horizontalSpace(10),
+                  AppTextButton(
+                      verticalPadding: 0,
+                      horizontalPadding: 0,
+                      buttonHeight: 30.h,
+                      buttonWidth: 60.w,
+                      buttonText: 'edit'.tr(),
+                      textStyle: TextStyles.font13WhiteSemiBold,
+                      onPressed: () => editSupplierBalance()),
+                ],
+              ),
+            ])));
   }
 
   Widget buildEditSupplier(BuildContext context) {
@@ -257,6 +386,20 @@ class _SuppliersEditAndDeleteButtonState
       BlocProvider.of<SuppliersCubit>(context).editeSupplierCubit(
           suppliersId: widget.supplierModel.id,
           adminId: context.read<SuppliersCubit>().dropdownEditValue);
+    }
+  }
+
+  void editSupplierBalance() {
+    if (BlocProvider.of<SuppliersCubit>(context)
+        .editBalanceFormKey
+        .currentState!
+        .validate()) {
+      BlocProvider.of<SuppliersCubit>(context)
+          .editBalanceFormKey
+          .currentState!
+          .save();
+      BlocProvider.of<SuppliersCubit>(context)
+          .editSupplierBalanceCubit(userId: widget.supplierModel.id);
     }
   }
 

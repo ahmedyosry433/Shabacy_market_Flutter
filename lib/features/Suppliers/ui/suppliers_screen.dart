@@ -163,6 +163,10 @@ class _SuppliersScreenState extends State<SuppliersScreen> {
               buttonText: 'addNewSupplier'.tr(),
               textStyle: TextStyles.font13WhiteRegular,
               onPressed: () {
+                setState(() {
+                  context.read<SuppliersCubit>().dropdownValue =
+                      context.read<SuppliersCubit>().currentUser!.id.toString();
+                });
                 showDialog(
                     context: context,
                     builder: (_) => SingleChildScrollView(
@@ -246,31 +250,54 @@ class _SuppliersScreenState extends State<SuppliersScreen> {
                       context.read<SuppliersCubit>().dropdownValue = value;
                     });
                   },
-                  items: BlocProvider.of<SuppliersCubit>(context)
-                      .users
-                      .map((value) {
-                    return DropdownMenuItem<String>(
-                      value: value.id,
-                      child: Row(
-                        children: [
-                          Icon(Icons.check_sharp,
-                              color: context
+                  items: context.read<SuppliersCubit>().currentUser!.role ==
+                          'EMPLOYEE'
+                      ? [
+                          DropdownMenuItem<String>(
+                              value: context
+                                  .read<SuppliersCubit>()
+                                  .currentUser!
+                                  .id,
+                              child: Row(
+                                children: [
+                                  const Icon(Icons.check_sharp,
+                                      color: Colors
+                                          .green), // Icon when item is selected
+                                  const SizedBox(width: 8),
+                                  Text(
+                                      context
                                           .read<SuppliersCubit>()
-                                          .dropdownValue ==
-                                      value.id
-                                  ? Colors.green
-                                  : Colors
-                                      .transparent), // Icon when item is selected
-                          const SizedBox(width: 8),
-                          context.read<SuppliersCubit>().dropdownValue ==
-                                  value.id
-                              ? Text(value.name,
-                                  style: TextStyles.font11BlackSemiBold)
-                              : Text(value.name),
-                        ],
-                      ),
-                    );
-                  }).toList(),
+                                          .currentUser!
+                                          .name,
+                                      style: TextStyles.font11BlackSemiBold)
+                                ],
+                              )),
+                        ]
+                      : BlocProvider.of<SuppliersCubit>(context)
+                          .users
+                          .map((value) {
+                          return DropdownMenuItem<String>(
+                            value: value.id,
+                            child: Row(
+                              children: [
+                                Icon(Icons.check_sharp,
+                                    color: context
+                                                .read<SuppliersCubit>()
+                                                .dropdownValue ==
+                                            value.id
+                                        ? Colors.green
+                                        : Colors
+                                            .transparent), // Icon when item is selected
+                                const SizedBox(width: 8),
+                                context.read<SuppliersCubit>().dropdownValue ==
+                                        value.id
+                                    ? Text(value.name,
+                                        style: TextStyles.font11BlackSemiBold)
+                                    : Text(value.name),
+                              ],
+                            ),
+                          );
+                        }).toList(),
                   value: context.read<SuppliersCubit>().dropdownValue,
                 ),
               ),

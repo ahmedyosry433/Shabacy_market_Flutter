@@ -108,20 +108,23 @@ class _UsersScreenState extends State<UsersScreen> {
               textStyle: TextStyles.font13WhiteRegular,
               onPressed: () {
                 showDialog(
+                    traversalEdgeBehavior:
+                        TraversalEdgeBehavior.leaveFlutterView,
                     context: context,
                     builder: (_) => Align(
                           alignment: Alignment.topCenter,
                           child: SingleChildScrollView(
                             child: Padding(
                               padding: EdgeInsets.only(
-                                  top: 30.h, right: 10.w, left: 10.w),
+                                  top: 3.h, right: 10.w, left: 10.w),
                               child: Material(
                                 color: Colors.white,
                                 shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(15.r)),
                                 child: SizedBox(
-                                  height: 400.h,
+                                  height: 550.h,
                                   child: SingleChildScrollView(
+                                    clipBehavior: Clip.none,
                                     child: Padding(
                                       padding: EdgeInsets.symmetric(
                                           horizontal: 10.w, vertical: 10.h),
@@ -146,7 +149,7 @@ class _UsersScreenState extends State<UsersScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text('addUser'.tr(), style: TextStyles.font20BlackRegular),
-          verticalSpace(10.h),
+          verticalSpace(5.h),
           AppTextFormFieldWithTopHint(
             topHintText: 'name'.tr(),
             appTextFormField: AppTextFormField(
@@ -162,7 +165,7 @@ class _UsersScreenState extends State<UsersScreen> {
               keyboardType: TextInputType.name,
             ),
           ),
-          verticalSpace(10.h),
+          verticalSpace(5.h),
           AppTextFormFieldWithTopHint(
             topHintText: 'email'.tr(),
             appTextFormField: AppTextFormField(
@@ -178,7 +181,7 @@ class _UsersScreenState extends State<UsersScreen> {
               keyboardType: TextInputType.emailAddress,
             ),
           ),
-          verticalSpace(10.h),
+          verticalSpace(5.h),
           AppTextFormFieldWithTopHint(
             topHintText: 'phone'.tr(),
             appTextFormField: AppTextFormField(
@@ -194,7 +197,7 @@ class _UsersScreenState extends State<UsersScreen> {
               keyboardType: TextInputType.phone,
             ),
           ),
-          verticalSpace(10.h),
+          verticalSpace(5.h),
           AppTextFormFieldWithTopHint(
             topHintText: 'password'.tr(),
             appTextFormField: AppTextFormField(
@@ -211,7 +214,7 @@ class _UsersScreenState extends State<UsersScreen> {
               keyboardType: TextInputType.visiblePassword,
             ),
           ),
-          verticalSpace(10.h),
+          verticalSpace(5.h),
           AppCustomDropdownWithTopHint(
             topHintText: 'typeOfUser'.tr(),
             appCustomDropdown: AppCustomDropDownFormButton(

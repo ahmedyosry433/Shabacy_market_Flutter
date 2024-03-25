@@ -12,4 +12,5 @@ class ApiConstants {
       'orders/weekly-report-export?startDate=';
   static const String endDateReportUrl = '&endDate=';
   static const String ordersUrl = 'orders';
+  static const String addBalanceUrl = '/add-balance';
 }

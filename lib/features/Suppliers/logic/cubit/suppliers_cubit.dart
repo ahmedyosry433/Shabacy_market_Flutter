@@ -20,12 +20,17 @@ class SuppliersCubit extends Cubit<SuppliersState> {
   List<UserModel> users = [];
   GlobalKey<FormState> addNewSupplierFormKey = GlobalKey<FormState>();
   GlobalKey<FormState> editSupplierFormKey = GlobalKey<FormState>();
+  GlobalKey<FormState> editBalanceFormKey = GlobalKey<FormState>();
   TextEditingController nameController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   TextEditingController editNameController = TextEditingController();
   TextEditingController editPhoneController = TextEditingController();
+  TextEditingController editBalanceController = TextEditingController();
+  TextEditingController editPaidController = TextEditingController();
+  TextEditingController editRemainingController = TextEditingController();
   var dropdownValue;
   var dropdownEditValue;
+  UserModel? currentUser;
 
   void getAllSuppliersCubit() async {
     emit(SuppliersLoading());
@@ -37,8 +42,8 @@ class SuppliersCubit extends Cubit<SuppliersState> {
       List<SuppliersModel> response =
           await _suppliersRepo.getAllSuppliersRepo(token: token);
 
+      getCurrentUserCubit();
       suppliers = response;
-
       emit(SuppliersLoaded());
     } catch (error) {
       emit(SuppliersError(error.toString()));
@@ -115,5 +120,29 @@ class SuppliersCubit extends Cubit<SuppliersState> {
     } catch (error) {
       emit(EditSuppliersError(error.toString()));
     }
+  }
+
+  void editSupplierBalanceCubit({required String userId}) async {
+    emit(EditSuppliersLoading());
+    try {
+      await _suppliersRepo.editSupplierBalanceRepo(
+        token: await SharedPreferencesHelper.getValueForKey('token'),
+        userId: userId,
+        balance: BalanceModel(int.parse(editPaidController.text)),
+      );
+      emit(EditSuppliersLoaded());
+      editRemainingController.clear();
+      editBalanceController.clear();
+      editPaidController.clear();
+    } catch (error) {
+      emit(EditSuppliersError(error.toString()));
+    }
+  }
+
+  void getCurrentUserCubit() async {
+    final String token = await SharedPreferencesHelper.getValueForKey('token');
+
+    final response = await _suppliersRepo.getCurrentUser(token: token);
+    currentUser = response;
   }
 }
