@@ -8,4 +8,6 @@ class Routes {
   static const String weeklyReportScreen = 'weeklyReportScreen';
   static const String splashScreen = 'splashScreen';
   static const String dailyPurchasesScreen = 'dailyPurchasesScreen';
+  static const String paymentScreen = 'paymentScreen';
+  static const String payment = 'payment';
 }

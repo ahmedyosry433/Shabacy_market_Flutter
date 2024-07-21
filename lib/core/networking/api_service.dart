@@ -415,4 +415,131 @@ class ApiService {
           headers: headers,
         ));
   }
+//-----------Payment Method-----------------------------
+
+  Future<String> getClinetSecretKeyToPayment({
+    required int amount,
+    required String category,
+    required String supplierId,
+    required int paid,
+    required int price,
+    required int quantity,
+    required String currentUserId,
+  }) async {
+    var headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ${ApiConstants.secretKey} ',
+    };
+
+    Response res = await _dio.request("https://accept.paymob.com/v1/intention/",
+        data: {
+          "amount": price * quantity,
+          "currency": "EGP",
+          "payment_methods": [
+            4605699, //valu
+            4604351, // card
+            4605916, //Kiosk
+            4606202, // bank installment
+            4604353, // Wallet
+            // 4605784, //Paypal
+            // 4605665, //cash collection
+          ],
+          "items": [
+            {
+              "name": category,
+              "amount": price,
+              "description": "Dairy Milk",
+              "quantity": quantity,
+            },
+          ],
+          "billing_data": {
+            "first_name": supplierId,
+            "last_name": "aaaa",
+            "phone_number": "+0101712351",
+            "country": "Egypt",
+            "email": "Ahmed@Ahmed.com",
+          },
+        },
+        options: Options(
+          method: 'POST',
+          headers: headers,
+        ));
+    return res.data['client_secret'];
+  }
+
+//--------------- Get TOken ------------------------
+  // Future<String> getToken() async {
+  //   try {
+  //     Response response = await _dio.post(
+  //       ApiConstants.paymentTokenUrl,
+  //       data: {"api_key": ApiConstants.apiKey},
+  //     );
+  //     return response.data["token"];
+  //   } catch (e) {
+  //     rethrow;
+  //   }
+  // }
+
+  //--------------- Order Registration -----------------
+  // Future<int> getOrderId(
+  //     {required String token, required String amount}) async {
+  //   try {
+  //     Response response = await _dio.post(
+  //       ApiConstants.paymentOrderUrl,
+  //       data: {
+  //         "auth_token": token,
+  //         "delivery_needed": "true",
+  //         "amount_cents": "18000",
+  //         "currency": "EGP",
+  //         "items": []
+  //       },
+  //     );
+  //     return response.data["id"];
+  //   } catch (e) {
+  //     rethrow;
+  //   }
+  // }
+
+  //---------- Payment Key ---------------------
+  // Future<String> getPaymentKey(
+  //     {required String token,
+  //     required String amount,
+  //     required int orderId}) async {
+  //   try {
+  //     Response response = await _dio.post(
+  //       ApiConstants.paymentKeyUrl,
+  //       data: {
+  //         "auth_token": token,
+  //         "amount_cents": "18000",
+  //         "expiration": 3000,
+  //         "order_id": orderId.toString(),
+  //         "currency": "EGP",
+  //         // "integration_id": 4604351, //Online Card
+  //         "integration_id": 4605699, //Valu Card
+  //         // "integration_id": 4605665, //cash collection
+  //         // "integration_id": 4604353, //mobile wallet
+  //         // "integration_id": 4605784, //PayPal
+  //         "lock_order_when_paid": "false",
+  //         "billing_data": {
+  //           "apartment": "NA",
+  //           "email": "a7med.yosry.elesawy@gmail.com",
+  //           "floor": "NA",
+  //           "first_name": "ahmed",
+  //           "street": "NA",
+  //           "building": "NA",
+  //           "phone_number": "01234567890",
+  //           "shipping_method": "NA",
+  //           "postal_code": "NA",
+  //           "city": "cairo",
+  //           "country": "NA",
+  //           "last_name": "yosry",
+  //           "state": "egypt",
+  //         }
+  //       },
+  //     );
+  //     return response.data["token"];
+  //   } catch (e) {
+  //     rethrow;
+  //   }
+  // }
 }

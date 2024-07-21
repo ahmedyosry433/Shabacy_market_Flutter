@@ -40,7 +40,7 @@ class _DailyPurchasesScreenState extends State<DailyPurchasesScreen> {
   }
 
   DateFormat formating = DateFormat.yMd('ar');
-  
+
   String _enumToString(Period period) {
     switch (period) {
       case Period.AM:
@@ -75,39 +75,42 @@ class _DailyPurchasesScreenState extends State<DailyPurchasesScreen> {
                   final bool connected =
                       connectivity != ConnectivityResult.none;
                   if (connected) {
-                    return Column(
-                      children: [
-                        buildCompletFormDayAndPeriodAndItem(context),
-                        verticalSpace(20),
-                        BlocBuilder<DailyPurchasesCubit, DailyPurchasesState>(
-                          builder: (context, state) {
-                            if (state is Loading) {
-                              return const AppCustomLoadingIndecator();
-                            } else if (state is Loaded) {
-                              return Padding(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: 5.h, vertical: 10.h),
-                                child: Column(
-                                  children: [
-                                    Align(
-                                        alignment: Alignment.topRight,
-                                        child: Text(
-                                          'new order'.tr(),
-                                          style: TextStyles.font20BlackRegular,
-                                        )),
-                                    buildNewOrder(),
-                                    verticalSpace(10),
-                                    buildOrdersTable(source: data),
-                                  ],
-                                ),
-                              );
-                            } else if (state is Error) {
-                              return Text(state.error);
-                            }
-                            return const SizedBox();
-                          },
-                        ),
-                      ],
+                    return SingleChildScrollView(
+                      child: Column(
+                        children: [
+                          buildCompletFormDayAndPeriodAndItem(context),
+                          verticalSpace(20),
+                          BlocBuilder<DailyPurchasesCubit, DailyPurchasesState>(
+                            builder: (context, state) {
+                              if (state is Loading) {
+                                return const AppCustomLoadingIndecator();
+                              } else if (state is Loaded) {
+                                return Padding(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 5.h, vertical: 10.h),
+                                  child: Column(
+                                    children: [
+                                      Align(
+                                          alignment: Alignment.topRight,
+                                          child: Text(
+                                            'new order'.tr(),
+                                            style:
+                                                TextStyles.font20BlackRegular,
+                                          )),
+                                      buildNewOrder(),
+                                      verticalSpace(10),
+                                      buildOrdersTable(source: data),
+                                    ],
+                                  ),
+                                );
+                              } else if (state is Error) {
+                                return Text(state.error);
+                              }
+                              return const SizedBox();
+                            },
+                          ),
+                        ],
+                      ),
                     );
                   } else {
                     return const AppCustomNoInternet();
@@ -473,12 +476,25 @@ class _DailyPurchasesScreenState extends State<DailyPurchasesScreen> {
               ],
             ),
             verticalSpace(10),
-            AppTextButton(
-              buttonHeight: 40.h,
-              buttonWidth: 100.w,
-              buttonText: 'add order'.tr(),
-              textStyle: TextStyles.font13WhiteRegular,
-              onPressed: () => newOrder(),
+            Row(
+              children: [
+                AppTextButton(
+                  buttonHeight: 40.h,
+                  buttonWidth: 100.w,
+                  buttonText: 'add order'.tr(),
+                  textStyle: TextStyles.font13WhiteRegular,
+                  onPressed: () => newOrder(),
+                ),
+                horizontalSpace(10),
+                AppTextButton(
+                  backgroundColor: ColorsManager.gray,
+                  buttonHeight: 40.h,
+                  buttonWidth: 100.w,
+                  buttonText: 'الدفع الالكتروني'.tr(),
+                  textStyle: TextStyles.font13WhiteRegular,
+                  onPressed: () {},
+                ),
+              ],
             )
           ],
         ),

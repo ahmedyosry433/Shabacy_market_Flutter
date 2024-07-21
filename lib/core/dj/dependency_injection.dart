@@ -7,6 +7,8 @@ import 'package:shabacy_market/features/Home/logic/cubit/home_cubit.dart';
 import 'package:shabacy_market/features/Suppliers/data/repo/suppliers_repo.dart';
 import 'package:shabacy_market/features/WeeklyReport/data/repo/weekly_report_repo.dart';
 import 'package:shabacy_market/features/WeeklyReport/logic/cubit/weekly_report_cubit.dart';
+import 'package:shabacy_market/features/payment/logic/cubit/payment_cubit.dart';
+import 'package:shabacy_market/features/payment/repo/payment_repo.dart';
 
 import '../../features/Categories/data/repo/categories_repo.dart';
 import '../../features/Categories/logic/cubit/categories_cubit.dart';
@@ -26,6 +28,7 @@ Future<void> setupGetit() async {
   // Dio & Api Service
   Dio dio = DioFactory.getDio();
   getIt.registerLazySingleton<ApiService>(() => ApiService(dio));
+  // getIt.registerLazySingleton<PaymentManager>(() => PaymobManager(dio));
 
   // login
   getIt.registerLazySingleton(() => LoginRepo(apiService: getIt()));
@@ -52,6 +55,9 @@ Future<void> setupGetit() async {
   getIt.registerLazySingleton(() => DailyPurchasesRepo(apiService: getIt()));
   getIt
       .registerFactory<DailyPurchasesCubit>(() => DailyPurchasesCubit(getIt()));
+//Payment
+  getIt.registerLazySingleton(() => PaymentRepo(getIt()));
+  getIt.registerFactory<PaymentCubit>(() => PaymentCubit(getIt()));
 
   // signup
 }

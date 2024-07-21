@@ -4,6 +4,9 @@ import 'package:shabacy_market/features/DailyPurchases/logic/cubit/daily_purchas
 import 'package:shabacy_market/features/DailyPurchases/ui/daily_purchases_screen.dart';
 import 'package:shabacy_market/features/WeeklyReport/logic/cubit/weekly_report_cubit.dart';
 import 'package:shabacy_market/features/WeeklyReport/ui/weekly_report_screen.dart';
+import 'package:shabacy_market/features/payment/logic/cubit/payment_cubit.dart';
+import 'package:shabacy_market/features/payment/ui/payment.dart';
+import 'package:shabacy_market/features/payment/ui/card_payment_screen.dart';
 import 'package:shabacy_market/features/splash/ui/splash_screen.dart';
 import '../../features/Home/logic/cubit/home_cubit.dart';
 import '../dj/dependency_injection.dart';
@@ -28,6 +31,11 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (_) => const SplashScreen(),
         );
+      case Routes.payment:
+        return MaterialPageRoute(
+          builder: (_) => const Payment(),
+        );
+
       case Routes.loginScreen:
         return MaterialPageRoute(
           builder: (_) => BlocProvider(
@@ -41,6 +49,13 @@ class AppRouter {
           builder: (_) => BlocProvider(
             create: (context) => getIt<ProfileCubit>(),
             child: const ProfileScreen(),
+          ),
+        );
+      case Routes.paymentScreen:
+        return MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (context) => getIt<PaymentCubit>(),
+            child: const PaymentScreen(),
           ),
         );
 
@@ -77,9 +92,12 @@ class AppRouter {
         );
       case Routes.weeklyReportScreen:
         return MaterialPageRoute(
-          builder: (_) => BlocProvider(
-            create: (context) => getIt<WeeklyReportCubit>(),
-            child: const WeeklyReportScreen(),
+          builder: (_) => BlocProvider.value(
+            value: PaymentCubit(getIt()),
+            child: BlocProvider(
+              create: (context) => getIt<WeeklyReportCubit>(),
+              child: const WeeklyReportScreen(),
+            ),
           ),
         );
       case Routes.dailyPurchasesScreen:

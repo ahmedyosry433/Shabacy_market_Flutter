@@ -120,6 +120,13 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         GestureDetector(
                           onTap: () =>
+                              Navigator.pushNamed(context, Routes.payment),
+                          child: buildCart(
+                              title: 'payment',
+                              iconPath: 'assets/image/suppliers.png'),
+                        ),
+                        GestureDetector(
+                          onTap: () =>
                               context.pushNamed(Routes.dailyPurchasesScreen),
                           child: buildCart(
                               title: 'DailyPurchases',

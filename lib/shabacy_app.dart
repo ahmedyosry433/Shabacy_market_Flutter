@@ -25,7 +25,7 @@ class ShabacyApp extends StatelessWidget {
         localizationsDelegates: context.localizationDelegates,
         supportedLocales: context.supportedLocales,
         debugShowCheckedModeBanner: false,
-        initialRoute: Routes.splashScreen,
+        initialRoute: Routes.payment,
         onGenerateRoute: appRouter.onGenerateRoute,
       ),
     );

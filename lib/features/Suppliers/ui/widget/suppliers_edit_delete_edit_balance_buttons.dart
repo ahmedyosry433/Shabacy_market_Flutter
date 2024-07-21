@@ -77,9 +77,9 @@ class _SuppliersEditAndDeleteButtonState
 
                 BlocProvider.of<SuppliersCubit>(context)
                     .editRemainingController
-                    .text = (int.parse(BlocProvider.of<SuppliersCubit>(context)
+                    .text = ((int.parse(BlocProvider.of<SuppliersCubit>(context)
                             .editBalanceController
-                            .text) -
+                            .text)) -
                         0)
                     .toString();
               });
@@ -212,11 +212,11 @@ class _SuppliersEditAndDeleteButtonState
                         context
                             .read<SuppliersCubit>()
                             .editRemainingController
-                            .text = (int.parse(context
+                            .text = ((int.parse(context
                                     .read<SuppliersCubit>()
                                     .editBalanceController
-                                    .text) -
-                                int.parse(paid))
+                                    .text)) +
+                                (int.parse(paid)))
                             .toString();
                       });
                     },
