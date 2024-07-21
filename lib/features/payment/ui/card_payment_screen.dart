@@ -8,7 +8,6 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:shabacy_market/core/helper/extensions.dart';
 import 'package:shabacy_market/core/networking/api_constants.dart';
 import 'package:shabacy_market/core/router/routes.dart';
-import 'package:shabacy_market/core/theme/colors.dart';
 import 'package:shabacy_market/features/WeeklyReport/ui/weekly_report_screen.dart';
 import 'package:shabacy_market/features/payment/logic/cubit/payment_cubit.dart';
 
@@ -74,15 +73,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
               if (url != null &&
                   url.queryParameters.containsKey('success') &&
                   url.queryParameters['success'] == 'true') {
-                print('_____________________________________SUCCESS');
                 Future.delayed(const Duration(seconds: 10), () {
                   context.pushNamed(Routes.payment);
                 });
               } else if (url != null &&
                   url.queryParameters.containsKey('success') &&
-                  url.queryParameters['success'] == 'false') {
-                print('_____________________________________ Failar');
-              }
+                  url.queryParameters['success'] == 'false') {}
             },
           );
         }

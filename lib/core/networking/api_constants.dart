@@ -13,7 +13,7 @@ class ApiConstants {
   static const String endDateReportUrl = '&endDate=';
   static const String ordersUrl = 'orders';
   static const String addBalanceUrl = '/add-balance';
-
+  
   static const String publicKey =
       'egy_pk_test_BR59iRuYBuXEslv5tJbLdCekSSxYIBs3';
   static const String apiKey =

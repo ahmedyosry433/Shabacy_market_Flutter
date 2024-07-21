@@ -6,22 +6,22 @@ class PaymentRepo {
     this._apiService,
   );
 
-  Future<String> getTokenRepo() async {
-    return await _apiService.getToken();
-  }
+  // Future<String> getTokenRepo() async {
+  //   return await _apiService.getToken();
+  // }
 
-  Future<int> getOrderIdRepo(
-      {required String token, required String amount}) async {
-    return await _apiService.getOrderId(token: token, amount: amount);
-  }
+  // Future<int> getOrderIdRepo(
+  //     {required String token, required String amount}) async {
+  //   return await _apiService.getOrderId(token: token, amount: amount);
+  // }
 
-  Future<String> getPaymentKeyRepo(
-      {required String token,
-      required int orderId,
-      required String amount}) async {
-    return await _apiService.getPaymentKey(
-        token: token, amount: amount, orderId: orderId);
-  }
+  // Future<String> getPaymentKeyRepo(
+  //     {required String token,
+  //     required int orderId,
+  //     required String amount}) async {
+  //   return await _apiService.getPaymentKey(
+  //       token: token, amount: amount, orderId: orderId);
+  // }
 
   Future<String> getValuTokenRepo(
       {required int amount,
