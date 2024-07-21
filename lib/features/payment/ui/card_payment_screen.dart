@@ -1,7 +1,5 @@
 // ignore_for_file: deprecated_member_use
 
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
@@ -9,7 +7,6 @@ import 'package:shabacy_market/core/helper/extensions.dart';
 import 'package:shabacy_market/core/networking/api_constants.dart';
 import 'package:shabacy_market/core/router/routes.dart';
 import 'package:shabacy_market/core/widgets/app_coustom_loading_indecator.dart';
-import 'package:shabacy_market/features/WeeklyReport/ui/weekly_report_screen.dart';
 import 'package:shabacy_market/features/payment/logic/cubit/payment_cubit.dart';
 
 class PaymentScreen extends StatefulWidget {
