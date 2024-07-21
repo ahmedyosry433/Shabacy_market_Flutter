@@ -119,8 +119,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               iconPath: 'assets/image/suppliers.png'),
                         ),
                         GestureDetector(
-                          onTap: () =>
-                              Navigator.pushNamed(context, Routes.payment),
+                          onTap: () => Navigator.pushNamed(
+                              context, Routes.paymentScreen),
                           child: buildCart(
                               title: 'payment',
                               iconPath: 'assets/image/suppliers.png'),
